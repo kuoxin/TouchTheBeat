@@ -1,0 +1,726 @@
+{
+    "name": "Testlevel",
+    "duration": 60000,
+    "GameObjects": [
+        {
+            "id": 0,
+            "type": "Tap",
+            "time": "32464",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "888",
+                "y": "630",
+                "width": "20",
+                "heiht": "34"
+            }
+        },
+        {
+            "id": 1,
+            "type": "Tap",
+            "time": "46521",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "730",
+                "y": "457",
+                "width": "15",
+                "heiht": "33"
+            }
+        },
+        {
+            "id": 2,
+            "type": "Tap",
+            "time": "5001",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1454",
+                "y": "341",
+                "width": "40",
+                "heiht": "28"
+            }
+        },
+        {
+            "id": 3,
+            "type": "Tap",
+            "time": "55286",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1291",
+                "y": "1145",
+                "width": "34",
+                "heiht": "29"
+            }
+        },
+        {
+            "id": 4,
+            "type": "Tap",
+            "time": "35583",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "790",
+                "y": "706",
+                "width": "41",
+                "heiht": "43"
+            }
+        },
+        {
+            "id": 5,
+            "type": "Tap",
+            "time": "57123",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "918",
+                "y": "879",
+                "width": "15",
+                "heiht": "37"
+            }
+        },
+        {
+            "id": 6,
+            "type": "Tap",
+            "time": "50122",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "370",
+                "y": "993",
+                "width": "15",
+                "heiht": "12"
+            }
+        },
+        {
+            "id": 7,
+            "type": "Tap",
+            "time": "311",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "633",
+                "y": "617",
+                "width": "26",
+                "heiht": "44"
+            }
+        },
+        {
+            "id": 8,
+            "type": "Tap",
+            "time": "19801",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "214",
+                "y": "813",
+                "width": "17",
+                "heiht": "15"
+            }
+        },
+        {
+            "id": 9,
+            "type": "Tap",
+            "time": "6796",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1454",
+                "y": "210",
+                "width": "26",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 10,
+            "type": "Tap",
+            "time": "50836",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1225",
+                "y": "455",
+                "width": "10",
+                "heiht": "49"
+            }
+        },
+        {
+            "id": 11,
+            "type": "Tap",
+            "time": "32351",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "720",
+                "y": "669",
+                "width": "14",
+                "heiht": "37"
+            }
+        },
+        {
+            "id": 12,
+            "type": "Tap",
+            "time": "16516",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "130",
+                "y": "243",
+                "width": "46",
+                "heiht": "34"
+            }
+        },
+        {
+            "id": 13,
+            "type": "Tap",
+            "time": "15746",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "241",
+                "y": "100",
+                "width": "16",
+                "heiht": "36"
+            }
+        },
+        {
+            "id": 14,
+            "type": "Tap",
+            "time": "39081",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "110",
+                "y": "82",
+                "width": "31",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 15,
+            "type": "Tap",
+            "time": "1875",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1245",
+                "y": "1058",
+                "width": "11",
+                "heiht": "13"
+            }
+        },
+        {
+            "id": 16,
+            "type": "Tap",
+            "time": "31075",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "615",
+                "y": "554",
+                "width": "49",
+                "heiht": "34"
+            }
+        },
+        {
+            "id": 17,
+            "type": "Tap",
+            "time": "54729",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1446",
+                "y": "691",
+                "width": "23",
+                "heiht": "13"
+            }
+        },
+        {
+            "id": 18,
+            "type": "Tap",
+            "time": "53656",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "748",
+                "y": "449",
+                "width": "37",
+                "heiht": "44"
+            }
+        },
+        {
+            "id": 19,
+            "type": "Tap",
+            "time": "57121",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "637",
+                "y": "1000",
+                "width": "44",
+                "heiht": "44"
+            }
+        },
+        {
+            "id": 20,
+            "type": "Tap",
+            "time": "49117",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "873",
+                "y": "479",
+                "width": "48",
+                "heiht": "48"
+            }
+        },
+        {
+            "id": 21,
+            "type": "Tap",
+            "time": "17477",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1471",
+                "y": "143",
+                "width": "10",
+                "heiht": "40"
+            }
+        },
+        {
+            "id": 22,
+            "type": "Tap",
+            "time": "10364",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "494",
+                "y": "141",
+                "width": "47",
+                "heiht": "22"
+            }
+        },
+        {
+            "id": 23,
+            "type": "Tap",
+            "time": "55575",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "725",
+                "y": "201",
+                "width": "50",
+                "heiht": "29"
+            }
+        },
+        {
+            "id": 24,
+            "type": "Tap",
+            "time": "38747",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1295",
+                "y": "857",
+                "width": "23",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 25,
+            "type": "Tap",
+            "time": "10676",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "778",
+                "y": "1074",
+                "width": "47",
+                "heiht": "22"
+            }
+        },
+        {
+            "id": 26,
+            "type": "Tap",
+            "time": "19103",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "826",
+                "y": "75",
+                "width": "40",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 27,
+            "type": "Tap",
+            "time": "12245",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1296",
+                "y": "393",
+                "width": "45",
+                "heiht": "18"
+            }
+        },
+        {
+            "id": 28,
+            "type": "Tap",
+            "time": "15020",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "127",
+                "y": "614",
+                "width": "30",
+                "heiht": "12"
+            }
+        },
+        {
+            "id": 29,
+            "type": "Tap",
+            "time": "43819",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "752",
+                "y": "227",
+                "width": "45",
+                "heiht": "14"
+            }
+        },
+        {
+            "id": 30,
+            "type": "Tap",
+            "time": "9865",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1507",
+                "y": "509",
+                "width": "27",
+                "heiht": "17"
+            }
+        },
+        {
+            "id": 31,
+            "type": "Tap",
+            "time": "32155",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1497",
+                "y": "416",
+                "width": "23",
+                "heiht": "12"
+            }
+        },
+        {
+            "id": 32,
+            "type": "Tap",
+            "time": "38042",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1520",
+                "y": "894",
+                "width": "10",
+                "heiht": "43"
+            }
+        },
+        {
+            "id": 33,
+            "type": "Tap",
+            "time": "46554",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1003",
+                "y": "996",
+                "width": "28",
+                "heiht": "47"
+            }
+        },
+        {
+            "id": 34,
+            "type": "Tap",
+            "time": "58491",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "824",
+                "y": "69",
+                "width": "46",
+                "heiht": "23"
+            }
+        },
+        {
+            "id": 35,
+            "type": "Tap",
+            "time": "5303",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "327",
+                "y": "182",
+                "width": "19",
+                "heiht": "21"
+            }
+        },
+        {
+            "id": 36,
+            "type": "Tap",
+            "time": "33193",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "916",
+                "y": "826",
+                "width": "30",
+                "heiht": "12"
+            }
+        },
+        {
+            "id": 37,
+            "type": "Tap",
+            "time": "27423",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "639",
+                "y": "693",
+                "width": "14",
+                "heiht": "46"
+            }
+        },
+        {
+            "id": 38,
+            "type": "Tap",
+            "time": "55214",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "174",
+                "y": "627",
+                "width": "47",
+                "heiht": "43"
+            }
+        },
+        {
+            "id": 39,
+            "type": "Tap",
+            "time": "58017",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "801",
+                "y": "369",
+                "width": "18",
+                "heiht": "29"
+            }
+        },
+        {
+            "id": 40,
+            "type": "Tap",
+            "time": "15528",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1214",
+                "y": "704",
+                "width": "17",
+                "heiht": "30"
+            }
+        },
+        {
+            "id": 41,
+            "type": "Tap",
+            "time": "26765",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "863",
+                "y": "585",
+                "width": "33",
+                "heiht": "45"
+            }
+        },
+        {
+            "id": 42,
+            "type": "Tap",
+            "time": "33184",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1517",
+                "y": "738",
+                "width": "44",
+                "heiht": "18"
+            }
+        },
+        {
+            "id": 43,
+            "type": "Tap",
+            "time": "14862",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "809",
+                "y": "1060",
+                "width": "48",
+                "heiht": "41"
+            }
+        },
+        {
+            "id": 44,
+            "type": "Tap",
+            "time": "13914",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "577",
+                "y": "1",
+                "width": "43",
+                "heiht": "11"
+            }
+        },
+        {
+            "id": 45,
+            "type": "Tap",
+            "time": "17635",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "666",
+                "y": "536",
+                "width": "29",
+                "heiht": "49"
+            }
+        },
+        {
+            "id": 46,
+            "type": "Tap",
+            "time": "43846",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "698",
+                "y": "910",
+                "width": "25",
+                "heiht": "31"
+            }
+        },
+        {
+            "id": 47,
+            "type": "Tap",
+            "time": "7545",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1198",
+                "y": "151",
+                "width": "16",
+                "heiht": "27"
+            }
+        },
+        {
+            "id": 48,
+            "type": "Tap",
+            "time": "27486",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1301",
+                "y": "724",
+                "width": "15",
+                "heiht": "27"
+            }
+        },
+        {
+            "id": 49,
+            "type": "Tap",
+            "time": "10322",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "965",
+                "y": "127",
+                "width": "37",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 50,
+            "type": "Tap",
+            "time": "11484",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "771",
+                "y": "916",
+                "width": "45",
+                "heiht": "49"
+            }
+        },
+        {
+            "id": 51,
+            "type": "Tap",
+            "time": "46013",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "483",
+                "y": "921",
+                "width": "42",
+                "heiht": "24"
+            }
+        },
+        {
+            "id": 52,
+            "type": "Tap",
+            "time": "3869",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "473",
+                "y": "59",
+                "width": "19",
+                "heiht": "15"
+            }
+        },
+        {
+            "id": 53,
+            "type": "Tap",
+            "time": "32353",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "578",
+                "y": "983",
+                "width": "39",
+                "heiht": "36"
+            }
+        },
+        {
+            "id": 54,
+            "type": "Tap",
+            "time": "17216",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1275",
+                "y": "591",
+                "width": "43",
+                "heiht": "18"
+            }
+        },
+        {
+            "id": 55,
+            "type": "Tap",
+            "time": "37121",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "311",
+                "y": "1194",
+                "width": "23",
+                "heiht": "13"
+            }
+        },
+        {
+            "id": 56,
+            "type": "Tap",
+            "time": "7573",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "765",
+                "y": "178",
+                "width": "36",
+                "heiht": "31"
+            }
+        },
+        {
+            "id": 57,
+            "type": "Tap",
+            "time": "19433",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1158",
+                "y": "729",
+                "width": "33",
+                "heiht": "36"
+            }
+        },
+        {
+            "id": 58,
+            "type": "Tap",
+            "time": "24342",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "518",
+                "y": "271",
+                "width": "35",
+                "heiht": "13"
+            }
+        },
+        {
+            "id": 59,
+            "type": "Tap",
+            "time": "4565",
+            "spritedata": {
+                "shape": "rectangle",
+                "x": "1091",
+                "y": "1092",
+                "width": "18",
+                "heiht": "35"
+            }
+        }
+    ]
+}
