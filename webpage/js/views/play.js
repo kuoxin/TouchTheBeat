@@ -9,8 +9,16 @@ define([
 		render: function () {
 			var template = _.template(playTemplate, {});
 			this.$el.html(template);
+		},
+		events: {
+			'click #btn_start': 'test'
+		},
+		test: function () {
+			console.log('click');
+			$.getJSON('leveltest.json', function (json) {
+				console.log(json);
+			});
 		}
 	});
-	// Our module now returns our view
 	return PlayView;
 });

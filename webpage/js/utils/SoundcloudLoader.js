@@ -1,6 +1,7 @@
 define([
-  'jquery'
-], function ($, _, Backbone, homeTemplate) {
+  'jquery',
+  'soundcloud'
+], function ($, sc) {
 	var SoundcloudLoader = function (player, uiUpdater) {
 		var self = this;
 		var client_id = "1dfc22b8b6e9ae1fd500cf90f9065607"; // to get an ID go to http://developers.soundcloud.com/
@@ -18,9 +19,12 @@ define([
 			SC.initialize({
 				client_id: client_id
 			});
+			console.log('initialized');
+
 			SC.get('/resolve', {
 				url: track_url
 			}, function (sound) {
+				console.log(sound);
 				if (sound.errors) {
 					self.errorMessage = "";
 					for (var i = 0; i < sound.errors.length; i++) {
@@ -79,6 +83,5 @@ define([
 
 
 	};
-	// Our module now returns our view
 	return SoundcloudLoader;
 });

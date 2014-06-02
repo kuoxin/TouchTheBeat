@@ -4,8 +4,15 @@ require.config({
 		underscore: 'libs/underscore/underscore',
 		backbone: 'libs/backbone/backbone',
 		text: 'libs/require/text',
-		templates: '../templates'
+		templates: '../templates',
+		soundcloud: '//connect.soundcloud.com/sdk'
+	},
+	shim: {
+		'soundcloud': {
+			exports: 'SC'
+		}
 	}
+
 });
 require(['app', ], function (App) {
 	App.initialize();
