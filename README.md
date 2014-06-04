@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/hstolte/touchthebeat.png?label=ready&title=Ready)](https://waffle.io/hstolte/touchthebeat)
 TouchTheBeat
 ============
 
