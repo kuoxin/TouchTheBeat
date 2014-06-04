@@ -1,7 +1,8 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
+  'backbone',
+  'bootstrap'
 ], function ($, _, Backbone) {
 	var MenuView = Backbone.View.extend({
 		el: '#menu',

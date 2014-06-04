@@ -5,15 +5,17 @@ require.config({
 		backbone: 'libs/backbone/backbone',
 		text: 'libs/require/text',
 		templates: '../templates',
+		bootstrap: 'libs/bootstrap/bootstrap',
 		soundcloud: '//connect.soundcloud.com/sdk'
 	},
 	shim: {
 		'soundcloud': {
 			exports: 'SC'
-		}
+		},
+		'bootstrap': ['jquery'],
 	}
 
 });
-require(['app', ], function (App) {
+require(['App'], function (App) {
 	App.initialize();
 });
