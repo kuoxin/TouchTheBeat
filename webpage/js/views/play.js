@@ -6,17 +6,19 @@ define([
   'snap',
   'utils/SoundEngine',
   'views/applicationwithmenu',
+  'views/highscore',
   'gameclasses/Surface',
   'gameclasses/TapObject',
   'utils/RequestAnimationFrame',
 
-], function ($, _, Backbone, playTemplate, Snap, SoundEngine, ApplicationWithMenuView, Surface,TapObject) {
+], function ($, _, Backbone, playTemplate, Snap, SoundEngine, ApplicationWithMenuView, HighScoreView, Surface,TapObject) {
 	var PlayView = Backbone.View.extend({
 		el: '#body',
 		time: 0,
 		endtime: 0,
 		gameobjects: [],
 		stopped: true,
+		game : {},
 
 		render: function (level, returntoview) {
 			this.level = level;
@@ -37,6 +39,7 @@ define([
 		},
 
 		start: function () {
+			//TODO Countdown / Smooth Transition to playing
 			this.starttime =  new Date().getTime();
 			this.endtime = this.starttime + 5000;
 			this.stopped = false;
@@ -78,19 +81,39 @@ define([
 			console.log("now stopped");
 			console.log('length: '+this.getTimeDelta());
 			console.log(this);
+
 			$('#svg').fadeOut(1000);
 
-			//for now
-			this.close();
+			var game = {};
+
+			game.highscore = this.calculateHighScore();
+			game.level = this.level;
+
+			setTimeout(function(){
+				//TODO: Smooth transition to HighScore View
+				var applicationwithmenuview = new ApplicationWithMenuView();
+				applicationwithmenuview.render();
+				var highscoreview = new HighScoreView();
+				highscoreview.render(game);
+			}, 1500)
+			
 		},
 
 		calculateHighScore: function () {
-			return '100%';
-		},
+			//var highscores = [];
+			var highscoresum = 0;
 
-		close : function (){
-			Backbone.history.navigate('chooselevel');
-			window.location.reload();
+			for (var i = 0; i < this.gameobjects.length; i++){
+				//highscores.push(this.gameobjects[i].getHighScore());
+				highscoresum += this.gameobjects[i].getHighScore();
+			}
+
+			var highscoreaverage = highscoresum / this.gameobjects.length;
+			var highscore = (highscoreaverage*100).toFixed(1)+'%';
+
+			console.log('HighScore: '+highscore);
+
+			return highscore;
 		}
 
 

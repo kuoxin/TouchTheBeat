@@ -25,8 +25,7 @@ define([
 	};
 
 	TapObject.prototype = {
-		highscorevalue : 0,
-		highscoremax : 10,
+		tapdelta : NaN,
 		startborder : -500,
 		accepttapfrom: -200,
 		accepttapto: 200,
@@ -44,13 +43,15 @@ define([
 			
 		},
 
-		markHit: function(){
+		markHit: function(time){
 			console.log('hit');
 			this.isActive = false;
 
 			this.snapobject.attr({
 				fill: "#bada55"
 			});
+
+			this.tapdelta = time;
 
 		},
 
@@ -59,7 +60,7 @@ define([
 				var timediff = this.surfaceref.getTime() - this.timestamp;
 				console.log(timediff);
 				if (timediff > this.accepttapfrom && timediff < this.accepttapto){
-					this.markHit();
+					this.markHit(timediff);
 				}
 				else{
 					this.markMissed();
@@ -84,6 +85,7 @@ define([
 					this.markMissed();
 				}
 
+				// could/should be called in a seperate render loop
 				if ( timediff < 0 && timediff >= this.startborder){
 
 						var percentage = timediff/this.startborder;
@@ -97,6 +99,12 @@ define([
 				}
 			}
 
+		},
+
+		getHighScore : function (){
+			if (isNaN(this.tapdelta))
+				return 0;
+			return 1-Math.abs(this.tapdelta)/(Math.abs(this.accepttapfrom)+Math.abs(this.accepttapto)/2);
 		}
 	};
 

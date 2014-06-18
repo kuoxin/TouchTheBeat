@@ -4,6 +4,7 @@ define([
 
 	return {
 		"source": "http://soundcloud.com/greco-roman/roosevelt-sea-1",
+		"levelname" : "Test-Level",
 		"duration": {
 			"kind": "track",
 			"id": 59826724,
