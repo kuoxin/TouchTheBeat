@@ -2,12 +2,17 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'bootstrap'
-], function ($, _, Backbone) {
+  'text!templates/menu.html',
+  'bootstrap',
+  
+], function ($, _, Backbone, menuTemplate) {
 	var MenuView = Backbone.View.extend({
 		el: '#menu',
-		render: function (page) {
-			console.log('rendered menu ' + page);
+		render: function () {
+			var template = _.template(menuTemplate, {});
+			this.$el.html(template);
+		},
+		updateMenuState : function (page){
 			this.$('.active').removeClass('active');
 			this.$('#' + page).addClass('active');
 		}

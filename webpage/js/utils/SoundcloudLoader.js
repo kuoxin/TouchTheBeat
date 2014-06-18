@@ -15,11 +15,17 @@ define([
 		 * Loads the JSON stream data object from the URL of the track (as given in the location bar of the browser when browsing Soundcloud),
 		 * and on success it calls the callback passed to it (for example, used to then send the stream_url to the audiosource object).
 		 */
+
+		SC.initialize({
+			client_id: client_id
+		});
+
+		this.resolveURL = function (url) {
+
+		};
+
 		this.loadStream = function (track_url, successCallback, errorCallback) {
-			SC.initialize({
-				client_id: client_id
-			});
-			console.log('initialized');
+
 
 			SC.get('/resolve', {
 				url: track_url

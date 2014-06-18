@@ -43,6 +43,7 @@ define([
 		openPublish: function openPublish() {
 			$("#publish").slideUp();
 			$("#finished").slideDown();
+			console.log(this.createLevelJSON());
 		},
 
 		init: function () {
@@ -136,7 +137,6 @@ define([
 		},
 
 		updateProgressIndicator: function () {
-			console.log(this);
 			var percentage = this.player[0].currentTime / this.player[0].duration * 100;
 			$("#progressbar").css('width', Math.floor(percentage * 10) / 10 + '%');
 			if (this.player[0].currentTime != this.player[0].duration) {
