@@ -3,12 +3,13 @@ define([
   'underscore',
   'backbone',
   'text!templates/levelbuilder.html',
+  'text!templates/trackpanel.html',
   'utils/SoundcloudLoader',
-  'utils/RequestAnimationFrame',
+  '../utils/scripts',
   'bootstrap'
-], function ($, _, Backbone, levelbuilderTemplate, SoundcloudLoader) {
+], function ($, _, Backbone, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader) {
 	var LevelBuilderView = Backbone.View.extend({
-
+        //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
 
 		render: function () {
@@ -23,6 +24,7 @@ define([
 			'click #btn_gameobjectpanel': 'openGameObjectPanel',
 			'click #btn_testbutton': 'test',
 			'click #btn_publish': 'openPublish',
+            'click #btn_playnow': 'playLevelNow'
 		},
 
 		openGameObjectPanel: function openGameObjectPanel() {
@@ -41,23 +43,28 @@ define([
 		},
 
 		openPublish: function openPublish() {
-			$("#publish").slideUp();
-			$("#finished").slideDown();
-			console.log(this.createLevelJSON());
+            this.createLevel();
+			$("#leveljsoncontainer").html(JSON.stringify(this.level));
+            $("#publish").slideUp();
+            $("#finished").slideDown();
 		},
+
+        playLevelNow: function(){
+
+        },
 
 		init: function () {
 			this.player = this.$('#player');
 			this.loader = new SoundcloudLoader(null, null);
 			this.gameobjects = [];
 			this.randomtracks = [
-        'https://soundcloud.com/maxfrostmusic/white-lies',
-        'https://soundcloud.com/greco-roman/roosevelt-sea-1',
-        'https://soundcloud.com/t-e-e-d/garden',
-        'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
-        'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
-        'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks'
-    ];
+                'https://soundcloud.com/maxfrostmusic/white-lies',
+                'https://soundcloud.com/greco-roman/roosevelt-sea-1',
+                'https://soundcloud.com/t-e-e-d/garden',
+                'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
+                'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
+                'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks'
+            ];
 
 			this.trackInfoPanel = document.getElementById('trackInfoPanel');
 			this.infoImage = document.getElementById('infoImage');
@@ -65,7 +72,23 @@ define([
 			this.infoTrack = document.getElementById('infoTrack');
 			this.artistLink = document.createElement('a');
 			this.trackLink = document.createElement('a');
+
+            $(window).keypress(this.handleTap.bind(this));
+
 		},
+
+        handleTap : function(e){
+            var player = $('#player');
+            if (!player[0].paused)
+            {
+                console.log("keypress legitimate "+e.keyCode);
+                if (e.keyCode == 32)
+                {
+                    this.gameobjects.push(player[0].currentTime);
+                    console.log(this.gameobjects);
+                }
+            }
+        },
 
 		enteredTrack: function () {
 			console.log(this.loader);
@@ -95,27 +118,17 @@ define([
 		},
 
 		updateTrackPanel: function updateTrackPanel() {
+            var template = _.template(trackPanelTemplate,
+                {
+                    // if no track artwork exists, use the user's avatar.
+                    imageurl : this.loader.sound.artwork_url ? this.loader.sound.artwork_url : this.loader.sound.user.avatar_url,
+                    artisturl : this.loader.sound.user.permalink_url,
+                    trackurl :  this.loader.sound.permalink_url,
+                    artist: this.loader.sound.user.username,
+                    track: this.loader.sound.title
+                });
 
-
-			this.artistLink.setAttribute('href', this.loader.sound.user.permalink_url);
-			this.artistLink.innerHTML = this.loader.sound.user.username;
-
-			this.trackLink.setAttribute('href', this.loader.sound.permalink_url);
-
-			if (this.loader.sound.kind == "playlist") {
-				this.trackLink.innerHTML = "<p>" + this.loader.sound.tracks[this.loader.streamPlaylistIndex].title + "</p>" + "<p>" + this.loader.sound.title + "</p>";
-			} else {
-				this.trackLink.innerHTML = this.loader.sound.title;
-			}
-
-			var image = this.loader.sound.artwork_url ? this.loader.sound.artwork_url : this.loader.sound.user.avatar_url; // if no track artwork exists, use the user's avatar.
-			this.infoImage.setAttribute('src', image);
-
-			this.infoArtist.innerHTML = '';
-			this.infoArtist.appendChild(this.artistLink);
-
-			this.infoTrack.innerHTML = '';
-			this.infoTrack.appendChild(this.trackLink);
+            $('#trackcontainer').html(template);
 
 			$('#trackinfo').fadeIn();
 
@@ -146,19 +159,18 @@ define([
 			}
 		},
 
-
-		createLevelJSON: function () {
-			function createlevelJSON() {
+		createLevel: function () {
 				var level = {};
+                var loader = this.loader;
+
 				level.source = loader.sound.permalink_url;
 				level.duration = loader.sound.duration;
-				level.gameobjects = gameobjects;
+				level.gameobjects = this.gameobjects;
 				level.trackname = loader.sound.permalink;
 				level.tracktitle = loader.sound.title;
 				level.taglist = loader.sound.tag_list;
 				level.name = $("#levelname").val();
-				return JSON.stringify(level);
-			}
+                this.level = level;
 		}
 	});
 	return LevelBuilderView;

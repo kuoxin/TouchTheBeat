@@ -15,20 +15,17 @@
     </div>
 
     <div class="row" id="trackinfo" style="display: none">
-        <div class="col-md-3">
-            <center>
-                <img id="infoImage" src="">
-                <div id="infoArtist"></div>
-                <div id="infoTrack"></div>
-            </center>
+        <div class="col-sm-4" id="trackcontainer">
         </div>
-        <div class="col-md-9" id="instructions">
+        <div class="col-sm-8" id="instructions">
             <h3>Great!</h3>
             <p>You selected a track from Soundcloud. You can now add the following GameObjects by pressing the corresponding keys in time:</p>
-            <ul>
-                <li>TapObject - <strong>space</strong></li>
-                <li><i>more to come...</i></li>
-            </ul>
+            <dl class="dl-horizontal">
+                <dt>TapObject</dt>
+                <dd><kbd>space</kbd></dd>
+                <dt></dt>
+                <dd><em>more to come ...</em></dd>
+            </dl>
 
             <button class="btn btn-primary pull-right" type="button" id="btn_gameobjectpanel">I'm ready to roll!</button>
             <div class="progress" id="progress" style="display:none">
@@ -37,9 +34,9 @@
 
         </div>
 
-        <div class="col-md-9" id="publish" style="display: none">
-            <h3>Allright! Let's finish this.</h3>
-            <p>All your gameobjects have been recorded correctly. You can now give a name to your level and publish it.</p>
+        <div class="col-sm-9" id="publish" style="display: none">
+            <h3>Allright! <small>Let's finish this.</small></h3>
+            <p>All your level-content has been recorded correctly. You can now give a name to your level and play it.</p>
             <div class="input-group">
                 <input type="text" class="form-control" id="levelname">
                 <span class="input-group-btn">
@@ -48,10 +45,11 @@
             </div>
         </div>
 
-        <div class="col-md-9" id="finished" style="display: none">
-            <h3>Congratulations! Your level has been uploaded successfully.</h3>
-            <p>You can now play your level by pressing the button below.</p>
-            <button class="btn btn-primary pull-right" type="button" id="btn_playnow">Play now!</button>
+        <div class="col-sm-9" id="finished" style="display: none">
+            <h3>Congratulations! <small>Your level is ready now.</small></h3>
+            <p>You can save your level by copying the data below to the destination of your choice. Then, you can start your level right away by pressing the button below.</p>
+            <p><textarea id="leveljsoncontainer" style="width:100%" readonly></textarea></p>
+            <p><button class="btn btn-primary pull-right" type="button" id="btn_playnow">Play now!</button></p>
         </div>
 
     </div>

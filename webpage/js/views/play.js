@@ -9,7 +9,7 @@ define([
   'views/highscore',
   'gameclasses/Surface',
   'gameclasses/TapObject',
-  'utils/RequestAnimationFrame',
+  '../utils/scripts',
 
 ], function ($, _, Backbone, playTemplate, Snap, SoundEngine, ApplicationWithMenuView, HighScoreView, Surface,TapObject) {
 	var PlayView = Backbone.View.extend({

@@ -6,8 +6,9 @@ define([
 	'views/home',
 	'views/levelbuilder',
 	'views/chooselevel',
-	'views/applicationwithmenu'
-], function ($, _, Backbone, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView) {
+	'views/applicationwithmenu',
+    'views/PageNotFoundView'
+], function ($, _, Backbone, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView) {
 	var Router = Backbone.Router.extend({
 		routes: {
 			// Define some URL routes
@@ -16,20 +17,21 @@ define([
 			'buildlevel': 'levelgenerator',
 
 			// Default
-			'*actions': 'defaultAction'
+			'*notfound': 'notfound'
 		}
 	});
 	
 	
 
 
+    //TODO: Better Navigation, make the menu to use the router
 
 	var initialize = function () {
 		var router = new Router;
-		var applicationwithmenuview = new ApplicationWithMenuView();
-		applicationwithmenuview.render();
-		var menu = new MenuView();
-		menu.render();
+		this.applicationwithmenuview = new ApplicationWithMenuView();
+		this.applicationwithmenuview.render();
+
+        var menu = this.applicationwithmenuview.getMenu();
 
 		router.on('route:home', function () {
 			menu.updateMenuState('home');
@@ -38,19 +40,24 @@ define([
 		});
 
 		router.on('route:chooselevel', function () {
-			menu.updateMenuState('chooselevel');
+            menu.updateMenuState('chooselevel');
 			var chooselevel = new ChooseLevelView();
 			chooselevel.render();
 		});
 
 		router.on('route:levelgenerator', function () {
-			menu.updateMenuState('buildlevel');
+            menu.updateMenuState('buildlevel');
 			var levelbuilderview = new LevelBuilderView();
 			levelbuilderview.render();
 		});
 
-		router.on('defaultAction', function (actions) {
+		router.on('route:notfound', function (actions) {
 			console.log('No route:', actions);
+            var pagenotfoundview = new PageNotFoundView();
+            pagenotfoundview.render();
+            var homeview = new HomeView();
+            homeview.render();
+            menu.updateMenuState('home');
 		});
 
 		Backbone.history.start();
