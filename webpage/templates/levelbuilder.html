@@ -48,7 +48,7 @@
         <div class="col-sm-9" id="finished" style="display: none">
             <h3>Congratulations! <small>Your level is ready now.</small></h3>
             <p>You can save your level by copying the data below to the destination of your choice. Then, you can start your level right away by pressing the button below.</p>
-            <p><textarea id="leveljsoncontainer" style="width:100%" readonly></textarea></p>
+            <p><textarea id="leveljsoncontainer" style="width:100%; resize:none" readonly rows="4" onclick="this.focus();this.select()"></textarea></p>
             <p><button class="btn btn-primary pull-right" type="button" id="btn_playnow">Play now!</button></p>
         </div>
 
