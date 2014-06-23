@@ -16,9 +16,6 @@ define([
 		},
 
         updateMenuState : function (router,route) {
-            console.log(route);
-            console.log(router);
-
             var activeitem_old = $('.active');
             if (activeitem_old != null)
                 activeitem_old.removeClass('active');

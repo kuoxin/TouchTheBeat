@@ -8,14 +8,16 @@ define([
 	'views/levelbuilder',
 	'views/chooselevel',
 	'views/applicationwithmenu',
-    'views/PageNotFoundView'
-], function ($, _, Backbone, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView) {
+    'views/PageNotFoundView',
+    'views/legal'
+], function ($, _, Backbone, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView) {
 	var Router = Backbone.Router.extend({
 		routes: {
 			// Define some URL routes
 			'': 'home',
 			'chooselevel': 'chooselevel',
 			'buildlevel': 'levelbuilder',
+            'legal' : 'legal',
 
 			// Default
 			'*notfound': 'notfound'
@@ -52,6 +54,10 @@ define([
                 homeview.render();
             });
 
+            this.on('route:legal', function () {
+              var legalview  = new LegalView();
+                legalview.render();
+            });
         }
 	});
 
