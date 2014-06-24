@@ -1,112 +1,151 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'snap'
+    'jquery',
+    'underscore',
+    'backbone',
+    'snap'
 ], function ($, _, Backbone, Snap) {
-	
-	function TapObject (surface, timestamp) {
-		var x = surface.getRandomInteger(0, surface.width);
-		var y = surface.getRandomInteger(0, surface.height);
-		this.surfaceref = surface;
-		this.snapobject = surface.snap.circle(x,y,this.radius)
-		this.snapobject.attr({
-				fill: "#EEEEEE",
-				stroke: "#ffffff",
-				strokeWidth: this.borderradius
-			});
 
-		this.timestamp = timestamp;
-		
-		this.snapobject.touchend(this.handleTap.bind(this));
+    var TapObject = function (surface, timestamp, x, y) {
+        this.surface = surface;
+        this.x = x;
+        this.y = y;
+        this.timestamp = timestamp;
+    };
 
-		this.snapobject.click(this.handleTap.bind(this));
+    TapObject.prototype = {
+        tapdelta: NaN,
+        startborder: -1,
+        accepttapfrom: -0.200,
+        accepttapto: 0.200,
+        isActive: true,
+        radius: 100,
+        borderradius: 20,
+        removeuntil: 1.5,
+        removefrom: 0.0000000001,
+        startshow: -1.5,
+        endshow: -0.00000000001,
+        snapobject: null,
 
-	};
+        createVisualElement: function(){
+            this.snapobject = this.surface.snap.circle(this.x, this.y, this.radius)
+            this.snapobject.attr({
+                fill: "#EEEEEE",
+                stroke: "#ffffff",
+                strokeWidth: this.borderradius,
+                opacity: 0
+            });
+            this.snapobject.touchend(this.handleKeyPress.bind(this));
+            this.snapobject.click(this.handleKeyPress.bind(this));
+        },
 
-	TapObject.prototype = {
-		tapdelta : NaN,
-		startborder : -500,
-		accepttapfrom: -200,
-		accepttapto: 200,
-		isActive : true,
-		radius : 100,
-		borderradius : 10, 
+        markMissed: function () {
+            if (this.timestamp == 3.758072)
+                console.log('missed');
 
-		markMissed : function(){
-			console.log('missed');
-			this.isActive = false;
-			
-			this.snapobject.attr({
-					fill: "#990000"
-				});
-			
-		},
+            this.snapobject.attr({
+                fill: "#990000"
+            });
 
-		markHit: function(time){
-			console.log('hit');
-			this.isActive = false;
+        },
 
-			this.snapobject.attr({
-				fill: "#bada55"
-			});
 
-			this.tapdelta = time;
+        markHit: function (time) {
+            if (this.timestamp == 3.758072)
+                console.log('hit');
 
-		},
+            this.snapobject.attr({
+                fill: "#bada55"
+            });
 
-		handleTap : function(){
-			if (this.isActive) {
-				var timediff = this.surfaceref.getTime() - this.timestamp;
-				console.log(timediff);
-				if (timediff > this.accepttapfrom && timediff < this.accepttapto){
-					this.markHit(timediff);
-				}
-				else{
-					this.markMissed();
-				}
-			}
-				
-		},
+            this.tapdelta = time;
 
-		markUpcoming: function(percentage){
-			this.snapobject.attr({
-					strokeWidth: this.borderradius * percentage
-				});
-		},
+        },
 
-		update : function(time){
+        handleKeyPress: function () {
+            console.log('action');
+            if (this.isActive) {
+                var timediff = this.surface.getTime() - this.timestamp;
+                console.log(timediff);
+                if (timediff > this.accepttapfrom && timediff < this.accepttapto) {
+                    this.markHit(timediff);
+                }
+                else {
+                    this.markMissed();
+                }
+            }
 
-			if (this.isActive) {
+        },
 
-				var timediff =  time - this.timestamp;
+        markUpcoming: function (percentage) {
+            this.snapobject.attr({
+                strokeWidth: this.borderradius * percentage
+            });
+        },
 
-				if (time >= (this.timestamp + this.accepttapto)){
-					this.markMissed();
-				}
+        setOpacity: function(percentage) {
+            if (this.timestamp == 3.758072)
+                console.log('opacity: '+percentage);
 
-				// could/should be called in a seperate render loop
-				if ( timediff < 0 && timediff >= this.startborder){
+            this.snapobject.attr({
+                "opacity": percentage
+            });
+        },
 
-						var percentage = timediff/this.startborder;
-						if (percentage > 1) {
-							percentage = 1;
-						}
-						if (percentage <0){
-							percentage = 0;
-						}
-						this.markUpcoming(percentage);
-				}
-			}
+        update: function (time) {
+            if (this.isActive) {
+                if (this.timestamp == 3.758072)
+                    console.log('active loop');
+                var timediff = time - this.timestamp;
 
-		},
+                if (timediff >= this.removeuntil) {
+                    this.isActive = false;
+                    this.setOpacity(0);
+                    if (this.timestamp == 3.758072)
+                        console.log('deactivated at '+timediff+ ' ('+(timediff - this.removeuntil)+')');
 
-		getHighScore : function (){
-			if (isNaN(this.tapdelta))
-				return 0;
-			return 1-Math.abs(this.tapdelta)/(Math.abs(this.accepttapfrom)+Math.abs(this.accepttapto)/2);
-		}
-	};
+                    return;
+                }
 
-	return TapObject;
+                if (timediff >= this.accepttapto) {
+                    this.markMissed();
+                }
+
+                if (timediff < 0){
+                    // only called before the desired tap
+
+                    // could/should be called in a seperate render loop
+                    if (timediff >= this.startborder) {
+                        this.markUpcoming(this.getPercentage(this.startborder, 0));
+                    }
+
+                    if (timediff >= this.startshow){
+                        if (this.snapobject == null)
+                            this.createVisualElement();
+                        this.setOpacity(this.getPercentage(this.startshow, this.endshow));
+                    }
+
+                }
+                else{
+                    //only called after the desired tap
+
+                    if (timediff >= this.removefrom){
+                        this.setOpacity(1-this.getPercentage(this.removefrom, this.removeuntil));
+                    }
+                }
+            }
+        },
+
+        getPercentage: function(value, max){
+            var percentage = (this.timestamp+value)/(this.timestamp+max);
+            return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;
+        },
+
+        getHighScore: function () {
+            if (isNaN(this.tapdelta))
+                return 0;
+            return 1 - Math.abs(this.tapdelta) / (Math.abs(this.accepttapfrom) + Math.abs(this.accepttapto) / 2);
+        }
+    };
+
+    return TapObject;
 });

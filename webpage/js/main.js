@@ -12,7 +12,9 @@ require.config({
         'google-analytics' :         [
             'http://www.google-analytics.com/analytics',
             'libs/google-analytics/google-analytics'
-        ]
+        ],
+        tv4 : 'libs/tv4/tv4',
+        schema : 'schema'
 	},
 	shim: {
 		'soundcloud': {

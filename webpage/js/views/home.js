@@ -11,6 +11,5 @@ define([
 			this.$el.html(template);
 		}
 	});
-	// Our module now returns our view
 	return HomeView;
 });

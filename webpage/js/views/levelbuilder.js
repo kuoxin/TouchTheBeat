@@ -5,9 +5,13 @@ define([
   'text!templates/levelbuilder.html',
   'text!templates/trackpanel.html',
   'utils/SoundcloudLoader',
+  'gameclasses/Surface',
+  'gameclasses/TapObject',
+  'views/PlayView',
   '../utils/scripts',
-  'bootstrap'
-], function ($, _, Backbone, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader) {
+  'bootstrap',
+
+], function ($, _, Backbone, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader, Surface, TapObject, PlayView) {
 	var LevelBuilderView = Backbone.View.extend({
         //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
@@ -30,7 +34,7 @@ define([
 		openGameObjectPanel: function openGameObjectPanel() {
 			$("#btn_gameobjectpanel").attr("disabled", true);
 			$("#progress").fadeIn();
-			$("#btn_gameobjectpanel").fadeOut();
+			$("#btn_gameobjectpanel").setOpacity();
 			$('#player').trigger("play");
 			console.log(this);
 			this.updateProgressIndicator();
@@ -50,7 +54,8 @@ define([
 		},
 
         playLevelNow: function(){
-
+            var playview = new PlayView();
+            playview.render(this.level);
         },
 
 		init: function () {
@@ -73,21 +78,30 @@ define([
 			this.artistLink = document.createElement('a');
 			this.trackLink = document.createElement('a');
 
-            $(window).keypress(this.handleTap.bind(this));
+            $(window).keypress(this.handleKeyPress.bind(this));
 
 		},
 
-        handleTap : function(e){
+        handleKeyPress : function(e){
             var player = $('#player');
             if (!player[0].paused)
             {
-                console.log("keypress legitimate "+e.keyCode);
+                console.log("legitimate tapobject "+e.keyCode);
                 if (e.keyCode == 32)
                 {
-                    this.gameobjects.push(player[0].currentTime);
-                    console.log(this.gameobjects);
+
+                    console.log(Surface.prototype);
+                    var x = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.width - TapObject.prototype.radius);
+                    var y = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.height - TapObject.prototype.radius);
+                    console.log(x);
+                    console.log(y);
+                    this.addGameObject(player[0].currentTime,x,y);
                 }
             }
+        },
+
+        addGameObject : function(time, x ,y){
+            this.gameobjects.push({"type" : "Tap", "x": x, "y" : y, "taptime" : time});
         },
 
 		enteredTrack: function () {
@@ -144,7 +158,7 @@ define([
 		},
 
 		capturingfinished: function () {
-			$("#gameObjectPanel").fadeOut();
+			$("#gameObjectPanel").setOpacity();
 			$("#instructions").slideUp();
 			$("#publish").fadeIn();
 		},
@@ -163,11 +177,8 @@ define([
 				var level = {};
                 var loader = this.loader;
 
-				level.source = loader.sound.permalink_url;
-				level.duration = loader.sound.duration;
+				level.track = loader.sound.permalink_url;
 				level.gameobjects = this.gameobjects;
-				level.trackname = loader.sound.permalink;
-				level.tracktitle = loader.sound.title;
 				level.taglist = loader.sound.tag_list;
 				level.name = $("#levelname").val();
                 this.level = level;

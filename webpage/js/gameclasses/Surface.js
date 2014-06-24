@@ -1,36 +1,39 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'snap'
+    'jquery',
+    'underscore',
+    'backbone',
+    'snap'
 ], function ($, _, Backbone, Snap) {
-	function Surface (playview) {
-			this.snap = new Snap('#svg');
-			this.playview = playview;
 
-			var r = this.snap.rect(0, 0, "100%", "100%", 0);
-			r.attr({
-				fill: '#6699FF'
-			});
-			r.touchend(function() {
-			    console.log("touchend");
-			});
-	};
+    var Surface = function (playview) {
+        this.playview = playview;
+        this.snap = new Snap('#svg');
+        var r = this.snap.rect(0, 0, "100%", "100%", 0);
 
-	Surface.prototype = {
-			width: 	1600,
-			height: 1200,
-			taptimeframe : 10,
+        r.attr({
+            fill: '#6699FF'
+        });
 
-			getRandomInteger: function (min, max) {
-				return Math.floor(Math.random() * (max - min + 1)) + min;
-			},
+        r.touchend(function () {
+            console.log("touchend");
+        });
+    };
 
-			getTime: function(){
-				return this.playview.getTimeDelta();
-			}
+    Surface.prototype = {
+        width: 1600,
+        height: 1200,
+        taptimeframe: 10,
+        playview: null,
 
-		};
+        getRandomInteger: function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
 
-	return Surface;
-});
+        getTime: function () {
+            return this.playview.getTimeDelta();
+        }
+    };
+
+    return Surface;
+})
+;

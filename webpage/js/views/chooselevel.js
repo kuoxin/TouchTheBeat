@@ -2,10 +2,11 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'utils/levelvalidator',
   'text!templates/leveloverview.html',
-  'views/play',
-  'utils/testlevel'
-], function ($, _, Backbone, LevelOverviewtemplate, PlayView, testlevel) {
+  'views/PlayView',
+  '../demolevel'
+], function ($, _, Backbone, levelvalidator, LevelOverviewtemplate, PlayView, demolevel) {
 	var ChooseLevelView = Backbone.View.extend({
 		el: '#content',
 		render: function () {
@@ -13,13 +14,23 @@ define([
 			this.$el.html(template);
 		},
 		events: {
-			'click .startlevelbutton': 'startlevel'
+			'click #startlevel': 'startlevel',
+            'click #demolevel': 'startdemo',
+            'click #devbutton' : 'devaction'
 		},
 
 		startlevel: function () {
-			var playview = new PlayView();
-			playview.render(testlevel, this);
-		}
+
+		},
+
+        startdemo : function(){
+            var playview = new PlayView();
+            playview.render(demolevel);
+        },
+
+        devaction : function(){
+            console.log(levelvalidator.validate($('#leveljsoninput').val()));
+        }
 	});
 	return ChooseLevelView;
 });
