@@ -118,21 +118,20 @@ define([
             console.log('length: ' + this.getTimeDelta());
             console.log(this);
 
-            $('#svg').setOpacity(1000);
+            $('#svg').fadeTo(1500,0, this.exitview.bind(this));
 
-            var game = {};
+            this.game = {};
+            this.game.highscore = this.calculateHighScore();
+            this.game.level = this.level;
 
-            game.highscore = this.calculateHighScore();
-            game.level = this.level;
 
-            setTimeout(function () {
-                //TODO: Smooth transition to HighScore View
-                var applicationwithmenuview = new ApplicationWithMenuView();
-                applicationwithmenuview.render();
-                var highscoreview = new HighScoreView();
-                highscoreview.render(game);
-            }, 1500)
+        },
 
+        exitview: function(){
+            var applicationwithmenuview = new ApplicationWithMenuView();
+            applicationwithmenuview.render();
+            var highscoreview = new HighScoreView();
+            highscoreview.render(this.game);
         },
 
         calculateHighScore: function () {

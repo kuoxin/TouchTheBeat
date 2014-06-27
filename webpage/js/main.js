@@ -6,7 +6,7 @@ require.config({
 		text: 'libs/require/text',
 		templates: '../templates',
 		bootstrap: 'libs/bootstrap/bootstrap',
-		soundcloud: 'http://connect.soundcloud.com/sdk-2.0.0',
+		soundcloud: 'http://connect.soundcloud.com/sdk',
 		soundmanager2: 'libs/soundmanager2/soundmanager2',
 		snap: 'libs/snap/snap.svg',
         'google-analytics' :         [

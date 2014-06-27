@@ -1,7 +1,6 @@
 define([
-  'jquery',
-  'soundcloud'
-], function ($, sc) {
+  'jquery' //,  'soundcloud'
+], function ($){//, sc) {
 	var SoundcloudLoader = function (player, uiUpdater) {
 		var self = this;
 		var client_id = "1dfc22b8b6e9ae1fd500cf90f9065607"; // to get an ID go to http://developers.soundcloud.com/
@@ -16,47 +15,58 @@ define([
 		 * and on success it calls the callback passed to it (for example, used to then send the stream_url to the audiosource object).
 		 */
 
-		SC.initialize({
-			client_id: client_id
-		});
+		//SC.initialize({
+		//	client_id: client_id
+		//});
 
-		this.resolveURL = function (url) {
-
-		};
+        this.loadStreamWithTunnel = function (track_url, successCallback, errorCallback) {
+            $.get( "//dev.coloreddrums.de/ttb/server/gettrack.php",{p: track_url}).done(
+                function resolveTrack( data ) {
+                    self.sound = JSON.parse(data);
+                    console.log(self.sound);
+                    self.streamUrl = function () {
+                        return self.sound.stream_url + '?client_id=' + client_id;
+                    };
+                    console.log('loaded track successfully');
+                    successCallback();
+            });
+        }
 
 		this.loadStream = function (track_url, successCallback, errorCallback) {
-
-
-			SC.get('/resolve', {
-				url: track_url
-			}, function (sound) {
-				console.log(sound);
-				if (sound.errors) {
-					self.errorMessage = "";
-					for (var i = 0; i < sound.errors.length; i++) {
-						self.errorMessage += sound.errors[i].error_message + '<br>';
-					}
-					self.errorMessage += 'Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track';
-					errorCallback();
-				} else {
-
-					if (sound.kind == "playlist") {
-						self.sound = sound;
-						self.streamPlaylistIndex = 0;
-						self.streamUrl = function () {
-							return sound.tracks[self.streamPlaylistIndex].stream_url + '?client_id=' + client_id;
-						}
-						successCallback();
-					} else {
-						self.sound = sound;
-						self.streamUrl = function () {
-							return sound.stream_url + '?client_id=' + client_id;
-						};
-						successCallback();
-					}
-				}
-			});
+            this.loadStreamWithTunnel(track_url, successCallback, errorCallback);
 		};
+
+        this.loadStreamDirectly = function (track_url, successCallback, errorCallback){
+            SC.get('/resolve', {
+                url: track_url
+            }, function (sound) {
+                console.log(sound);
+                if (sound.errors) {
+                    self.errorMessage = "";
+                    for (var i = 0; i < sound.errors.length; i++) {
+                        self.errorMessage += sound.errors[i].error_message + '<br>';
+                    }
+                    self.errorMessage += 'Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track';
+                    errorCallback();
+                } else {
+
+                    if (sound.kind == "playlist") {
+                        self.sound = sound;
+                        self.streamPlaylistIndex = 0;
+                        self.streamUrl = function () {
+                            return sound.tracks[self.streamPlaylistIndex].stream_url + '?client_id=' + client_id;
+                        }
+                        successCallback();
+                    } else {
+                        self.sound = sound;
+                        self.streamUrl = function () {
+                            return sound.stream_url + '?client_id=' + client_id;
+                        };
+                        successCallback();
+                    }
+                }
+            });
+        }
 
 		this.directStream = function (direction) {
 			if (direction == 'toggle') {

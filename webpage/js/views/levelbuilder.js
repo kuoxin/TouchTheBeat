@@ -34,7 +34,7 @@ define([
 		openGameObjectPanel: function openGameObjectPanel() {
 			$("#btn_gameobjectpanel").attr("disabled", true);
 			$("#progress").fadeIn();
-			$("#btn_gameobjectpanel").setOpacity();
+			$("#btn_gameobjectpanel").fadeOut();
 			$('#player').trigger("play");
 			console.log(this);
 			this.updateProgressIndicator();
@@ -158,7 +158,7 @@ define([
 		},
 
 		capturingfinished: function () {
-			$("#gameObjectPanel").setOpacity();
+			$("#gameObjectPanel").fadeOut();
 			$("#instructions").slideUp();
 			$("#publish").fadeIn();
 		},
