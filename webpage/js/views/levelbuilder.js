@@ -16,10 +16,14 @@ define([
         //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
 
-		render: function () {
+		render: function (url) {
 			var template = _.template(levelbuilderTemplate, {});
 			this.$el.html(template);
 			this.init();
+            if (url != null){
+                $("#input_entertrack").val(url);
+                this.enteredTrack();
+            }
 		},
 
 		events: {
@@ -68,7 +72,8 @@ define([
                 'https://soundcloud.com/t-e-e-d/garden',
                 'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
                 'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
-                'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks'
+                'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks',
+                "https://soundcloud.com/benkhan/savage"
             ];
 
 			this.trackInfoPanel = document.getElementById('trackInfoPanel');
@@ -116,7 +121,8 @@ define([
 
 		loading_success: function () {
 			$("#alert_tracknotfound").slideUp();
-			this.updateTrackPanel();
+            Backbone.history.navigate('/buildlevel/'+ encodeURIComponent($("#input_entertrack").val()));
+            this.updateTrackPanel();
 			this.player.attr('src', this.loader.streamUrl());
 			$("#trackinfo").fadeIn();
 			$("#trackselection").slideUp();

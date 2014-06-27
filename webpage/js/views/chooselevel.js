@@ -20,8 +20,18 @@ define([
 		},
 
 		startlevel: function () {
-
+            if (levelvalidator.validate($('#leveljsoninput').val())){
+                var level = JSON.parse($('#leveljsoninput').val());
+                new PlayView().render(level);
+            }
+            else{
+                this.invalidLevelJSON();
+            }
 		},
+
+        invalidLevelJSON: function(){
+            this.$("#alert_invalidlevel").slideDown();
+        },
 
         startdemo : function(){
             var playview = new PlayView();
@@ -29,7 +39,7 @@ define([
         },
 
         devaction : function(){
-            console.log(levelvalidator.validate($('#leveljsoninput').val()));
+            console.error("PENG!");
         }
 	});
 	return ChooseLevelView;

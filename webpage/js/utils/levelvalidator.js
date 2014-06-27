@@ -5,14 +5,15 @@ define(['jquery', 'underscore', 'backbone','tv4', 'schema'], function ($, _, Bac
 
     levelvalidator.validate = function(levelstring){
         try{
-        var levelobject = JSON.parse(levelstring);
+            if (tv4.validate(JSON.parse(levelstring), schema))
+                return true;
+            console.info('Level validation: '+tv4.error.message);
         }
         catch (err){
-            return err;
+            console.info('Level validation: '+err.message);
         }
-        console.log(levelobject);
-        var result = tv4.validate(levelobject, schema);
-        console.log((result ? true : tv4.error));
+        return false;
+
     }
 
     return levelvalidator;

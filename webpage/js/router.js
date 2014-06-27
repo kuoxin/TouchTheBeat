@@ -16,12 +16,17 @@ define([
 			// Define some URL routes
 			'': 'home',
 			'chooselevel': 'chooselevel',
-			'buildlevel': 'levelbuilder',
+            'buildlevel' : 'buildlevel',
+			'buildlevel/:soundcloudurl': 'buildlevel',
             'legal' : 'legal',
 
 			// Default
 			'*notfound': 'notfound'
 		},
+
+        testABC: function(){
+            console.log("this works");
+        },
 
 
         //TODO: Better Navigation, make the menu to use the router
@@ -41,9 +46,9 @@ define([
                 chooselevel.render();
             });
 
-            this.on('route:levelbuilder', function () {
+            this.on('route:buildlevel', function (soundcloudurl) {
                 var levelbuilderview = new LevelBuilderView();
-                levelbuilderview.render();
+                levelbuilderview.render(soundcloudurl);
             });
 
             this.on('route:notfound', function (actions) {

@@ -48,7 +48,6 @@ define([
                         console.error("undefined gameobject detected")
                 }
             }
-            console.log(this.gameobjects[0]);
             this.levelready = true;
 
         },
@@ -80,7 +79,6 @@ define([
             this.player.trigger("play");
 
             console.log('now running');
-
             //this.updateView();
         },
 
