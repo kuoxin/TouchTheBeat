@@ -24,7 +24,7 @@ define([
                 function resolveTrack( data ) {
                     self.errorMessage = "";
                     try {
-                        self.sound = JSON.parse(data);
+                        self.sound = data;
                         self.streamUrl = function () {
                             return self.sound.stream_url + '?client_id=' + client_id;
                         };

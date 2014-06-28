@@ -13,29 +13,53 @@ define([
     };
 
     TapObject.prototype = {
-        tapdelta: NaN,
+
+        //relatve timing preferences
         startborder: -1,
+        endborder: 0,
         accepttapfrom: -0.200,
         accepttapto: 0.200,
-        isActive: true,
         radius: 100,
         borderradius: 20,
         removeuntil: 1.5,
         removefrom: 0.0000000001,
         startshow: -1.5,
         endshow: -0.00000000001,
+
+        //visual preferences
+        visual_type: 'circle',
+        color_plain_fill: '#FFFFFF',
+        color_plain_border: '#EEEEEE',
+        color_tapped_fill: '#bada55',
+        color_tapped_border: '#bada55',
+        color_missed_fill: '#DDDDDD',
+        color_missed_border: '#DDDDDD',
+
+        //objects needed during loop
+        tapdelta: NaN,
+        timediff: NaN,
         snapobject: null,
+        renderloop_enabled: true,
+        logic_enabled: true,
 
         createVisualElement: function(){
-            this.snapobject = this.surface.snap.circle(this.x, this.y, this.radius)
+
+            switch(this.visual_type){
+                case 'circle':
+                    this.snapobject = this.surface.snap.circle(this.x, this.y, this.radius);
+                    break;
+                default:
+                    console.error('unknown tapobject type: '+this.visual_type);
+            }
+
             this.snapobject.attr({
-                fill: "#EEEEEE",
-                stroke: "#ffffff",
+                fill: this.color_plain_fill,
+                stroke: this.color_plain_border,
                 strokeWidth: this.borderradius,
                 opacity: 0
             });
-            this.snapobject.touchend(this.handleKeyPress.bind(this));
-            this.snapobject.click(this.handleKeyPress.bind(this));
+            this.snapobject.touchend(this.handleTap.bind(this));
+            this.snapobject.click(this.handleTap.bind(this));
         },
 
         markMissed: function () {
@@ -43,31 +67,31 @@ define([
                 console.log('missed');
 
             this.snapobject.attr({
-                fill: "#990000"
+                fill: this.color_missed_fill
             });
+            this.logic_enabled = false;
 
         },
 
 
-        markHit: function (time) {
+        markHit: function () {
             if (this.timestamp == 3.758072)
                 console.log('hit');
 
             this.snapobject.attr({
-                fill: "#bada55"
+                fill: this.color_tapped_fill
             });
-
-            this.tapdelta = time;
+            this.tapdelta = this.timediff;
+            this.logic_enabled = false;
 
         },
 
-        handleKeyPress: function () {
-            console.log('action');
-            if (this.isActive) {
+        handleTap: function () {
+            if (this.logicloop_enabled) {
                 var timediff = this.surface.getTime() - this.timestamp;
                 console.log(timediff);
                 if (timediff > this.accepttapfrom && timediff < this.accepttapto) {
-                    this.markHit(timediff);
+                    this.markHit();
                 }
                 else {
                     this.markMissed();
@@ -83,61 +107,69 @@ define([
         },
 
         setOpacity: function(percentage) {
-            if (this.timestamp == 3.758072)
-                console.log('opacity: '+percentage);
-
             this.snapobject.attr({
                 "opacity": percentage
             });
         },
 
         update: function (time) {
-            if (this.isActive) {
-                if (this.timestamp == 3.758072)
-                    console.log('active loop');
-                var timediff = time - this.timestamp;
 
-                if (timediff >= this.removeuntil) {
-                    this.isActive = false;
+            if (this.logic_enabled) {
+                if (this.timediff >= this.accepttapto) {
+                    this.markMissed();
+                }
+            }
+
+            this.render(time);
+        },
+
+        render: function(time){
+            if (this.renderloop_enabled) {
+                this.timediff = time - this.timestamp;
+
+                //remove object after removeuntil
+                if (this.timediff >= this.removeuntil) {
+                    this.logic_enabled = false;
                     this.setOpacity(0);
                     if (this.timestamp == 3.758072)
-                        console.log('deactivated at '+timediff+ ' ('+(timediff - this.removeuntil)+')');
-
+                        console.log('deactivated at ' + this.timediff + ' (' + (this.timediff - this.removeuntil) + ')');
+                    this.renderloop_enabled = false;
                     return;
                 }
 
-                if (timediff >= this.accepttapto) {
-                    this.markMissed();
+                //animating border between startborder and endborder
+                if (this.timediff >= this.startborder && this.timediff < this.endborder) {
+                    if (this.timestamp == 3.758072)
+                        console.log('upcoming: ' + (1 - this.getPercentage(this.startborder, this.endborder)));
+
+                    this.markUpcoming(1 - this.getPercentage(this.startborder, this.endborder));
                 }
 
-                if (timediff < 0){
-                    // only called before the desired tap
+                //fading in between startshow and endshow
+                if (this.timediff >= this.startshow && this.timediff < this.endshow) {
+                    if (this.snapobject == null)
+                        this.createVisualElement();
+                    if (this.timestamp == 3.758072)
+                        console.log('fading in: ' + this.getPercentage(this.startshow, this.endshow));
 
-                    // could/should be called in a seperate render loop
-                    if (timediff >= this.startborder) {
-                        this.markUpcoming(this.getPercentage(this.startborder, 0));
-                    }
-
-                    if (timediff >= this.startshow){
-                        if (this.snapobject == null)
-                            this.createVisualElement();
-                        this.setOpacity(this.getPercentage(this.startshow, this.endshow));
-                    }
-
+                    this.setOpacity(this.getPercentage(this.startshow, this.endshow));
                 }
-                else{
-                    //only called after the desired tap
 
-                    if (timediff >= this.removefrom){
-                        this.setOpacity(1-this.getPercentage(this.removefrom, this.removeuntil));
-                    }
+                //fading out between removefrom and removeuntil
+                if (this.timediff >= this.removefrom && this.timediff < this.removeuntil) {
+                    if (this.timestamp == 3.758072)
+                        console.log('fading out: ' + (1 - this.getPercentage(this.removefrom, this.removeuntil)));
+                    this.setOpacity(1 - this.getPercentage(this.removefrom, this.removeuntil));
                 }
+
             }
         },
 
-        getPercentage: function(value, max){
-            var percentage = (this.timestamp+value)/(this.timestamp+max);
-            return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;
+        getPercentage: function(min, max){
+            var percentage = (this.timediff - min) / (max - min);
+           // var percentage = this.timediff/max;
+            return Math.abs(percentage);
+            //return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;
         },
 
         getHighScore: function () {
