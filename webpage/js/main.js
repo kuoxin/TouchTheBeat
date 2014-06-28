@@ -6,8 +6,6 @@ require.config({
 		text: 'libs/require/text',
 		templates: '../templates',
 		bootstrap: 'libs/bootstrap/bootstrap',
-		soundcloud: 'http://connect.soundcloud.com/sdk',
-		soundmanager2: 'libs/soundmanager2/soundmanager2',
 		snap: 'libs/snap/snap.svg',
         'google-analytics' :         [
             'http://www.google-analytics.com/analytics',
@@ -17,15 +15,7 @@ require.config({
         schema : 'schema'
 	},
 	shim: {
-		'soundcloud': {
-			exports: 'SC'
-		},
-
 		'bootstrap': ['jquery'],
-
-		'soundmanager2': {
-			exports: 'soundManager'
-		},
 		'snap': {
 			exports: 'Snap'
 		},

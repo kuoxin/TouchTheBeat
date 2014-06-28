@@ -20,12 +20,11 @@ define([
 
 		gotoChooseLevelView : function (){
 			Backbone.history.navigate('chooselevel', true);
-			window.location.reload();
 		},
 
         playagain : function(){
             console.log(this.game);
-            new PlayView().render(this.game.level);
+            Backbone.history.navigate('playlevel?json='+JSON.stringify(this.game.level), true);
         }
 
 

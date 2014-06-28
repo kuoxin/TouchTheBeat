@@ -18,7 +18,7 @@ define([
                                 "type": "string",
                                 "enum": ["Tap"]
                             },
-                            "time": {
+                            "taptime": {
                                 "type": "number"
                             },
                             "x": {

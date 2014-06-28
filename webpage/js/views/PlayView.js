@@ -23,10 +23,7 @@ define([
 
         render: function (level) {
             this.level = level;
-
-
-            this.loader = new SoundCloudLoader(null, null);
-            this.loader.loadStream(this.level.track, this.loading_success.bind(this), this.loading_error.bind(this));
+            SoundCloudLoader.loadStream(this.level.track, this.loading_success.bind(this), this.loading_error.bind(this));
             this.setup();
         },
 
@@ -40,9 +37,10 @@ define([
             for (i = 0; i < this.level.gameobjects.length; i++) {
                 var gameobject = this.level.gameobjects[i];
                 switch (gameobject.type) {
-                    case "Tap":
+                    case 'Tap':
                         //console.log("TapObject detected");
-                        this.gameobjects.push(new TapObject(this.surface, gameobject.time, gameobject.x, gameobject.y));
+                        this.gameobjects.push(new TapObject(this.surface, gameobject.taptime, gameobject.x, gameobject.y));
+                        console.info('tapobject detected');
                         break;
                     default:
                         console.error("undefined gameobject detected")
@@ -52,12 +50,13 @@ define([
 
         },
 
-        loading_success: function () {
+        loading_success: function (sound) {
+            this.sound = sound;
             console.log('loading from SoundCloud completed, level ready: ' + this.levelready);
             if (!this.levelready)
                 setTimeout(this.loading_success.bind(this), 1000);
             else {
-                this.player.attr('src', this.loader.streamUrl());
+                this.player.attr('src', this.sound.streamUrl);
                 this.player[0].addEventListener('loadedmetadata', this.start.bind(this));
             }
 
@@ -73,7 +72,6 @@ define([
             var a_player = this.player[0];
 
             this.starttime = new Date().getTime() / 1000;
-            console.log(this.starttime);
             this.endtime = this.starttime + a_player.duration;
             this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
             this.player.trigger("play");

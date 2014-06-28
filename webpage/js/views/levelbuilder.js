@@ -16,10 +16,15 @@ define([
         //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
 
+        renderid : Math.random(),
+
 		render: function (url) {
+            console.log('render view '+url);
 			var template = _.template(levelbuilderTemplate, {});
 			this.$el.html(template);
 			this.init();
+
+            console.info('rendered view with id: '+this.renderid);
             if (url != null){
                 $("#input_entertrack").val(url);
                 this.enteredTrack();
@@ -40,7 +45,6 @@ define([
 			$("#progress").fadeIn();
 			$("#btn_gameobjectpanel").fadeOut();
 			$('#player').trigger("play");
-			console.log(this);
 			this.updateProgressIndicator();
 
 		},
@@ -64,7 +68,6 @@ define([
 
 		init: function () {
 			this.player = this.$('#player');
-			this.loader = new SoundcloudLoader(null, null);
 			this.gameobjects = [];
 			this.randomtracks = [
                 'https://soundcloud.com/maxfrostmusic/white-lies',
@@ -75,13 +78,6 @@ define([
                 'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks',
                 "https://soundcloud.com/benkhan/savage"
             ];
-
-			this.trackInfoPanel = document.getElementById('trackInfoPanel');
-			this.infoImage = document.getElementById('infoImage');
-			this.infoArtist = document.getElementById('infoArtist');
-			this.infoTrack = document.getElementById('infoTrack');
-			this.artistLink = document.createElement('a');
-			this.trackLink = document.createElement('a');
 
             $(window).keypress(this.handleKeyPress.bind(this));
 
@@ -94,12 +90,9 @@ define([
                 console.log("legitimate tapobject "+e.keyCode);
                 if (e.keyCode == 32)
                 {
-
-                    console.log(Surface.prototype);
+                    console.info('added tapobject at '+player[0].currentTime+' in view-id: '+this.renderid);
                     var x = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.width - TapObject.prototype.radius);
                     var y = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.height - TapObject.prototype.radius);
-                    console.log(x);
-                    console.log(y);
                     this.addGameObject(player[0].currentTime,x,y);
                 }
             }
@@ -110,57 +103,54 @@ define([
         },
 
 		enteredTrack: function () {
-			console.log(this.loader);
-			this.loader.loadStream($("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
+            console.info('clicked view with id: '+this.renderid);
+            if ($("#input_entertrack").val() == ''){
+                this.loading_error();
+                return;
+            }
+
+            console.log('loading: '+$("#input_entertrack").val() );
+			SoundcloudLoader.loadStream($("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
 		},
 
 		selectedRandomTrack: function () {
-			$("#input_entertrack").val(this.randomtracks[Math.floor(Math.random() * (this.randomtracks.length - 1))]);
+            var random = this.randomtracks[Math.floor(Math.random() * (this.randomtracks.length))];
+            console.log('random: '+random);
+            $("#input_entertrack").val(random);
 			this.enteredTrack();
 		},
 
-		loading_success: function () {
+		loading_success: function (sound) {
+            console.log(sound);
+            this.sound = sound;
 			$("#alert_tracknotfound").slideUp();
             Backbone.history.navigate('/buildlevel/'+ encodeURIComponent($("#input_entertrack").val()));
-            this.updateTrackPanel();
-			this.player.attr('src', this.loader.streamUrl());
+            this.updateTrackPanel(
+                {
+                // if no track artwork exists, use the user's avatar.
+                imageurl : this.sound.artwork_url ? this.sound.artwork_url : this.sound.user.avatar_url,
+                artisturl : this.sound.user.permalink_url,
+                trackurl :  this.sound.permalink_url,
+                artist: this.sound.user.username,
+                track: this.sound.title
+            });
+			this.player.attr('src', this.sound.streamUrl);
 			$("#trackinfo").fadeIn();
 			$("#trackselection").slideUp();
 		},
 
-		loading_error: function () {
-			var self = this;
+		loading_error: function (errorMessage) {
 			console.log("error");
-			console.log(this);
-			console.log(self);
-			this.$("#alert_tracknotfound_text").html(this.loader.errorMessage);
+			this.$("#alert_tracknotfound_text").html(errorMessage);
 			this.$("#alert_tracknotfound").slideDown();
 		},
 
-		updateTrackPanel: function updateTrackPanel() {
-            var template = _.template(trackPanelTemplate,
-                {
-                    // if no track artwork exists, use the user's avatar.
-                    imageurl : this.loader.sound.artwork_url ? this.loader.sound.artwork_url : this.loader.sound.user.avatar_url,
-                    artisturl : this.loader.sound.user.permalink_url,
-                    trackurl :  this.loader.sound.permalink_url,
-                    artist: this.loader.sound.user.username,
-                    track: this.loader.sound.title
-                });
+		updateTrackPanel: function updateTrackPanel(data) {
+            var template = _.template(trackPanelTemplate, data);
 
             $('#trackcontainer').html(template);
 
 			$('#trackinfo').fadeIn();
-
-		},
-
-		clearTrackPanel: function clearTrackPanel() {
-
-			// first clear the current contents
-			this.infoArtist.innerHTML = "";
-			this.infoTrack.innerHTML = "";
-			this.trackInfoPanel.className = 'hidden';
-
 		},
 
 		capturingfinished: function () {
@@ -180,14 +170,11 @@ define([
 		},
 
 		createLevel: function () {
-				var level = {};
-                var loader = this.loader;
-
-				level.track = loader.sound.permalink_url;
-				level.gameobjects = this.gameobjects;
-				level.taglist = loader.sound.tag_list;
-				level.name = $("#levelname").val();
-                this.level = level;
+            this.level  = {};
+            this.level.track =  this.sound.permalink_url;
+            this.level.gameobjects = this.gameobjects;
+            this.level.taglist =  this.sound.tag_list;
+            this.level.name = $("#levelname").val();
 		}
 	});
 	return LevelBuilderView;

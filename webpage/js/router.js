@@ -9,8 +9,9 @@ define([
 	'views/chooselevel',
 	'views/applicationwithmenu',
     'views/PageNotFoundView',
-    'views/legal'
-], function ($, _, Backbone, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView) {
+    'views/legal',
+    'views/PlayView'
+], function ($, _, Backbone, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView) {
 	var Router = Backbone.Router.extend({
 		routes: {
 			// Define some URL routes
@@ -19,49 +20,46 @@ define([
             'buildlevel' : 'buildlevel',
 			'buildlevel/:soundcloudurl': 'buildlevel',
             'legal' : 'legal',
+            'playlevel?json=:level' : 'playlevel',
 
 			// Default
 			'*notfound': 'notfound'
 		},
 
-        testABC: function(){
-            console.log("this works");
-        },
-
-
-        //TODO: Better Navigation, make the menu to use the router
         init : function(){
             this.applicationwithmenuview = new ApplicationWithMenuView();
             this.applicationwithmenuview.render();
-
-            var menu = this.applicationwithmenuview.getMenu();
+            this.homeview = new HomeView();
+            this.chooselevel = new ChooseLevelView();
+            this.levelbuilderview = new LevelBuilderView();
+            this.pagenotfoundview = new PageNotFoundView();
+            this.legalview  = new LegalView();
+            this.playlevelview = new PlayView();
 
             this.on('route:home', function () {
-                var homeview = new HomeView();
-                homeview.render();
+                this.homeview.render();
             });
 
             this.on('route:chooselevel', function () {
-                var chooselevel = new ChooseLevelView();
-                chooselevel.render();
+                this.chooselevel.render();
             });
 
             this.on('route:buildlevel', function (soundcloudurl) {
-                var levelbuilderview = new LevelBuilderView();
-                levelbuilderview.render(soundcloudurl);
+                this.levelbuilderview.render(soundcloudurl);
             });
 
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
-                var pagenotfoundview = new PageNotFoundView();
-                pagenotfoundview.render();
-                var homeview = new HomeView();
-                homeview.render();
+                this.pagenotfoundview.render();
+                this.homeview.render();
+            });
+
+            this.on('route:playlevel', function(level){
+                this.playlevelview.render(JSON.parse(level));
             });
 
             this.on('route:legal', function () {
-              var legalview  = new LegalView();
-                legalview.render();
+                this.legalview.render();
             });
         }
 	});

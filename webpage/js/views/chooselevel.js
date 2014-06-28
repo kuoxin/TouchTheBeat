@@ -21,8 +21,7 @@ define([
 
 		startlevel: function () {
             if (levelvalidator.validate($('#leveljsoninput').val())){
-                var level = JSON.parse($('#leveljsoninput').val());
-                new PlayView().render(level);
+                Backbone.history.navigate('playlevel?json='+encodeURIComponent($('#leveljsoninput').val()), true);
             }
             else{
                 this.invalidLevelJSON();
@@ -34,8 +33,7 @@ define([
         },
 
         startdemo : function(){
-            var playview = new PlayView();
-            playview.render(demolevel);
+            Backbone.history.navigate('playlevel?json='+encodeURIComponent(JSON.stringify(demolevel)), true);
         },
 
         devaction : function(){

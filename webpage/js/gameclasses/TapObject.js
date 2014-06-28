@@ -42,6 +42,9 @@ define([
         renderloop_enabled: true,
         logic_enabled: true,
 
+        //debug
+        debugtime : 7.116905,
+
         createVisualElement: function(){
 
             switch(this.visual_type){
@@ -63,7 +66,7 @@ define([
         },
 
         markMissed: function () {
-            if (this.timestamp == 3.758072)
+            if (this.timestamp == this.debugtime)
                 console.log('missed');
 
             this.snapobject.attr({
@@ -75,7 +78,7 @@ define([
 
 
         markHit: function () {
-            if (this.timestamp == 3.758072)
+            if (this.timestamp == this.debugtime)
                 console.log('hit');
 
             this.snapobject.attr({
@@ -87,7 +90,9 @@ define([
         },
 
         handleTap: function () {
-            if (this.logicloop_enabled) {
+            console.info('allowed tap: '+this.logic_enabled);
+            if (this.logic_enabled) {
+
                 var timediff = this.surface.getTime() - this.timestamp;
                 console.log(timediff);
                 if (timediff > this.accepttapfrom && timediff < this.accepttapto) {
@@ -113,33 +118,39 @@ define([
         },
 
         update: function (time) {
-
             if (this.logic_enabled) {
                 if (this.timediff >= this.accepttapto) {
                     this.markMissed();
                 }
+            }
+            //remove object after removeuntil
+            if (this.timediff >= this.removeuntil) {
+                this.logic_enabled = false;
+                this.setOpacity(0);
+                if (this.timestamp ==this.debugtime)
+                    console.log('deactivated at ' + this.timediff + ' (' + (this.timediff - this.removeuntil) + ')');
+                this.renderloop_enabled = false;
+                this.logic_enabled = false;
+                return;
             }
 
             this.render(time);
         },
 
         render: function(time){
+
+
             if (this.renderloop_enabled) {
+                if (this.timestamp == this.debugtime)
+                    console.log('renderloop : '+this.renderloop_enabled);
+
                 this.timediff = time - this.timestamp;
 
-                //remove object after removeuntil
-                if (this.timediff >= this.removeuntil) {
-                    this.logic_enabled = false;
-                    this.setOpacity(0);
-                    if (this.timestamp == 3.758072)
-                        console.log('deactivated at ' + this.timediff + ' (' + (this.timediff - this.removeuntil) + ')');
-                    this.renderloop_enabled = false;
-                    return;
-                }
+
 
                 //animating border between startborder and endborder
                 if (this.timediff >= this.startborder && this.timediff < this.endborder) {
-                    if (this.timestamp == 3.758072)
+                    if (this.timestamp == this.debugtime)
                         console.log('upcoming: ' + (1 - this.getPercentage(this.startborder, this.endborder)));
 
                     this.markUpcoming(1 - this.getPercentage(this.startborder, this.endborder));
@@ -149,7 +160,7 @@ define([
                 if (this.timediff >= this.startshow && this.timediff < this.endshow) {
                     if (this.snapobject == null)
                         this.createVisualElement();
-                    if (this.timestamp == 3.758072)
+                    if (this.timestamp == this.debugtime)
                         console.log('fading in: ' + this.getPercentage(this.startshow, this.endshow));
 
                     this.setOpacity(this.getPercentage(this.startshow, this.endshow));
@@ -157,7 +168,7 @@ define([
 
                 //fading out between removefrom and removeuntil
                 if (this.timediff >= this.removefrom && this.timediff < this.removeuntil) {
-                    if (this.timestamp == 3.758072)
+                    if (this.timestamp == this.debugtime)
                         console.log('fading out: ' + (1 - this.getPercentage(this.removefrom, this.removeuntil)));
                     this.setOpacity(1 - this.getPercentage(this.removefrom, this.removeuntil));
                 }
