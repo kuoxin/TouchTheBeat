@@ -41,13 +41,18 @@ define([
 		},
 
 		openGameObjectPanel: function openGameObjectPanel() {
+            console.log("open gameobject panel");
+            console.log(this.player[0].duration);
 			$("#btn_gameobjectpanel").attr("disabled", true);
 			$("#progress").fadeIn();
 			$("#btn_gameobjectpanel").fadeOut();
-			$('#player').trigger("play");
-			this.updateProgressIndicator();
-
+            $('#player').trigger("play");
+            this.updateProgressIndicator();
 		},
+
+        start: function (){
+          console.log('loaded metadata');
+        },
 
 		test: function test() {
 			this.gameobjects.push(this.player[0].currentTime);
@@ -76,7 +81,7 @@ define([
                 'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
                 'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
                 'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks',
-                "https://soundcloud.com/benkhan/savage"
+                'https://soundcloud.com/benkhan/savage'
             ];
 
             $(window).keypress(this.handleKeyPress.bind(this));
@@ -134,7 +139,8 @@ define([
                 artist: this.sound.user.username,
                 track: this.sound.title
             });
-			this.player.attr('src', this.sound.streamUrl);
+            $('#player')[0].addEventListener('loadedmetadata', this.start.bind(this));
+            this.player.attr('src', this.sound.streamUrl);
 			$("#trackinfo").fadeIn();
 			$("#trackselection").slideUp();
 		},
@@ -160,12 +166,13 @@ define([
 		},
 
 		updateProgressIndicator: function () {
-			var percentage = this.player[0].currentTime / this.player[0].duration * 100;
-			$("#progressbar").css('width', Math.floor(percentage * 10) / 10 + '%');
-			if (this.player[0].currentTime != this.player[0].duration) {
-				requestAnimationFrame(this.updateProgressIndicator.bind(this));
+			var percentage = this.player[0].currentTime * 1000 / this.sound.duration ;
+            console.log(percentage);
+            $("#progressbar").css('width', Math.floor(percentage * 1000) / 10 + '%');
+			if (this.player[0].paused  && this.player[0].currentTime != 0) {
+                this.capturingfinished();
 			} else {
-				this.capturingfinished();
+                requestAnimationFrame(this.updateProgressIndicator.bind(this));
 			}
 		},
 
