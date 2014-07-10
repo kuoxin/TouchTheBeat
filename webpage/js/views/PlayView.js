@@ -27,7 +27,13 @@ define([
             this.$el.html(template);
             this.player = $('#player');
 
-            SoundCloudLoader.loadStream(this.level.track, this.loading_success.bind(this), this.loading_error.bind(this));
+            this.player[0].addEventListener('loadedmetadata', this.start.bind(this));
+            this.player.attr('src', SoundCloudLoader.getStreamUrl(this.level.audio.stream_url));
+            this.setup();
+            $('#player').trigger("play");
+            this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
+            console.log('started, '+ !$('#player')[0].paused)
+
         },
 
         setup: function () {
@@ -48,26 +54,10 @@ define([
 
         },
 
-        loading_success: function (sound) {
-            this.sound = sound;
-            this.player[0].addEventListener('loadedmetadata', this.start.bind(this));
-            this.player.attr('src', this.sound.streamUrl);
-            this.setup();
-            $('#player').trigger("play");
-            document.getElementsByTagName('audio')[0].play();
-            this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
-            console.log('started, '+ !$('#player')[0].paused)
-
-        },
-
-        loading_error: function (error) {
-            console.error(error);
-        },
 
         start: function () {
             //TODO Countdown / Smooth Transition to playing
             console.log('loaded metadata');
-            document.getElementsByTagName('audio')[0].play();
         },
 
         getTimeDelta: function () {
@@ -76,7 +66,6 @@ define([
 
 
         update: function () {
-            console.log('update: '+this.getTimeDelta());
             if (this.getTimeDelta() + this.starttime >= this.endtime) {
                 this.stop();
             }

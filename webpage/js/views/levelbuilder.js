@@ -140,7 +140,7 @@ define([
                 track: this.sound.title
             });
             $('#player')[0].addEventListener('loadedmetadata', this.start.bind(this));
-            this.player.attr('src', this.sound.streamUrl);
+            this.player.attr('src', SoundcloudLoader.getStreamUrl(this.sound.stream_url));
 			$("#trackinfo").fadeIn();
 			$("#trackselection").slideUp();
 		},
@@ -167,7 +167,6 @@ define([
 
 		updateProgressIndicator: function () {
 			var percentage = this.player[0].currentTime * 1000 / this.sound.duration ;
-            console.log(percentage);
             $("#progressbar").css('width', Math.floor(percentage * 1000) / 10 + '%');
 			if (this.player[0].paused  && this.player[0].currentTime != 0) {
                 this.capturingfinished();
@@ -177,11 +176,13 @@ define([
 		},
 
 		createLevel: function () {
-            this.level  = {};
-            this.level.track =  this.sound.permalink_url;
-            this.level.gameobjects = this.gameobjects;
-            this.level.taglist =  this.sound.tag_list;
-            this.level.name = $("#levelname").val();
+            var level = {};
+            level.audio = {};
+            level.audio.stream_url = this.sound.stream_url;
+            level.audio.permalink_url = this.sound.permalink_url;
+            level.gameobjects = this.gameobjects;
+            level.name = $("#levelname").val();
+            this.level = level;
 		}
 	});
 	return LevelBuilderView;

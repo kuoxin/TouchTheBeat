@@ -6,7 +6,17 @@ define([
         "$schema": "http://json-schema.org/draft-04/schema#",
         "type": "object",
         "properties": {
-            "track": { "type": "string" },
+            "audio": { "type": "object",
+                "properties": {
+                    "stream_url" : {
+                        "type": "string"
+                    },
+                    "permalink_url" :{
+                        "type": "string"
+                    }
+                },
+                "required": ["stream_url", "permalink_url"]
+            },
             "levelname": { "type": "string" },
             "gameobjects": {
                 "type": "array",

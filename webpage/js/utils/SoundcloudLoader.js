@@ -16,11 +16,8 @@ define([
                             errorCallback('Sorry. The track you entered is not streamable. Please select a different one.');
                         }
                         else {
-                            var sound = data;
-                            // to get an ID go to http://developers.soundcloud.com/
-                            sound.streamUrl = sound.stream_url + '?client_id=' + "1dfc22b8b6e9ae1fd500cf90f9065607";
-                            console.log('resolved: '+ sound.streamUrl);
-                            successCallback(sound);
+                            console.log('resolved: '+ data.stream_url);
+                            successCallback(data);
                         }
                     }
                     catch(e){
@@ -28,6 +25,11 @@ define([
                         errorCallback('Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track');
                     }
                 });
+        },
+
+        getStreamUrl: function(url){
+            // to get an ID go to http://developers.soundcloud.com/
+            return url + '?client_id=' + "1dfc22b8b6e9ae1fd500cf90f9065607";
         }
     };
 	return SoundcloudLoader;
