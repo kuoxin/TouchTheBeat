@@ -5,8 +5,8 @@ define([
     'snap'
 ], function ($, _, Backbone, Snap) {
 
-    var TapObject = function (surface, timestamp, x, y) {
-        this.surface = surface;
+    var TapObject = function (game, timestamp, x, y) {
+        this.game = game;
         this.x = x;
         this.y = y;
         this.timestamp = timestamp;
@@ -37,19 +37,20 @@ define([
 
         //objects needed during loop
         tapdelta: NaN,
-        timediff: NaN,
         snapobject: null,
         renderloop_enabled: true,
         logic_enabled: true,
+        time_render : NaN,
+        time_logic : NaN,
 
         //debug
-        debugtime : 7.116905,
+        debugtime : 5.191904,
 
         createVisualElement: function(){
 
             switch(this.visual_type){
                 case 'circle':
-                    this.snapobject = this.surface.snap.circle(this.x, this.y, this.radius);
+                    this.snapobject = this.game.snap.circle(this.x, this.y, this.radius);
                     break;
                 default:
                     console.error('unknown tapobject type: '+this.visual_type);
@@ -84,7 +85,7 @@ define([
             this.snapobject.attr({
                 fill: this.color_tapped_fill
             });
-            this.tapdelta = this.timediff;
+            this.tapdelta = this.logic;
             this.logic_enabled = false;
 
         },
@@ -93,8 +94,8 @@ define([
             console.info('allowed tap: '+this.logic_enabled);
             if (this.logic_enabled) {
 
-                var timediff = this.surface.getTime() - this.timestamp;
-                console.log(timediff);
+
+                var timediff = this.getTimeDiff();
                 if (timediff > this.accepttapfrom && timediff < this.accepttapto) {
                     this.markHit();
                 }
@@ -106,6 +107,8 @@ define([
         },
 
         markUpcoming: function (percentage) {
+            if (this.timestamp == this.debugtime)
+                console.log('mark upcoming at '+this.time_render+' with '+percentage + '%');
             this.snapobject.attr({
                 strokeWidth: this.borderradius * percentage
             });
@@ -117,67 +120,68 @@ define([
             });
         },
 
-        update: function (time) {
+        update: function () {
+
             if (this.logic_enabled) {
-                if (this.timediff >= this.accepttapto) {
+                this.time_logic = this.getTimeDiff();
+
+                if (this.timestamp == this.debugtime)
+                    console.log('logic update at '+this.time_logic);
+
+                if (this.time_logic >= this.accepttapto) {
                     this.markMissed();
                 }
             }
-            //remove object after removeuntil
-            if (this.timediff >= this.removeuntil) {
-                this.logic_enabled = false;
-                this.setOpacity(0);
-                if (this.timestamp ==this.debugtime)
-                    console.log('deactivated at ' + this.timediff + ' (' + (this.timediff - this.removeuntil) + ')');
-                this.renderloop_enabled = false;
-                this.logic_enabled = false;
-                return;
-            }
 
-            this.render(time);
         },
 
-        render: function(time){
-
-
+        render: function(){
             if (this.renderloop_enabled) {
-                if (this.timestamp == this.debugtime)
-                    console.log('renderloop : '+this.renderloop_enabled);
-
-                this.timediff = time - this.timestamp;
-
+                //TODO: MAKE IT SAVE AND FIXED WITH AUDIO PLAY/PAUSE
+               this.time_render = this.getTimeDiff();
 
 
                 //animating border between startborder and endborder
-                if (this.timediff >= this.startborder && this.timediff < this.endborder) {
+                if (this.time_render >= this.startborder && this.time_render < this.endborder) {
                     if (this.timestamp == this.debugtime)
-                        console.log('upcoming: ' + (1 - this.getPercentage(this.startborder, this.endborder)));
+                        console.log('upcoming: ' + (this.getPercentage(this.startborder, this.endborder)));
 
-                    this.markUpcoming(1 - this.getPercentage(this.startborder, this.endborder));
+                    this.markUpcoming(this.getPercentage(this.startborder, this.endborder));
                 }
 
                 //fading in between startshow and endshow
-                if (this.timediff >= this.startshow && this.timediff < this.endshow) {
+                if (this.time_render >= this.startshow && this.time_render < this.endshow) {
                     if (this.snapobject == null)
                         this.createVisualElement();
                     if (this.timestamp == this.debugtime)
-                        console.log('fading in: ' + this.getPercentage(this.startshow, this.endshow));
+                        console.log('fading in: ' + 1 - this.getPercentage(this.startshow, this.endshow));
 
-                    this.setOpacity(this.getPercentage(this.startshow, this.endshow));
+                    this.setOpacity(1 - this.getPercentage(this.startshow, this.endshow));
                 }
 
                 //fading out between removefrom and removeuntil
-                if (this.timediff >= this.removefrom && this.timediff < this.removeuntil) {
-                    if (this.timestamp == this.debugtime)
-                        console.log('fading out: ' + (1 - this.getPercentage(this.removefrom, this.removeuntil)));
+                if (this.time_render >= this.removefrom && this.time_render < this.removeuntil) {
+                   // if (this.timestamp == this.debugtime)
+                    //    console.log('fading out: ' + (1 - this.getPercentage(this.removefrom, this.removeuntil)));
                     this.setOpacity(1 - this.getPercentage(this.removefrom, this.removeuntil));
+                }
+
+                //remove object after removeuntil
+                if (this.time_render >= this.removeuntil) {
+                    this.renderloop_enabled = false;
+                    this.snapobject.remove();
+                    console.log('removed from dom: '+this.timestamp+' at ' + this.time_render + ' (' + (this.time_render - this.removeuntil) + ')');
                 }
 
             }
         },
 
+        getTimeDiff : function(){
+            return this.game.getTime() - this.timestamp;
+        },
+
         getPercentage: function(min, max){
-            var percentage = (this.timediff - min) / (max - min);
+            var percentage = this.time_render / (max - min);
            // var percentage = this.timediff/max;
             return Math.abs(percentage);
             //return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;

@@ -5,7 +5,7 @@ define([
   'text!templates/levelbuilder.html',
   'text!templates/trackpanel.html',
   'utils/SoundcloudLoader',
-  'gameclasses/Surface',
+  '../gameclasses/Game',
   'gameclasses/TapObject',
   'views/PlayView',
   '../utils/scripts',
@@ -96,8 +96,8 @@ define([
                 if (e.keyCode == 32)
                 {
                     console.info('added tapobject at '+player[0].currentTime+' in view-id: '+this.renderid);
-                    var x = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.width - TapObject.prototype.radius);
-                    var y = Surface.prototype.getRandomInteger(TapObject.prototype.radius, Surface.prototype.height - TapObject.prototype.radius);
+                    var x = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.width - TapObject.prototype.radius);
+                    var y = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.height - TapObject.prototype.radius);
                     this.addGameObject(player[0].currentTime,x,y);
                 }
             }
