@@ -31,7 +31,7 @@ define([
         taptimeframe: 10,
         playview: null,
 
-        setup : function(){
+        setup: function () {
             console.log('setting up game');
             for (i = 0; i < this.level.gameobjects.length; i++) {
                 var gameobject = this.level.gameobjects[i];
@@ -73,12 +73,12 @@ define([
             }
         },
 
-        start : function(){
+        start: function () {
             this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
             this.updateView(this.getTime());
         },
 
-        stop : function(){
+        stop: function () {
             clearInterval(this.updateinterval);
         },
 
@@ -92,9 +92,8 @@ define([
             }
 
             var highscoreaverage = highscoresum / this.gameobjects.length;
-            var highscore = (highscoreaverage * 100).toFixed(1) + '%';
 
-            return highscore;
+            return (highscoreaverage * 100).toFixed(1) + '%';
         }
 
     };

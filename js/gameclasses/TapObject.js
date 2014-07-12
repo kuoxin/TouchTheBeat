@@ -17,8 +17,6 @@ define([
         //relatve timing preferences
         startborder: -1,
         endborder: 0,
-        accepttapfrom: -0.200,
-        accepttapto: 0.200,
         radius: 100,
         borderradius: 20,
         removeuntil: 1.5,
@@ -42,6 +40,10 @@ define([
         logic_enabled: true,
         time_render : NaN,
         time_logic : NaN,
+
+        //objects for calculating highscore
+        tapdiff: NaN,
+        max_tapdiff: 0.2,
 
         //debug
         debugtime : 5.191904,
@@ -85,7 +87,7 @@ define([
             this.snapobject.attr({
                 fill: this.color_tapped_fill
             });
-            this.tapdelta = this.logic;
+            this.tapdiff = this.time_logic;
             this.logic_enabled = false;
 
         },
@@ -94,9 +96,7 @@ define([
             console.info('allowed tap: '+this.logic_enabled);
             if (this.logic_enabled) {
 
-
-                var timediff = this.getTimeDiff();
-                if (timediff > this.accepttapfrom && timediff < this.accepttapto) {
+                if (Math.abs(this.getTimeDiff()) <= this.max_tapdiff) {
                     this.markHit();
                 }
                 else {
@@ -128,7 +128,7 @@ define([
                 if (this.timestamp == this.debugtime)
                     console.log('logic update at '+this.time_logic);
 
-                if (this.time_logic >= this.accepttapto) {
+                if (this.time_logic >= this.max_tapdiff) {
                     this.markMissed();
                 }
             }
@@ -186,12 +186,23 @@ define([
             return Math.abs(percentage);
             //return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;
         },
-
+        /**
+         *
+         * @returns a floating point number between 0 and 1 describing the accuracy of the users interaction (0 = no interaction, best == 1)
+         */
         getHighScore: function () {
-            if (isNaN(this.tapdelta))
+            if (isNaN(this.tapdiff))
                 return 0;
-            return 1 - Math.abs(this.tapdelta) / (Math.abs(this.accepttapfrom) + Math.abs(this.accepttapto) / 2);
+
+            // add a bonus for actually hitting the TapObject in time
+            var diff = Math.abs(this.tapdiff) - 0.05;
+
+            if (diff <= 0)
+                return 1;
+            else
+                return 1 - (diff / this.max_tapdiff);
         }
+
     };
 
     return TapObject;
