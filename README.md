@@ -2,12 +2,14 @@
 TouchTheBeat
 ============
 
+TouchTheBeat is a HTML5 multi-touch game currently in development. 
+
 Quick Links
 ---------
 - **current stable version**: _coming soon_
 - **Trello** development board: https://trello.com/b/uJHkG6xQ/
 
-TouchTheBeat is a HTML5 multi-touch game currently in development. 
+
 
 The Game
 ----------
