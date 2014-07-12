@@ -4,7 +4,7 @@ TouchTheBeat
 
 Quick Links
 ---------
-- current running version: _coming soon_
+- **current stable version**: _coming soon_
 - **Trello** development board: https://trello.com/b/uJHkG6xQ/
 
 TouchTheBeat is a HTML5 multi-touch game currently in development. 
