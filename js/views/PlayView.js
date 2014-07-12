@@ -3,14 +3,13 @@ define([
     'underscore',
     'backbone',
     'text!templates/play.html',
-    'snap',
+    'app',
     'utils/SoundcloudLoader',
     'views/applicationwithmenu',
-    'views/highscore',
     '../gameclasses/Game',
     '../utils/scripts',
 
-], function ($, _, Backbone, playTemplate, Snap, SoundCloudLoader, ApplicationWithMenuView, HighScoreView, Game) {
+], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game) {
     var PlayView = Backbone.View.extend({
         el: '#body',
 
@@ -34,13 +33,11 @@ define([
         },
 
         listenToAudioTimeUpdated : function() {
-
             if (this.startobj == undefined && this.player[0].currentTime == 0) {
                 console.info('The audio seems to have started playing. starting game loop...');
                 this.startobj = {};
                 this.startobj.time = window.performance.now();
                 this.startobj.currentTimeDif = 0;
-                this.last = 0;
                 this.game.start();
             }
 
@@ -101,6 +98,19 @@ define([
         },
 
         render: function (level) {
+            //TODO: Stop the game really when navigating away.
+
+            Backbone.history.navigate('playlevel', false);
+            if (this.startobj != null) {
+                if (this.game != null)
+                    this.game.stop();
+
+                this.startobj = null;
+                this.result = null;
+            }
+
+            this.game = null;
+
             this.level = level;
             var template = _.template(playTemplate, {});
             this.$el.html(template);
@@ -125,8 +135,6 @@ define([
         },
 
         stop: function () {
-
-            this.stopped = true;
             console.log("now stopped");
 
             $('#svg').fadeTo(1500,0, this.exitview.bind(this));
@@ -139,10 +147,7 @@ define([
         },
 
         exitview: function(){
-            var applicationwithmenuview = new ApplicationWithMenuView();
-            applicationwithmenuview.render();
-            var highscoreview = new HighScoreView();
-            highscoreview.render(this.result);
+            app.setContent(app.router.highscoreview, this.result);
         }
 
 

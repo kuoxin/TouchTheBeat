@@ -3,19 +3,21 @@ define([
   'underscore',
   'backbone',
   'text!templates/highscore.html',
-  'views/PlayView',
+    'app',
   'bootstrap'
-], function ($, _, Backbone, highscoreTemplate, PlayView) {
+], function ($, _, Backbone, highscoreTemplate, app) {
 	var HighScoreView = Backbone.View.extend({
-		el: '#content',
+        el: '#content',
 		events : {
 			'click #btn_gotoChooseLevelView' : 'gotoChooseLevelView',
             'click #btn_playagain' : 'playagain'
 		},
 		render: function (game) {
-			this.game = game;
-			var template = _.template(highscoreTemplate, {highscore : this.game.highscore, levelname : this.game.level.levelname});
-			this.$el.html(template);
+            Backbone.history.navigate('highscore', false);
+
+            this.game = game;
+            var template = _.template(highscoreTemplate, {highscore: this.game.highscore, levelname: this.game.level.levelname});
+            this.$el.html(template);
 		},
 
 		gotoChooseLevelView : function (){
@@ -24,7 +26,7 @@ define([
 
         playagain : function(){
             console.log(this.game);
-            Backbone.history.navigate('playlevel?json='+JSON.stringify(this.game.level), true);
+            app.startlevel(this.game.level);
         }
 
 

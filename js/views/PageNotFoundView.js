@@ -12,9 +12,8 @@ define([
             $('#alert404').slideDown();
             Backbone.history.bind("route", this.updateState);
         },
-        updateState: function(router, route){
-            if (route != 'notfound')
-            {
+        updateState: function (router, route) {
+            if (route != 'notfound') {
                 console.log(route);
                 var possiblealert = $('#alert404');
                 if (possiblealert != null)

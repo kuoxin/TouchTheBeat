@@ -2,6 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
+    'app',
   'text!templates/levelbuilder.html',
   'text!templates/trackpanel.html',
   'utils/SoundcloudLoader',
@@ -11,17 +12,15 @@ define([
   '../utils/scripts',
   'bootstrap',
 
-], function ($, _, Backbone, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader, Surface, TapObject, PlayView) {
+], function ($, _, Backbone, app, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader, Game, TapObject, PlayView) {
 	var LevelBuilderView = Backbone.View.extend({
         //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
 
-        renderid : Math.random(),
-
 		render: function (url) {
             console.log('render view '+url);
-			var template = _.template(levelbuilderTemplate, {});
-			this.$el.html(template);
+            var template = _.template(levelbuilderTemplate, {});
+            this.$el.html(template);
 			this.init();
 
             console.info('rendered view with id: '+this.renderid);
@@ -96,7 +95,7 @@ define([
                 console.log("legitimate tapobject "+e.keyCode);
                 if (e.keyCode == 32)
                 {
-                    console.info('added tapobject at '+player[0].currentTime+' in view-id: '+this.renderid);
+                    console.info('added tapobject at ' + player[0].currentTime);
                     var x = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.width - TapObject.prototype.radius);
                     var y = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.height - TapObject.prototype.radius);
                     this.addGameObject(player[0].currentTime,x,y);

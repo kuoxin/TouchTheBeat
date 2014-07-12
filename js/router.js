@@ -2,6 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+    'app',
     'utils/analytics',
 	'views/menu',
 	'views/home',
@@ -10,8 +11,9 @@ define([
 	'views/applicationwithmenu',
     'views/PageNotFoundView',
     'views/legal',
-    'views/PlayView'
-], function ($, _, Backbone, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView) {
+    'views/PlayView',
+    'views/highscore'
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView) {
 	var Router = Backbone.Router.extend({
 		routes: {
 			// Define some URL routes
@@ -20,54 +22,51 @@ define([
             'buildlevel' : 'buildlevel',
 			'buildlevel/:soundcloudurl': 'buildlevel',
             'legal' : 'legal',
-            'playlevel?json=:level' : 'playlevel',
+            'playlevel': 'chooselevel',
+            'highscore': 'chooselevel',
 
 			// Default
 			'*notfound': 'notfound'
 		},
 
         init : function(){
+            console.log('initializing router');
             this.applicationwithmenuview = new ApplicationWithMenuView();
-            this.applicationwithmenuview.render();
             this.homeview = new HomeView();
-            this.chooselevel = new ChooseLevelView();
+            this.chooselevelview = new ChooseLevelView();
             this.levelbuilderview = new LevelBuilderView();
             this.pagenotfoundview = new PageNotFoundView();
             this.legalview  = new LegalView();
             this.playlevelview = new PlayView();
+            this.highscoreview = new HighScoreView();
 
             this.on('route:home', function () {
-                this.homeview.render();
+                app.setContent(this.homeview);
             });
 
             this.on('route:chooselevel', function () {
-                this.chooselevel.render();
+                app.setContent(this.chooselevelview);
             });
 
             this.on('route:buildlevel', function (soundcloudurl) {
-                this.levelbuilderview.render(soundcloudurl);
+                app.setContent(this.levelbuilderview, soundcloudurl);
             });
 
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
+                app.setContent(this.homeview);
                 this.pagenotfoundview.render();
-                this.homeview.render();
-            });
-
-            this.on('route:playlevel', function(level){
-                this.playlevelview.render(JSON.parse(level));
             });
 
             this.on('route:legal', function () {
-                this.legalview.render();
+                app.setContent(this.legalview);
             });
         }
-	});
+
+    });
 
 	var initialize = function () {
 		var router = new Router;
-        router.init();
-		Backbone.history.start();
         return router;
 	};
 

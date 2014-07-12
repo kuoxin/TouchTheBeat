@@ -5,12 +5,19 @@ define([
   'router',
   'bootstrap',
 ], function ($, _, Backbone, Router) {
-	var initialize = function () {
+    var app = {
+        router: null,
+        startlevel: function (level) {
+            app.router.playlevelview.render(level);
+        },
+        setContent: function () {
 
-		Router.initialize();
-	}
+            app.router.applicationwithmenuview.render();
+            console.log('rendered plain view');
+            var view = [].shift.call(arguments);
+            view.setElement($('#content')).render.apply(view, arguments);
+        }
 
-	return {
-		initialize: initialize
-	};
+    };
+    return app;
 });

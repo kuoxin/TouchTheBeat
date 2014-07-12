@@ -55,12 +55,14 @@ define([
         },
 
         update: function () {
-            if (this.getTime() + this.starttime >= this.endtime) {
-                this.endGame();
-            }
+            if (!this.stopped) {
+                if (this.getTime() + this.starttime >= this.endtime) {
+                    this.endGame();
+                }
 
-            for (var i = 0; i < this.gameobjects.length; i++) {
-                this.gameobjects[i].update(this.getTime());
+                for (var i = 0; i < this.gameobjects.length; i++) {
+                    this.gameobjects[i].update(this.getTime());
+                }
             }
         },
 
@@ -80,6 +82,7 @@ define([
 
         stop: function () {
             clearInterval(this.updateinterval);
+            this.stopped = true;
         },
 
         calculateHighScore: function () {
