@@ -81,7 +81,8 @@ define([
                 'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
                 'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
                 'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks',
-                'https://soundcloud.com/benkhan/savage'
+                'https://soundcloud.com/benkhan/savage',
+                'https://soundcloud.com/kooksmusic/forgive-forget'
             ];
 
             $(window).keypress(this.handleKeyPress.bind(this));
