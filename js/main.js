@@ -7,10 +7,7 @@ require.config({
         templates: '../templates',
         bootstrap: 'libs/bootstrap/bootstrap',
         snap: 'libs/snap/snap.svg',
-        'google-analytics': [
-            'http://www.google-analytics.com/analytics',
-            'libs/google-analytics/google-analytics'
-        ],
+        'google-analytics': 'http://www.google-analytics.com/analytics',
         tv4: 'libs/tv4/tv4',
         schema: 'schema'
     },
