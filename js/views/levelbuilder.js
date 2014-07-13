@@ -10,25 +10,36 @@ define([
   'gameclasses/TapObject',
   'views/PlayView',
   '../utils/scripts',
-  'bootstrap',
+    'bootstrap'
 
 ], function ($, _, Backbone, app, levelbuilderTemplate, trackPanelTemplate, SoundcloudLoader, Game, TapObject, PlayView) {
-	var LevelBuilderView = Backbone.View.extend({
+    var dispatcher = _.clone(Backbone.Events);
+
+    var LevelBuilderView = Backbone.View.extend({
         //TODO: create Templates for LevelEditor, improve code quality
 		el: '#content',
 
+        initialize: function () {
+        },
+
 		render: function (url) {
-            console.log('render view '+url);
             var template = _.template(levelbuilderTemplate, {});
             this.$el.html(template);
 			this.init();
+
 
             console.info('rendered view with id: '+this.renderid);
             if (url != null){
                 $("#input_entertrack").val(url);
                 this.enteredTrack();
             }
-		},
+
+
+        },
+
+        onClose: function () {
+            $(window).unbind("keypress.levelbuilder");
+        },
 
 		events: {
 			'click #btn_entertrack': 'enteredTrack',
@@ -40,8 +51,6 @@ define([
 		},
 
 		openGameObjectPanel: function openGameObjectPanel() {
-            console.log("open gameobject panel");
-            console.log(this.player[0].duration);
 			$("#btn_gameobjectpanel").attr("disabled", true);
 			$("#progress").fadeIn();
 			$("#btn_gameobjectpanel").fadeOut();
@@ -84,7 +93,7 @@ define([
                 'https://soundcloud.com/kooksmusic/forgive-forget'
             ];
 
-            $(window).keypress(this.handleKeyPress.bind(this));
+            $(window).bind("keypress.levelbuilder", this.handleKeyPress.bind(this));
 
 		},
 
@@ -108,13 +117,11 @@ define([
         },
 
 		enteredTrack: function () {
-            console.info('clicked view with id: '+this.renderid);
             if ($("#input_entertrack").val() == ''){
                 this.loading_error();
                 return;
             }
 
-            console.log('loading: '+$("#input_entertrack").val() );
 			SoundcloudLoader.loadStream($("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
 		},
 
@@ -126,7 +133,6 @@ define([
 		},
 
 		loading_success: function (sound) {
-            console.log(sound);
             this.sound = sound;
 			$("#alert_tracknotfound").slideUp();
             Backbone.history.navigate('/buildlevel/'+ encodeURIComponent($("#input_entertrack").val()));

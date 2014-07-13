@@ -46,7 +46,7 @@ define([
         max_tapdiff: 0.2,
 
         //debug
-        debugtime : 5.191904,
+        debugtime: NaN,
 
         createVisualElement: function(){
 
@@ -93,7 +93,8 @@ define([
         },
 
         handleTap: function () {
-            console.info('allowed tap: '+this.logic_enabled);
+            if (this.timestamp == this.debugtime)
+                console.info('allowed tap: ' + this.logic_enabled);
             if (this.logic_enabled) {
 
                 if (Math.abs(this.getTimeDiff()) <= this.max_tapdiff) {
@@ -170,7 +171,8 @@ define([
                 if (this.time_render >= this.removeuntil) {
                     this.renderloop_enabled = false;
                     this.snapobject.remove();
-                    console.log('removed from dom: '+this.timestamp+' at ' + this.time_render + ' (' + (this.time_render - this.removeuntil) + ')');
+                    if (this.timestamp == this.debugtime)
+                        console.log('removed from dom: ' + this.timestamp + ' at ' + this.time_render + ' (' + (this.time_render - this.removeuntil) + ')');
                 }
 
             }

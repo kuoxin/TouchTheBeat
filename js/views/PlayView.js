@@ -7,7 +7,7 @@ define([
     'utils/SoundcloudLoader',
     'views/applicationwithmenu',
     '../gameclasses/Game',
-    '../utils/scripts',
+    '../utils/scripts'
 
 ], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game) {
     var PlayView = Backbone.View.extend({
@@ -60,6 +60,23 @@ define([
 
         },
 
+        onClose: function () {
+
+
+            if (this.startobj != null) {
+                console.log('closing game');
+                if (this.game != null)
+                    this.game.stop();
+
+                this.startobj = null;
+                this.result = null;
+            }
+
+            this.game = null;
+            if (this.player)
+                this.player.off();
+        },
+
         listenToAudioStalled : function(){
           console.warn('The audio was stalled.');
         },
@@ -101,25 +118,16 @@ define([
             //TODO: Stop the game really when navigating away.
 
             Backbone.history.navigate('playlevel', false);
-            if (this.startobj != null) {
-                if (this.game != null)
-                    this.game.stop();
-
-                this.startobj = null;
-                this.result = null;
-            }
-
-            this.game = null;
+            this.onClose();
 
             this.level = level;
             var template = _.template(playTemplate, {});
             this.$el.html(template);
             this.player = $('#player');
 
-            this.player.get(0).addEventListener("timeupdate",this.listenToAudioTimeUpdated.bind(this));
-            this.player.get(0).addEventListener('ended',this.listenToAudioEnded.bind(this));
-
-            this.player[0].addEventListener('loadedmetadata', this.loadedmetadata.bind(this));
+            this.player.on("timeupdate", this.listenToAudioTimeUpdated.bind(this));
+            this.player.on('ended', this.listenToAudioEnded.bind(this));
+            this.player.on('loadedmetadata', this.loadedmetadata.bind(this));
             this.player.attr('src', SoundCloudLoader.getStreamUrl(this.level.audio.stream_url));
             this.game = new Game(this);
             $('#player').trigger("play");

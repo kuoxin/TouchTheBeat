@@ -33,8 +33,25 @@ require([
     'app',
     'bootstrap'
 ], function ($, _, Backbone, Router, app) {
+
+    Backbone.View.prototype.dispose = function () {
+        //Will unbind all events this view has bound to
+        //_.each(this.bindings, function (binding) {
+        //     binding.model.unbind(binding.ev, binding.callback);
+        // });
+        // this.bindings = [];
+        this.unbind();
+        this.undelegateEvents();
+
+        // this.unbind();        // This will unbind all listeners to events from
+        // this view. This is probably not necessary
+        // because this view will be garbage collected.
+        //this.remove(); // Uses the default Backbone.View.remove() method which
+        // removes this.el from the DOM and removes DOM events.
+    };
+
     app.router = Router.initialize();
     app.router.init();
     Backbone.history.start();
-    console.log('everything done');
+    console.info('loading of TouchTheBeat complete');
 });

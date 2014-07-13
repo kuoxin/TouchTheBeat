@@ -1,42 +1,41 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
+    'jquery',
+    'underscore',
+    'backbone',
     'app',
     'utils/analytics',
-	'views/menu',
-	'views/home',
-	'views/levelbuilder',
-	'views/chooselevel',
-	'views/applicationwithmenu',
+    'views/menu',
+    'views/home',
+    'views/levelbuilder',
+    'views/chooselevel',
+    'views/applicationwithmenu',
     'views/PageNotFoundView',
     'views/legal',
     'views/PlayView',
     'views/highscore'
 ], function ($, _, Backbone, app, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView) {
-	var Router = Backbone.Router.extend({
-		routes: {
-			// Define some URL routes
-			'': 'home',
-			'chooselevel': 'chooselevel',
-            'buildlevel' : 'buildlevel',
-			'buildlevel/:soundcloudurl': 'buildlevel',
-            'legal' : 'legal',
+    var Router = Backbone.Router.extend({
+        routes: {
+            // Define some URL routes
+            '': 'home',
+            'chooselevel': 'chooselevel',
+            'buildlevel': 'buildlevel',
+            'buildlevel/:soundcloudurl': 'buildlevel',
+            'legal': 'legal',
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',
 
-			// Default
-			'*notfound': 'notfound'
-		},
+            // Default
+            '*notfound': 'notfound'
+        },
 
-        init : function(){
-            console.log('initializing router');
+        init: function () {
             this.applicationwithmenuview = new ApplicationWithMenuView();
             this.homeview = new HomeView();
             this.chooselevelview = new ChooseLevelView();
             this.levelbuilderview = new LevelBuilderView();
             this.pagenotfoundview = new PageNotFoundView();
-            this.legalview  = new LegalView();
+            this.legalview = new LegalView();
             this.playlevelview = new PlayView();
             this.highscoreview = new HighScoreView();
 
@@ -65,12 +64,12 @@ define([
 
     });
 
-	var initialize = function () {
-		var router = new Router;
+    var initialize = function () {
+        var router = new Router;
         return router;
-	};
+    };
 
-	return {
-		initialize: initialize
-	};
+    return {
+        initialize: initialize
+    };
 });
