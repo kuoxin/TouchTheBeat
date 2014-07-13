@@ -8,8 +8,8 @@ define([
     var LegalView = Backbone.View.extend({
         el: '#content',
         render: function () {
-            this.html = _.template(legalTemplate, {});
-            app.setContent(this);
+            var template = _.template(legalTemplate, {});
+            this.$el.html(template);
         }
     });
     return LegalView;
