@@ -11,11 +11,20 @@ define(['jquery', 'underscore', 'backbone','google-analytics'], function ($, _, 
         ga('send', 'event', type, description);
     };
 
-    ga('create', 'UA-52163376-2', 'coloreddrums.de');
+    ga('create', 'UA-52163376-2', 'auto');
 
 
     Backbone.history.bind("route", function (route, router) {
-        analytics.trackPageView(window.location.href.split('coloreddrums.de/ttb').pop());
+        var url = Backbone.history.getFragment();
+
+        if (!/^\//.test(url) && url != "")
+        {
+            url = "/" + url;
+        }
+
+        console.log(url);
+
+        analytics.trackPageView(url);
     });
 
     return analytics;
