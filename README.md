@@ -15,7 +15,8 @@ TouchTheBeat is **level-based**. Each level consists of a song and a composition
 You can easily create your own levels by using any **SoundCloud track** as music for your level. When finished, you might share and exchange your levels online in text-format. This way it is easy to **play levels created by others**.
 
 ###Development
-TouchTheBeat is currently in active development and you are testing an early version. The finished game may be completely different than the current version. I am glad about every feedback you may give to me. You can give feedback by pressing the button below.
+TouchTheBeat is currently in active development. I am using Trello to organize feature-ideas and development progress. You can influence the further development by voting for features or commenting on them. Click on the screenshot below to get started:
+[<img src="https://trello.com/b/uJHkG6xQ.png">](https://trello.com/b/uJHkG6xQ)
 
 ###Dependencies:
 
