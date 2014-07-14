@@ -3,8 +3,9 @@ define([
   'underscore',
   'backbone',
   'router',
-    'bootstrap'
-], function ($, _, Backbone, Router) {
+  'utils/analytics',
+  'bootstrap'
+], function ($, _, Backbone, Router, analytics) {
     var app = {
         router: null,
 
@@ -12,6 +13,9 @@ define([
         currentview: null,
 
         startlevel: function (level) {
+
+            analytics.trackAction('starting level', '');
+
             app.router.applicationwithmenuisrendered = false;
 
 
@@ -36,6 +40,9 @@ define([
 
             app.currentview = [].shift.call(arguments);
             app.currentview.setElement($('#content')).render.apply(app.currentview, arguments);
+
+            analytics.trackPageView(app.router.current());
+
         }
 
     };

@@ -1,10 +1,10 @@
-define(['jquery', 'underscore', 'backbone','google-analytics'], function ($, _, Backbone, ga) {
+define(['jquery', 'underscore', 'backbone', 'google-analytics'], function ($, _, Backbone, ga) {
 
 
     var analytics = {};
 
-    analytics.trackPageView = function (uri) {
-        ga('send', 'pageview', uri);
+    analytics.trackPageView = function (current) {
+        ga('send', 'pageview',  current.fragment == '' ? '/' : current.fragment);
     };
 
     analytics.trackAction = function (type, description) {
@@ -12,18 +12,6 @@ define(['jquery', 'underscore', 'backbone','google-analytics'], function ($, _, 
     };
 
     ga('create', 'UA-52163376-2', 'auto');
-
-
-    Backbone.history.bind("route", function (route, router) {
-        var url = Backbone.history.getFragment();
-
-        if (!/^\//.test(url) && url != "")
-        {
-            url = "/" + url;
-        }
-
-        analytics.trackPageView(url);
-    });
 
     return analytics;
 

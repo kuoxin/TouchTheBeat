@@ -11,6 +11,14 @@ define([
 		render: function () {
 			var template = _.template(menuTemplate, {});
 			this.$el.html(template);
+            if (this.closemenuitem)
+                this.closemenuitem.unbind();
+
+            this.closemenuitem = $('.navbar-collapse ul li a:not(.dropdown-toggle)');
+
+            this.closemenuitem.bind('click touchstart', function () {
+                $('.navbar-toggle:visible').click();
+            });
 
             Backbone.history.bind("route", this.updateMenuState);
 		},
