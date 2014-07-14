@@ -3,9 +3,10 @@ define([
   'underscore',
   'backbone',
   'text!templates/highscore.html',
-    'app',
+  'app',
+  '../utils/analytics',
   'bootstrap'
-], function ($, _, Backbone, highscoreTemplate, app) {
+], function ($, _, Backbone, highscoreTemplate, app, analytics) {
 	var HighScoreView = Backbone.View.extend({
         el: '#content',
 		events : {
@@ -21,10 +22,12 @@ define([
 		},
 
 		gotoChooseLevelView : function (){
+            analytics.trackAction('highscoreview', 'click button', 'gotoChooseLevelview');
 			Backbone.history.navigate('chooselevel', true);
 		},
 
         playagain : function(){
+            analytics.trackAction('highscoreview', 'click button', 'playagain');
             console.log(this.game);
             app.startlevel(this.game.level);
         }

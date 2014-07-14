@@ -14,8 +14,6 @@ define([
 
         startlevel: function (level) {
 
-            analytics.trackAction('starting level', '');
-
             app.router.applicationwithmenuisrendered = false;
 
 

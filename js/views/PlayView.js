@@ -7,9 +7,10 @@ define([
     'utils/SoundcloudLoader',
     'views/applicationwithmenu',
     '../gameclasses/Game',
+    '../utils/analytics',
     '../utils/scripts'
 
-], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game) {
+], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics) {
     var PlayView = Backbone.View.extend({
         el: '#body',
 
@@ -35,6 +36,7 @@ define([
         listenToAudioTimeUpdated : function() {
             if (this.startobj == undefined && this.player[0].currentTime == 0) {
                 console.info('The audio seems to have started playing. starting game loop...');
+                analytics.trackAction('game', 'starting', 'now');
                 this.startobj = {};
                 this.startobj.time = window.performance.now();
                 this.startobj.currentTimeDif = 0;
@@ -54,6 +56,7 @@ define([
 
             if (Math.abs(diff) > 80) {
                 this.startobj.time += (diff);
+                analytics.trackAction('game', 'correctedTimeDifference', diff >= 0 ? 'positive' : 'negative', Math.abs(diff));
                 console.warn('corrected time: ' + (diff));
             }
         }
@@ -61,10 +64,9 @@ define([
         },
 
         onClose: function () {
-
-
             if (this.startobj != null) {
                 console.log('closing game');
+                analytics.trackAction('game', 'closing game');
                 if (this.game != null)
                     this.game.stop();
 
@@ -99,16 +101,20 @@ define([
                 //this means the game has started or the audio started again from pause-state
                 //i do not have find a way yet to detect when the audio is not starting due to autoplay restrictions
                 console.info('The play-audio action was triggered.');
+                analytics.trackAction('game', 'play-audio-action triggered');
+
 
 
         },
 
         listenToAudioPaused : function(){
             console.warn('The audio was paused...');
+            analytics.trackAction('game', 'audio was paused');
             //TODO: Handle
         },
 
         listenToAudioEnded : function(){
+            analytics.trackAction('game', 'audio stopped, ending game');
             console.info('The audio has stopped. Now ending game.');
             this.game.stop();
             this.stop();
@@ -136,6 +142,7 @@ define([
 
         loadedmetadata: function () {
             console.info('The audio loaded the metadata successfully.');
+            analytics.trackAction('game', 'audio loadedmetadata');
         },
 
         getTimeDelta: function () {
@@ -155,6 +162,9 @@ define([
         },
 
         exitview: function(){
+
+            analytics.trackAction('game', 'ending regularly', 'highscore:' + this.result.highscore);
+
             app.setContent(app.router.highscoreview, this.result);
         }
 
