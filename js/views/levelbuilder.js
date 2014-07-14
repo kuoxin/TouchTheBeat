@@ -27,8 +27,6 @@ define([
             this.$el.html(template);
 			this.init();
 
-
-            console.info('rendered view with id: '+this.renderid);
             if (url != null){
                 $("#input_entertrack").val(url);
                 this.enteredTrack();

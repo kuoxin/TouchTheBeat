@@ -22,8 +22,6 @@ define(['jquery', 'underscore', 'backbone','google-analytics'], function ($, _, 
             url = "/" + url;
         }
 
-        console.log(url);
-
         analytics.trackPageView(url);
     });
 
