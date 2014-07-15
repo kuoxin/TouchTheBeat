@@ -1,30 +1,29 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'text!templates/menu.html',
-  'bootstrap',
-  
+    'jquery',
+    'underscore',
+    'backbone',
+    'text!templates/menu.html',
+    'bootstrap'
 ], function ($, _, Backbone, menuTemplate) {
-	var MenuView = Backbone.View.extend({
-		el: '#menu',
-		render: function () {
+    var MenuView = Backbone.View.extend({
+        el: '#menu',
+        render: function () {
             if (this.closemenuitem)
                 this.closemenuitem.unbind();
 
-			var template = _.template(menuTemplate, {});
-			this.$el.html(template);
+            var template = _.template(menuTemplate, {});
+            this.$el.html(template);
 
             this.closemenuitem = $('.navbar-collapse ul li a:not(.dropdown-toggle)');
 
-            this.closemenuitem.bind('click touchend', function () {
+            this.closemenuitem.bind('click', function () {
                 $('.navbar-toggle:visible').click();
             });
 
             Backbone.history.bind("route", this.updateMenuState);
-		},
+        },
 
-        updateMenuState : function (router,route) {
+        updateMenuState: function (router, route) {
             var activeitem_old = $('.active');
             if (activeitem_old != null)
                 activeitem_old.removeClass('active');
@@ -34,6 +33,6 @@ define([
                 activeitem_new.addClass('active');
 
         }
-	});
-	return MenuView;
+    });
+    return MenuView;
 });

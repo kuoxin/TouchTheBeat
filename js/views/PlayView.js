@@ -54,7 +54,6 @@ define([
 
         render: function (level) {
             //TODO: Stop the game really when navigating away.
-
             Backbone.history.navigate('playlevel', false);
             this.onClose();
 
@@ -88,7 +87,7 @@ define([
             return this.audiocontroller.getCurrentTime();
         },
 
-        exitview: function(){
+        exitview: function () {
 
             analytics.trackAction('game', 'ending regularly', 'highscore:' + this.result.highscore);
 

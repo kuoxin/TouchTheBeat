@@ -12,8 +12,11 @@ define([
     'views/PageNotFoundView',
     'views/legal',
     'views/PlayView',
-    'views/highscore'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView) {
+    'views/highscore',
+    'views/levelbuilder/audioselector',
+    'views/levelbuilder/gameobjectrecorder',
+    'views/levelbuilder/metadataview'
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView) {
     var Router = Backbone.Router.extend({
         routes: {
             // Define some URL routes
@@ -33,11 +36,13 @@ define([
             this.applicationwithmenuview = new ApplicationWithMenuView();
             this.homeview = new HomeView();
             this.chooselevelview = new ChooseLevelView();
-            this.levelbuilderview = new LevelBuilderView();
             this.pagenotfoundview = new PageNotFoundView();
             this.legalview = new LegalView();
             this.playlevelview = new PlayView();
             this.highscoreview = new HighScoreView();
+            this.levelbuilder_audioselectorview = new AudioSelectorView();
+            this.levelbuilder_gameobjectrecorderview = new GameObjectRecorderView();
+            this.levelbuilder_metadataview = new MetaDataView();
 
             this.on('route:home', function () {
                 app.setContent(this.homeview);
@@ -48,7 +53,7 @@ define([
             });
 
             this.on('route:buildlevel', function (soundcloudurl) {
-                app.setContent(this.levelbuilderview, soundcloudurl);
+                app.setContent(this.levelbuilder_audioselectorview, soundcloudurl);
             });
 
             this.on('route:notfound', function (actions) {

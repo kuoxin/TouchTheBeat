@@ -13,12 +13,17 @@ define([
         currentview: null,
 
         startlevel: function (level) {
+            app.setFullScreenContent(app.router.playlevelview, level);
+        },
 
+        setFullScreenContent: function () {
+            console.log(arguments);
             app.router.applicationwithmenuisrendered = false;
 
+            app.currentview = [].shift.call(arguments);
+            app.currentview.setElement('#body').render.apply(app.currentview, arguments);
+            analytics.trackPageView(app.router.current());
 
-            app.currentview = app.router.playlevelview;
-            app.router.playlevelview.render(level);
         },
 
         setContent: function () {
