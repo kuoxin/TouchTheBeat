@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="alert alert-fatal alert-danger" id="alert_invalidlevel" style="display:none;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <div id="alert_tinvalidlevel_text"><strong>Oh snap!</strong> TouchTheBeat could not parse your leveltext. You might want to <a href="#buildlevel" class="alert-link">create a new level</a>...</div>
+
+    </div>
+<h1>Level Overview</h1>
+   <p>
+       This is not yet a real "level overview". You can start the demo-level by pressing the button below. To start a level you or someone else has created, enter the level text in the textfield below and press "Start!".
+   </p>
+    <p>
+    <div class="input-group">
+
+        <input type="text" class="form-control" placeholder="Copy you level-text here..." id="leveljsoninput">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" id="startlevel">Start!</button>
+      </span>
+    </div>
+    </p>
+    <p align="center">
+    <button class="btn btn-primary" type="button" id="demolevel">Start Demo-Level!</button>
+    <button class="btn btn-default" type="button" id="devbutton">Developer-Shortcut</button>
+    </p>
+</div>

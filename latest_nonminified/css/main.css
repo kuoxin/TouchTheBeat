@@ -1,0 +1,19 @@
+@import "bootstrap.min.css";
+@import "bootstrap-theme.min.css";
+
+body, html, div#playdiv {
+	height:100%;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+
+
+
+
+
+
