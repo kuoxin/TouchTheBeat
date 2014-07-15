@@ -9,14 +9,15 @@ define([
 	var MenuView = Backbone.View.extend({
 		el: '#menu',
 		render: function () {
-			var template = _.template(menuTemplate, {});
-			this.$el.html(template);
             if (this.closemenuitem)
                 this.closemenuitem.unbind();
 
+			var template = _.template(menuTemplate, {});
+			this.$el.html(template);
+
             this.closemenuitem = $('.navbar-collapse ul li a:not(.dropdown-toggle)');
 
-            this.closemenuitem.bind('click touchstart', function () {
+            this.closemenuitem.bind('click touchend', function () {
                 $('.navbar-toggle:visible').click();
             });
 

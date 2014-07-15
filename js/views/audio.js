@@ -201,9 +201,12 @@ define([
                 return 0;
         },
 
+        getPercentage: function () {
+            return this.getCurrentTime() / this.getDuration();
+        },
+
         getDuration: function () {
             return this.el.duration;
-            ;
 
         }
 
