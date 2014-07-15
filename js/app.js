@@ -1,10 +1,10 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'router',
-  'utils/analytics',
-  'bootstrap'
+    'jquery',
+    'underscore',
+    'backbone',
+    'router',
+    'utils/analytics',
+    'bootstrap'
 ], function ($, _, Backbone, Router, analytics) {
     var app = {
         router: null,
@@ -26,7 +26,6 @@ define([
             if (!app.router.applicationwithmenuisrendered) {
                 app.router.applicationwithmenuview.render();
                 app.router.applicationwithmenuisrendered = true;
-                console.info('rendered website with menu -  view');
             }
 
             if (app.currentview != null) {

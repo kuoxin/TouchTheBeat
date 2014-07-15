@@ -8,62 +8,17 @@ define([
     'views/applicationwithmenu',
     '../gameclasses/Game',
     '../utils/analytics',
+    'views/audio',
     '../utils/scripts'
 
-], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics) {
+], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics, AudioController) {
     var PlayView = Backbone.View.extend({
         el: '#body',
 
-        events: {
-            'play #player' : 'listenToAudioStarted',
-            'pause #player' : 'listenToAudioPaused',
-            'canplaythrough #player' : 'listenToAudioCanPlayThrough',
-            'oncanplay #player' : 'listenToAudioCanPlay',
-            'suspend #player' : 'listenToAudioStalled',
-            'durationchange #player' : 'listenToAudioDurationChange',
-            'progress #player' : 'listenToAudioLoadingProgress'
-
-        },
-
-        listenToAudioLoadingProgress : function(){
-            console.log('The audio is loading...');
-        },
-
-        listenToAudioDurationChange : function(){
-            console.log('The audio duration changed.');
-        },
-
-        listenToAudioTimeUpdated : function() {
-            if (this.startobj == undefined && this.player[0].currentTime == 0) {
-                console.info('The audio seems to have started playing. starting game loop...');
-                analytics.trackAction('game', 'starting', 'now');
-                this.startobj = {};
-                this.startobj.time = window.performance.now();
-                this.startobj.currentTimeDif = 0;
-                this.game.start();
-            }
-
-            if (this.startobj != undefined) {
-
-
-            var low = this.player[0].currentTime;
-
-            var high = this.getTimeDelta();
-
-            var diff = (high - low) * 1000;
-            //console.log('The audio time was updated. diff: ' + Math.floor(diff) + ' highprec:' + Math.floor(high * 100) / 100 + ' audio: ' + Math.floor(low * 100) / 100 + ' correction: ' + Math.floor(this.startobj.time / 10) / 100);
-
-
-            if (Math.abs(diff) > 80) {
-                this.startobj.time += (diff);
-                analytics.trackAction('game', 'correctedTimeDifference', diff >= 0 ? 'positive' : 'negative', Math.abs(diff));
-                console.warn('corrected time: ' + (diff));
-            }
-        }
-
-        },
-
+        // this.game.start();
+        //analytics.trackAction('game', 'starting', 'now');
         onClose: function () {
+            console.log('onclose event fired');
             if (this.startobj != null) {
                 console.log('closing game');
                 analytics.trackAction('game', 'closing game');
@@ -74,50 +29,27 @@ define([
                 this.result = null;
             }
 
+            if (this.audiocontroller)
+                this.audiocontroller.dispose();
+
             this.game = null;
             if (this.player)
                 this.player.off();
         },
 
-        listenToAudioStalled : function(){
-          console.warn('The audio was stalled.');
-        },
-
-        listenToAudioCanPlay : function(){
-            console.log('The audio can play.');
-        },
-
-        listenToAudioCanPlayThrough : function(){
-            console.log('The audio can probably play through until the end.');
-        },
-
-        listenToAudioStarted : function() {
-           /* console.log('NETWORK_STATE: '+ $('#player')[0].networkState );
-            console.log('READY_STATE: '+ $('#player')[0].readyState );
-            console.log('startTime: '+ $('#player')[0].startTime );
-            console.log('currentTime: '+ $('#player').currentTime);
-            */
-
-                //this means the game has started or the audio started again from pause-state
-                //i do not have find a way yet to detect when the audio is not starting due to autoplay restrictions
-                console.info('The play-audio action was triggered.');
-                analytics.trackAction('game', 'play-audio-action triggered');
-
-
-
-        },
-
-        listenToAudioPaused : function(){
-            console.warn('The audio was paused...');
-            analytics.trackAction('game', 'audio was paused');
-            //TODO: Handle
-        },
-
-        listenToAudioEnded : function(){
-            analytics.trackAction('game', 'audio stopped, ending game');
-            console.info('The audio has stopped. Now ending game.');
+        stopGame: function () {
+            analytics.trackAction('game', 'ending game');
+            console.info('Now ending game.');
             this.game.stop();
-            this.stop();
+
+
+            $('#svg').fadeTo(1500, 0, this.exitview.bind(this));
+
+            this.result = {};
+            this.result.highscore = this.game.calculateHighScore();
+            this.result.level = this.level;
+
+            this.audiocontroller.dispose();
         },
 
         render: function (level) {
@@ -129,36 +61,31 @@ define([
             this.level = level;
             var template = _.template(playTemplate, {});
             this.$el.html(template);
-            this.player = $('#player');
 
-            this.player.on("timeupdate", this.listenToAudioTimeUpdated.bind(this));
-            this.player.on('ended', this.listenToAudioEnded.bind(this));
-            this.player.on('loadedmetadata', this.loadedmetadata.bind(this));
-            this.player.attr('src', SoundCloudLoader.getStreamUrl(this.level.audio.stream_url));
+            this.audiocontroller = new AudioController();
+            this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.stopGame.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
+            this.audiocontroller.render(SoundCloudLoader.getStreamUrl(this.level.audio.stream_url), true);
+
             this.game = new Game(this);
-            $('#player').trigger("play");
+
 
         },
 
-        loadedmetadata: function () {
-            console.info('The audio loaded the metadata successfully.');
-            analytics.trackAction('game', 'audio loadedmetadata');
+        onAudioReady: function () {
+            //TODO: show loading state / show when track starts
+        },
+
+        onAudioStarted: function () {
+            this.game.start();
+        },
+
+        onAudioError: function () {
+            console.error('Audio error!!!!!');
+            this.audiocontroller.dispose();
         },
 
         getTimeDelta: function () {
-            return (window.performance.now() - this.startobj.time)/1000;
-        },
-
-        stop: function () {
-            console.log("now stopped");
-
-            $('#svg').fadeTo(1500,0, this.exitview.bind(this));
-
-            this.result = {};
-            this.result.highscore = this.game.calculateHighScore();
-            this.result.level = this.level;
-
-
+            return this.audiocontroller.getCurrentTime();
         },
 
         exitview: function(){
