@@ -6,7 +6,6 @@ define([
     'utils/analytics',
     'views/menu',
     'views/home',
-    'views/levelbuilder',
     'views/chooselevel',
     'views/applicationwithmenu',
     'views/PageNotFoundView',
@@ -16,7 +15,7 @@ define([
     'views/levelbuilder/audioselector',
     'views/levelbuilder/gameobjectrecorder',
     'views/levelbuilder/metadataview'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, LevelBuilderView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView) {
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView) {
     var Router = Backbone.Router.extend({
         routes: {
             // Define some URL routes
