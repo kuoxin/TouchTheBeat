@@ -16,23 +16,23 @@ define([
     TapObject.prototype = {
 
         //relatve timing preferences
-        startborder: -1,
+        startborder: -0.5,
         endborder: 0,
-        radius: 100,
+        radius: 120,
         borderradius: 20,
-        removeuntil: 1.5,
-        removefrom: 0.0000000001,
-        startshow: -1.5,
-        endshow: -0.00000000001,
+        removeuntil: 0.5,
+        removefrom: 0.4,
+        startshow: -0.8,
+        endshow: 0,
 
         //visual preferences
         visual_type: 'circle',
         color_plain_fill: '#FFFFFF',
         color_plain_border: '#EEEEEE',
-        color_tapped_fill: '#bada55',
-        color_tapped_border: '#bada55',
-        color_missed_fill: '#DDDDDD',
-        color_missed_border: '#DDDDDD',
+        color_tapped_fill: '#33CC33',
+        color_tapped_border: '#FFFF66',
+        color_missed_fill: '#CC0000',
+        color_missed_border: '#CC0000',
 
         //objects needed during loop
         tapdelta: NaN,

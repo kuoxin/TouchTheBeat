@@ -2,7 +2,7 @@
 @import "bootstrap-theme.min.css";
 
 body, html, div#playdiv {
-	height:100%;
+    height: 100%;
 }
 
 .vcenter {
@@ -10,8 +10,6 @@ body, html, div#playdiv {
     vertical-align: middle;
     float: none;
 }
-
-
 
 
 

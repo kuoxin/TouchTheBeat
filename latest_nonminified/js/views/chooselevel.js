@@ -5,9 +5,9 @@ define([
     'utils/levelvalidator',
     'text!templates/leveloverview.html',
     'views/PlayView',
-    '../demolevel',
+    '../levelcontainer',
     'app'
-], function ($, _, Backbone, levelvalidator, LevelOverviewtemplate, PlayView, demolevel, app) {
+], function ($, _, Backbone, levelvalidator, LevelOverviewtemplate, PlayView, levelcontainer, app) {
     var ChooseLevelView = Backbone.View.extend({
         render: function () {
             Backbone.history.navigate('chooselevel', {trigger: false, replace: true});
@@ -34,11 +34,11 @@ define([
         },
 
         startdemo: function () {
-            app.startlevel(demolevel);
+            app.startlevel(levelcontainer.demolevel);
         },
 
         devaction: function () {
-            console.error("PENG!");
+            app.startlevel(levelcontainer.devlevel);
         }
     });
     return ChooseLevelView;
