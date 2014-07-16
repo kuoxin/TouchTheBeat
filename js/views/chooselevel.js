@@ -38,7 +38,7 @@ define([
         },
 
         devaction: function () {
-            //app.startlevel(levelcontainer.devlevel);
+            app.startlevel(levelcontainer.devlevel);
         }
     });
     return ChooseLevelView;

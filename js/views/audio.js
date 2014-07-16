@@ -86,10 +86,13 @@ define([
                 var low = this.el.currentTime;
 
                 var high = this.getCurrentTime();
-
+                /**
+                 * This is the timediff in milliseconds
+                 * @type {number}
+                 */
                 var diff = (high - low) * 1000;
                 //console.log('The audio time was updated. diff: ' + Math.floor(diff) + ' highprec:' + Math.floor(high * 100) / 100 + ' audio: ' + Math.floor(low * 100) / 100 + ' correction: ' + Math.floor(this.startobj.time / 10) / 100);
-                if (Math.abs(diff) > 80) {
+                if (Math.abs(diff) > 400) {
                     this.startobj.time += (diff);
                     analytics.trackAction('game', 'correctedTimeDifference', diff >= 0 ? 'positive' : 'negative', Math.abs(diff));
                     console.warn('corrected time: ' + (diff));
@@ -196,7 +199,7 @@ define([
 
         getCurrentTime: function () {
             if (this.startobj)
-                return (window.performance.now() - this.startobj.time) / 1000;
+                return (Math.abs(window.performance.now() - this.startobj.time)) / 1000;
             else
                 return 0;
         },
