@@ -38,7 +38,12 @@ define([
 
         starteasy: function () {
             app.startlevel(levelcontainer.easylevel);
+        },
+
+        starthard: function () {
+            app.startlevel(levelcontainer.test);
         }
+
     });
     return ChooseLevelView;
 });
