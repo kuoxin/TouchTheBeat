@@ -29,8 +29,10 @@ define([
                 this.result = null;
             }
 
-            if (this.audiocontroller)
+            if (this.audiocontroller) {
+                this.audiocontroller.onClose();
                 this.audiocontroller.dispose();
+            }
 
             this.game = null;
             if (this.player)

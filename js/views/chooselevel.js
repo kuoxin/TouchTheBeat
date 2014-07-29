@@ -34,11 +34,11 @@ define([
         },
 
         startdemo: function () {
-            app.startlevel(levelcontainer.demolevel);
+            app.startlevel(levelcontainer.easylevel);
         },
 
         devaction: function () {
-            app.startlevel(levelcontainer.devlevel);
+
         }
     });
     return ChooseLevelView;
