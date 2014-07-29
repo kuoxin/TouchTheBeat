@@ -68,6 +68,7 @@ define([
                 this.startobj = {};
                 this.startobj.time = window.performance.now();
                 this.startobj.currentTimeDif = 0;
+                this.startobj.timewasupdated = false;
             }
 
             if (!this.el.paused) {
@@ -81,23 +82,27 @@ define([
                     this.callback_started();
                 }
             }
+            /*
+             if (this.startobj != undefined) {
+             var low = this.el.currentTime;
 
-            if (this.startobj != undefined) {
-                var low = this.el.currentTime;
-
-                var high = this.getCurrentTime();
+             var high = this.getCurrentTime();
+             */
                 /**
                  * This is the timediff in milliseconds
                  * @type {number}
                  */
-                var diff = (high - low) * 1000;
+            /*
+             var diff = (high - low) * 1000;
                 //console.log('The audio time was updated. diff: ' + Math.floor(diff) + ' highprec:' + Math.floor(high * 100) / 100 + ' audio: ' + Math.floor(low * 100) / 100 + ' correction: ' + Math.floor(this.startobj.time / 10) / 100);
-                if (Math.abs(diff) > 400) {
-                    this.startobj.time += (diff);
+             //if (Math.abs(diff) > 200) {
+             if (!this.startobj.timewasupdated){
+             this.startobj.time += (diff);
                     analytics.trackAction('game', 'correctedTimeDifference', diff >= 0 ? 'positive' : 'negative', Math.abs(diff));
                     console.warn('corrected time: ' + (diff));
-                }
-            }
+             this.startobj.timewasupdated = true;
+             }
+             }*/
 
         },
 
@@ -151,6 +156,15 @@ define([
 
             this.playasap = playasap;
 
+            try {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                this.context = new AudioContext();
+                console.log(this.context);
+            }
+            catch (e) {
+                alert('Web Audio API is not supported in this browser');
+            }
+
 
             this.$el.attr('src', stream_url);
             if (this.playasap)
@@ -198,10 +212,11 @@ define([
 
 
         getCurrentTime: function () {
-            if (this.startobj)
-                return (Math.abs(window.performance.now() - this.startobj.time)) / 1000;
-            else
-                return 0;
+            return this.context.currentTime;
+            // if (this.startobj)
+            //     return (Math.abs(window.performance.now() - this.startobj.time)) / 1000;
+            // else
+            //     return 0;
         },
 
         getPercentage: function () {
