@@ -17,7 +17,10 @@ define([
         events: {
             'click #startlevel': 'startlevel',
             'click #demolevel': 'startdemo',
-            'click #devbutton': 'devaction'
+            'click #devbutton': 'devaction',
+            'click #easy': 'starteasy',
+            'click #intermediate': 'startintermediate',
+            'click #hard': 'starthard'
         },
 
         startlevel: function () {
@@ -33,12 +36,8 @@ define([
             this.$("#alert_invalidlevel").slideDown();
         },
 
-        startdemo: function () {
+        starteasy: function () {
             app.startlevel(levelcontainer.easylevel);
-        },
-
-        devaction: function () {
-
         }
     });
     return ChooseLevelView;

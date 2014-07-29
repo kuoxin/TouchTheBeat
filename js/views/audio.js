@@ -10,6 +10,7 @@ define([
         el: '#player',
 
         onClose: function () {
+            this.active = false;
             console.log('closing audio');
             if (this.request) {
                 this.request.abort();
@@ -37,6 +38,7 @@ define([
             this.notified_success = false;
             this.notified_readytoplay = false;
             this.notified_ended = false;
+            this.active = true;
 
             this.inittime = null;
 
@@ -51,7 +53,8 @@ define([
                 request.responseType = 'arraybuffer';
 
                 var loader = function (e) {
-                    this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
+                    if (this.active)
+                        this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
                 }.bind(this);
 
                 request.onload = loader;
@@ -66,12 +69,13 @@ define([
         },
 
         initsound: function (buffer) {
+            if (!this.active)
+                return;
             var source = this.context.createBufferSource();
             source.buffer = buffer;
             source.connect(this.context.destination);
             source.onended = this.onended.bind(this);
             source.start(0);
-            console.log('started');
             this.inittime = this.context.currentTime;
             this.source = source;
             this.callback_started();

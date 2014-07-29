@@ -17,6 +17,15 @@ define([
             fill: '#6699FF'
         });
 
+        this.loadingindicator = this.snap.text(this.width / 2, this.height / 2, "Loading...");
+
+        this.loadingindicator.attr({
+            fill: "#FFFFFF",
+            "font-size": "5em",
+            textAnchor: 'middle',
+            filter: this.snap.filter(Snap.filter.shadow(0, 2, 3))
+        });
+
         r.touchend(function () {
             console.log("touchend on surface");
         });
@@ -76,6 +85,7 @@ define([
         },
 
         start: function () {
+            this.loadingindicator.remove();
             this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
             this.updateView(this.getTime());
         },
