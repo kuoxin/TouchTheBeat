@@ -11,6 +11,14 @@ define([
 ], function ($, _, Backbone, Snap, TapObject, AudioController, SoundcloudLoader, recordertemplate, app) {
     var GameObjectRecorderView = Backbone.View.extend({
         el: '#body',
+
+        onClose: function () {
+            if (this.audiocontroller) {
+                this.audiocontroller.onClose();
+                this.audiocontroller.dispose();
+            }
+        },
+
         render: function (sound) {
 
             this.sound = sound;
