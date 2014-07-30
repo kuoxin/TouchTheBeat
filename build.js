@@ -23,6 +23,6 @@
         'snap': 'empty:'
     },
 
-    fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js|js\/infrastructure\.js)/
+    fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/
 
 })
