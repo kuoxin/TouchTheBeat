@@ -2,10 +2,10 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'utils/levelvalidator',
+    'util/levelvalidator',
     'text!templates/leveloverview.html',
     'views/PlayView',
-    '../levelcontainer',
+    'levelcontainer',
     'app'
 ], function ($, _, Backbone, levelvalidator, LevelOverviewtemplate, PlayView, levelcontainer, app) {
     var ChooseLevelView = Backbone.View.extend({

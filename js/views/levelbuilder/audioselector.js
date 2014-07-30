@@ -5,8 +5,8 @@ define([
     'app',
     'text!templates/levelbuilder/audioselector.html',
     'text!templates/trackpanel.html',
-    'utils/SoundcloudLoader',
-    'utils/scripts',
+    'util/SoundcloudLoader',
+    'util/scripts',
     'bootstrap'
 
 

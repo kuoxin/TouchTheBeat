@@ -3,7 +3,8 @@
     appDir: "./",
     modules: [
         {
-            name: "main"
+            name: "main",
+            exclude: ['infrastructure']
         }
     ],
 
@@ -12,6 +13,16 @@
     mainConfigFile: 'js/main.js',
     inlineText: true,
     dir: "../ttb-build",
-    fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/
+
+    paths: {
+        'google-analytics': 'empty:',
+        'bootstrap': 'empty:',
+        'jquery': 'empty:',
+        'underscore': 'empty:',
+        'backbone': 'empty:',
+        'snap': 'empty:'
+    },
+
+    fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js|js\/infrastructure\.js)/
 
 })

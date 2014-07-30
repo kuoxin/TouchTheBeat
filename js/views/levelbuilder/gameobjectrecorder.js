@@ -5,7 +5,7 @@ define([
     'snap',
     'gameclasses/TapObject',
     'views/audio',
-    'utils/SoundcloudLoader',
+    'util/SoundcloudLoader',
     'text!templates/levelbuilder/gameobjectrecorder.html',
     'app'
 ], function ($, _, Backbone, Snap, TapObject, AudioController, SoundcloudLoader, recordertemplate, app) {

@@ -4,12 +4,12 @@ define([
     'backbone',
     'text!templates/play.html',
     'app',
-    'utils/SoundcloudLoader',
+    'util/SoundcloudLoader',
     'views/applicationwithmenu',
-    '../gameclasses/Game',
-    '../utils/analytics',
+    'gameclasses/Game',
+    'util/analytics',
     'views/audio',
-    '../utils/scripts'
+    'util/scripts'
 
 ], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics, AudioController) {
     var PlayView = Backbone.View.extend({

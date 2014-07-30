@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'router',
-    'utils/analytics',
+    'util/analytics',
     'bootstrap'
 ], function ($, _, Backbone, Router, analytics) {
     var app = {

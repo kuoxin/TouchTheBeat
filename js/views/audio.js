@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'app',
-    'utils/analytics'
+    'util/analytics'
 
 ], function ($, _, Backbone, app, analytics) {
     var AudioController = Backbone.View.extend({
