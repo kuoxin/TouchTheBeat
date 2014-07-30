@@ -21,17 +21,19 @@ define(['jquery'], function ($) {
         // Feature check for performance (high-resolution timers)
             hasPerformance = !!(window.performance && window.performance.now);
 
-        for(var x = 0, max = vendors.length; x < max && !window.requestAnimationFrame; x += 1) {
-            window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
-                || window[vendors[x]+'CancelRequestAnimationFrame'];
+        for (var x = 0, max = vendors.length; x < max && !window.requestAnimationFrame; x += 1) {
+            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+                || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame) {
-            window.requestAnimationFrame = function(callback, element) {
+            window.requestAnimationFrame = function (callback, element) {
                 var currTime = new Date().getTime();
                 var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                var id = window.setTimeout(function () {
+                        callback(currTime + timeToCall);
+                    },
                     timeToCall);
                 lastTime = currTime + timeToCall;
                 return id;
@@ -39,7 +41,7 @@ define(['jquery'], function ($) {
         }
 
         if (!window.cancelAnimationFrame) {
-            window.cancelAnimationFrame = function(id) {
+            window.cancelAnimationFrame = function (id) {
                 clearTimeout(id);
             };
         }
@@ -91,33 +93,33 @@ define(['jquery'], function ($) {
 
     // performance now polyfill
     // https://gist.github.com/roshambo/4218861
-    (function() {
+    (function () {
 
-        if(window.performance && window.performance.now) return;
+        if (window.performance && window.performance.now) return;
 
-        if(!window.performance) window.performance = {};
+        if (!window.performance) window.performance = {};
 
         var methods = ['webkitNow', 'msNow', 'mozNow'];
 
-        for(var i = 0; i < methods.length; i++) {
-            if(window.performance[methods[i]]) {
+        for (var i = 0; i < methods.length; i++) {
+            if (window.performance[methods[i]]) {
                 window.performance.now = window.performance[methods[i]];
                 return;
             }
         }
 
-        if(Date.now) {
-            window.performance.now = function() {
+        if (Date.now) {
+            window.performance.now = function () {
                 return Date.now();
             };
             return;
         }
 
-        window.performance.now = function() {
+        window.performance.now = function () {
             return +(new Date());
         };
 
     })();
 
-	return {};
+    return {};
 });

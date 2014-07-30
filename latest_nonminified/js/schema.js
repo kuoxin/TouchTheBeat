@@ -17,7 +17,7 @@ define([
                 },
                 "required": ["stream_url", "permalink_url"]
             },
-            "levelname": { "type": "string" },
+            "name": { "type": "string" },
             "gameobjects": {
                 "type": "array",
                 "items": [
@@ -39,14 +39,14 @@ define([
                             }
 
                         },
-                        "required": ["type", "time", "x", "y"]
+                        "required": ["type", "taptime", "x", "y"]
                     }
                 ],
                 "minItems": 1,
                 "uniqueItems": true
             }
         },
-        "required": ["track", "levelname", "gameobjects"]
+        "required": ["audio", "name", "gameobjects"]
     };
 
     return schema;

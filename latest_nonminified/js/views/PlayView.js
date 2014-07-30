@@ -4,12 +4,12 @@ define([
     'backbone',
     'text!templates/play.html',
     'app',
-    'utils/SoundcloudLoader',
+    'util/SoundcloudLoader',
     'views/applicationwithmenu',
-    '../gameclasses/Game',
-    '../utils/analytics',
+    'gameclasses/Game',
+    'util/analytics',
     'views/audio',
-    '../utils/scripts'
+    'util/scripts'
 
 ], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics, AudioController) {
     var PlayView = Backbone.View.extend({
@@ -29,8 +29,10 @@ define([
                 this.result = null;
             }
 
-            if (this.audiocontroller)
+            if (this.audiocontroller) {
+                this.audiocontroller.onClose();
                 this.audiocontroller.dispose();
+            }
 
             this.game = null;
             if (this.player)
@@ -80,6 +82,7 @@ define([
 
         onAudioError: function () {
             console.error('Audio error!!!!!');
+            this.audiocontroller.onClose();
             this.audiocontroller.dispose();
         },
 

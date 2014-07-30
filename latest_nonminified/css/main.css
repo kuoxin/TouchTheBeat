@@ -1,7 +1,12 @@
 @import "bootstrap.min.css";
 @import "bootstrap-theme.min.css";
 
-body, html, div#playdiv {
+body, html {
+    height: 100%;
+}
+
+div.svgcontainer {
+    background: #000000;
     height: 100%;
 }
 

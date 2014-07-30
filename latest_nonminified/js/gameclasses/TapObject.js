@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'snap',
-    '../utils/analytics',
+    'util/analytics'
 ], function ($, _, Backbone, Snap, analytics) {
 
     var TapObject = function (game, timestamp, x, y) {
@@ -39,9 +39,9 @@ define([
         snapobject: null,
         renderloop_enabled: true,
         logic_enabled: true,
-        time_render : NaN,
-        time_logic : NaN,
-        tapped : false,
+        time_render: NaN,
+        time_logic: NaN,
+        tapped: false,
 
         //objects for calculating highscore
         tapdiff: NaN,
@@ -51,24 +51,24 @@ define([
         debugtime: NaN,
 
 
-        setSnapAttr : function(attr){
-            if (this.snapobject == null){
+        setSnapAttr: function (attr) {
+            if (this.snapobject == null) {
                 this.createVisualElement();
             }
-            if (this.snapobject != null){
+            if (this.snapobject != null) {
                 this.snapobject.attr(attr);
             }
         },
 
 
-        createVisualElement: function(){
+        createVisualElement: function () {
 
-            switch(this.visual_type){
+            switch (this.visual_type) {
                 case 'circle':
                     this.snapobject = this.game.snap.circle(this.x, this.y, this.radius);
                     break;
                 default:
-                    console.error('unknown tapobject type: '+this.visual_type);
+                    console.error('unknown tapobject type: ' + this.visual_type);
             }
 
             this.snapobject.attr({
@@ -84,17 +84,17 @@ define([
         markMissed: function () {
             // if (this.timestamp == this.debugtime)
             this.setSnapAttr({
-                    fill: this.color_missed_fill
-                });
+                fill: this.color_missed_fill
+            });
 
             this.logic_enabled = false;
 
-            if (this.time_logic < this.max_tapdiff){
-                console.log( 'TapObject was missed (too early) at ' + Math.abs(Math.floor(this.time_logic*100)));
-                analytics.trackAction('game', 'TapObject', 'missed (too early)', Math.abs(Math.abs(Math.floor(this.time_logic*100))));
+            if (this.time_logic < this.max_tapdiff) {
+                console.log('TapObject was missed (too early) at ' + Math.abs(Math.floor(this.time_logic * 100)));
+                analytics.trackAction('game', 'TapObject', 'missed (too early)', Math.abs(Math.abs(Math.floor(this.time_logic * 100))));
             }
 
-            var diff =  Math.abs(Math.floor(this.tapdiff*1000));
+            var diff = Math.abs(Math.floor(this.tapdiff * 1000));
 
         },
 
@@ -111,8 +111,8 @@ define([
             this.tapdiff = this.time_logic;
             this.logic_enabled = false;
 
-            analytics.trackAction('game', 'TapObject', 'hit (too '+ ((this.tapdiff < 0) ? 'early' :'late')+ ')' , Math.abs(Math.floor(this.tapdiff*100)) );
-            console.log( 'TapObject was hit too '+ ((this.tapdiff < 0) ? 'early' :'late') + ' at ' + Math.abs(Math.floor(this.tapdiff*100)) );
+            analytics.trackAction('game', 'TapObject', 'hit (too ' + ((this.tapdiff < 0) ? 'early' : 'late') + ')', Math.abs(Math.floor(this.tapdiff * 100)));
+            console.log('TapObject was hit too ' + ((this.tapdiff < 0) ? 'early' : 'late') + ' at ' + Math.abs(Math.floor(this.tapdiff * 100)));
 
         },
 
@@ -122,7 +122,7 @@ define([
             if (!this.tapped) {
                 this.tapped = true;
 
-                if (this.logic_enabled){
+                if (this.logic_enabled) {
                     if (Math.abs(this.getTimeDiff()) <= this.max_tapdiff) {
                         this.markHit();
                     }
@@ -130,9 +130,9 @@ define([
                         this.markMissed();
                     }
                 }
-                else{
-                    console.log( 'TapObject was missed (too late) at ' + Math.abs(Math.floor(this.time_logic*100)));
-                    analytics.trackAction('game', 'TapObject', 'missed (too late)', Math.abs(Math.floor(this.time_logic*100)));
+                else {
+                    console.log('TapObject was missed (too late) at ' + Math.abs(Math.floor(this.time_logic * 100)));
+                    analytics.trackAction('game', 'TapObject', 'missed (too late)', Math.abs(Math.floor(this.time_logic * 100)));
                 }
 
             }
@@ -141,13 +141,13 @@ define([
 
         markUpcoming: function (percentage) {
             if (this.timestamp == this.debugtime)
-                console.log('mark upcoming at '+this.time_render+' with '+percentage + '%');
+                console.log('mark upcoming at ' + this.time_render + ' with ' + percentage + '%');
             this.setSnapAttr({
                 strokeWidth: this.borderradius * percentage
             });
         },
 
-        setOpacity: function(percentage) {
+        setOpacity: function (percentage) {
             this.setSnapAttr({
                 "opacity": percentage
             });
@@ -159,7 +159,7 @@ define([
                 this.time_logic = this.getTimeDiff();
 
                 if (this.timestamp == this.debugtime)
-                    console.log('logic update at '+this.time_logic);
+                    console.log('logic update at ' + this.time_logic);
 
                 if (this.time_logic >= this.max_tapdiff) {
                     this.markMissed();
@@ -168,10 +168,10 @@ define([
 
         },
 
-        render: function(){
+        render: function () {
             if (this.renderloop_enabled) {
                 //TODO: MAKE IT SAVE AND FIXED WITH AUDIO PLAY/PAUSE
-               this.time_render = this.getTimeDiff();
+                this.time_render = this.getTimeDiff();
 
 
                 //animating border between startborder and endborder
@@ -194,7 +194,7 @@ define([
 
                 //fading out between removefrom and removeuntil
                 if (this.time_render >= this.removefrom && this.time_render < this.removeuntil) {
-                   // if (this.timestamp == this.debugtime)
+                    // if (this.timestamp == this.debugtime)
                     //    console.log('fading out: ' + (1 - this.getPercentage(this.removefrom, this.removeuntil)));
                     this.setOpacity(1 - this.getPercentage(this.removefrom, this.removeuntil));
                 }
@@ -206,7 +206,7 @@ define([
                     if (this.snapobject != null)
                         this.snapobject.remove();
 
-                    if (!this.tapped){
+                    if (!this.tapped) {
                         analytics.trackAction('game', 'TapObject', 'was not tapped');
                     }
 
@@ -217,13 +217,13 @@ define([
             }
         },
 
-        getTimeDiff : function(){
+        getTimeDiff: function () {
             return this.game.getTime() - this.timestamp;
         },
 
-        getPercentage: function(min, max){
+        getPercentage: function (min, max) {
             var percentage = this.time_render / (max - min);
-           // var percentage = this.timediff/max;
+            // var percentage = this.timediff/max;
             return Math.abs(percentage);
             //return (percentage < 0) ? 0: (percentage > 1) ? 1 : percentage;
         },

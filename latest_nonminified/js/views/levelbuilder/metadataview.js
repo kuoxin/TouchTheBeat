@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'text!templates/levelbuilder/metadata.html',
-    'utils/scripts',
+    'util/scripts',
     'bootstrap'
 
 

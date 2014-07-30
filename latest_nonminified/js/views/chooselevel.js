@@ -2,10 +2,10 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'utils/levelvalidator',
+    'util/levelvalidator',
     'text!templates/leveloverview.html',
     'views/PlayView',
-    '../levelcontainer',
+    'levelcontainer',
     'app'
 ], function ($, _, Backbone, levelvalidator, LevelOverviewtemplate, PlayView, levelcontainer, app) {
     var ChooseLevelView = Backbone.View.extend({
@@ -17,7 +17,10 @@ define([
         events: {
             'click #startlevel': 'startlevel',
             'click #demolevel': 'startdemo',
-            'click #devbutton': 'devaction'
+            'click #devbutton': 'devaction',
+            'click #easy': 'starteasy',
+            'click #intermediate': 'startintermediate',
+            'click #hard': 'starthard'
         },
 
         startlevel: function () {
@@ -33,13 +36,14 @@ define([
             this.$("#alert_invalidlevel").slideDown();
         },
 
-        startdemo: function () {
-            app.startlevel(levelcontainer.demolevel);
+        starteasy: function () {
+            app.startlevel(levelcontainer.easylevel);
         },
 
-        devaction: function () {
-            app.startlevel(levelcontainer.devlevel);
+        starthard: function () {
+            app.startlevel(levelcontainer.test);
         }
+
     });
     return ChooseLevelView;
 });
