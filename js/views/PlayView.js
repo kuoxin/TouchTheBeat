@@ -83,6 +83,7 @@ define([
 
         onAudioError: function () {
             console.error('Audio error!!!!!');
+            console.log(parameters);
             this.audiocontroller.onClose();
             this.audiocontroller.dispose();
         },

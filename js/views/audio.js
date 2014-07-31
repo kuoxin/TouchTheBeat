@@ -17,11 +17,16 @@ define([
                 this.request = null;
             }
 
-            if (this.source) {
-                this.source.disconnect();
-                this.source.stop();
-                this.source = null;
+            try {
+
+                if (this.source) {
+                    this.source.disconnect();
+                    this.source.stop();
+                    this.source = null;
+                }
+            } catch (e) {
             }
+            ;
         },
 
         onended: function () {
@@ -65,7 +70,7 @@ define([
             }
 
             catch (e) {
-                alert('Web Audio API is not supported in this browser');
+                this.callback_error('Web Audio API is not supported in this browser');
             }
         },
 
