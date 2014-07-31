@@ -42,6 +42,10 @@ define([
 
         starthard: function () {
             app.startlevel(levelcontainer.test);
+        },
+
+        startintermediate: function () {
+            app.startlevel(levelcontainer.intermediatelevel);
         }
 
     });
