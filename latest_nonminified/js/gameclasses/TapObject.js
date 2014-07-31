@@ -65,7 +65,7 @@ define([
 
             switch (this.visual_type) {
                 case 'circle':
-                    this.snapobject = this.game.snap.circle(this.x, this.y, this.radius);
+                    this.snapobject = this.game.surface.getSnap().circle(this.x, this.y, this.radius);
                     break;
                 default:
                     console.error('unknown tapobject type: ' + this.visual_type);

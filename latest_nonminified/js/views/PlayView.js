@@ -73,7 +73,8 @@ define([
         },
 
         onAudioReady: function () {
-            //TODO: show loading state / show when track starts
+            this.game.surface.hideLoadingIndicator();
+            this.game.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
         },
 
         onAudioStarted: function () {

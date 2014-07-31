@@ -53,6 +53,7 @@ define([
                 request.responseType = 'arraybuffer';
 
                 var loader = function (e) {
+                    console.log('onload');
                     if (this.active)
                         this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
                 }.bind(this);
@@ -69,15 +70,21 @@ define([
         },
 
         initsound: function (buffer) {
+            console.log('init sound');
             if (!this.active)
                 return;
             var source = this.context.createBufferSource();
             source.buffer = buffer;
             source.connect(this.context.destination);
             source.onended = this.onended.bind(this);
-            source.start(0);
-            this.inittime = this.context.currentTime;
             this.source = source;
+            this.callback_readytoplay();
+
+        },
+
+        start: function () {
+            this.source.start(0);
+            this.inittime = this.context.currentTime;
             this.callback_started();
         },
 
