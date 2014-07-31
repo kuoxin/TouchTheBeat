@@ -2,35 +2,19 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'snap',
+    'gameclasses/Surface',
     'gameclasses/TapObject'
-], function ($, _, Backbone, Snap, TapObject) {
+], function ($, _, Backbone, Surface, TapObject) {
 
     var Game = function (playview) {
         this.playview = playview;
         this.level = this.playview.level;
         this.gameobjects = [];
-        this.snap = new Snap('#svg');
-        var r = this.snap.rect(0, 0, "100%", "100%", 0);
-
-        r.attr({
-            fill: '#6699FF'
-        });
-
-        this.loadingindicator = this.snap.text(this.width / 2, this.height / 2, "Loading...");
-
-        this.loadingindicator.attr({
-            fill: "#FFFFFF",
-            "font-size": "5em",
-            textAnchor: 'middle',
-            filter: this.snap.filter(Snap.filter.shadow(0, 2, 3))
-        });
-
-        r.touchend(function () {
-            console.log("touchend on surface");
-        });
-
         this.setup();
+        this.surface = new Surface(
+            {bgcolor: '#000000'}
+        );
+        this.surface.showLoadingIndicator();
 
     };
 
@@ -46,7 +30,6 @@ define([
                 var gameobject = this.level.gameobjects[i];
                 switch (gameobject.type) {
                     case 'Tap':
-                        //console.log("TapObject detected");
                         this.gameobjects.push(new TapObject(this, gameobject.taptime, gameobject.x, gameobject.y));
                         break;
                     default:
@@ -65,10 +48,6 @@ define([
 
         update: function () {
             if (!this.stopped) {
-                if (this.getTime() + this.starttime >= this.endtime) {
-                    this.endGame();
-                }
-
                 for (var i = 0; i < this.gameobjects.length; i++) {
                     this.gameobjects[i].update(this.getTime());
                 }
@@ -85,7 +64,6 @@ define([
         },
 
         start: function () {
-            this.loadingindicator.remove();
             this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
             this.updateView(this.getTime());
         },
