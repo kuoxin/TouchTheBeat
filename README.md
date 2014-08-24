@@ -5,7 +5,7 @@ TouchTheBeat
 TouchTheBeat is a HTML5 multi-touch game currently in development. 
 
 ###Quick Links
-- **current stable version**: http://ttb.coloreddrums.de/latest
+- **current stable version**: http://ttb.coloreddrums.de
 - **Trello** development board: https://trello.com/b/uJHkG6xQ/
 
 ###The Game
