@@ -55,6 +55,9 @@ define([
             level.audio.permalink_url = this.sound.permalink_url;
             level.gameobjects = this.gameobjects;
             level.name = $("#levelname").val();
+            level.track = {};
+            level.track.title = this.sound.title;
+            level.track.artist = this.sound.user.username;
             this.level = level;
         }
     });

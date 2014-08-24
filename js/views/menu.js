@@ -31,7 +31,6 @@ define([
             var activeitem_new = $('#' + route);
             if (activeitem_new != null)
                 activeitem_new.addClass('active');
-
         }
     });
     return MenuView;

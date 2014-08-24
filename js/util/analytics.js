@@ -10,7 +10,6 @@ define(['jquery', 'underscore', 'backbone', 'google-analytics'], function ($, _,
         ga('send', 'event', category, action, label, value);
     };
 
-    //TODO: make local, sometimes it is not loaded yet
     ga('create', 'UA-52163376-2', 'auto');
 
     return analytics;

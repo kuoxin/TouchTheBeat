@@ -19,7 +19,6 @@ define([
                 if (possiblealert != null)
                     possiblealert.slideUp();
             }
-
         }
     });
     return PageNotFoundView;

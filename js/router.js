@@ -18,7 +18,6 @@ define([
 ], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView) {
     var Router = Backbone.Router.extend({
         routes: {
-            // Define some URL routes
             '': 'home',
             'chooselevel': 'chooselevel',
             'buildlevel': 'buildlevel',

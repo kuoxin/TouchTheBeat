@@ -1,5 +1,4 @@
 @import "bootstrap.min.css";
-@import "bootstrap-theme.min.css";
 
 body, html {
     height: 100%;
@@ -16,7 +15,10 @@ div.svgcontainer {
     float: none;
 }
 
-
-
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
