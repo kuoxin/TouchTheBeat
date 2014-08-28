@@ -2,11 +2,10 @@
 TouchTheBeat
 ============
 
-TouchTheBeat is a HTML5 multi-touch game currently in development. 
+TouchTheBeat is a HTML5 multi-touch rhythm game currently in development. 
 
 ###Quick Links
-- **current stable version**: http://ttb.coloreddrums.de
-- **Trello** development board: https://trello.com/b/uJHkG6xQ/
+- **current stable version**: http://touchthebeat.github.io/TouchTheBeat/latest/
 
 ###The Game
 TouchTheBeat is **level-based**. Each level consists of a song and a composition of interactive objects. The objects can be either tapped ~~, hold, dragged or slided~~ _(soon)_. The more **rhythmically accurate** you interact with the objects, the more points you get in the end.
@@ -15,15 +14,14 @@ TouchTheBeat is **level-based**. Each level consists of a song and a composition
 You can easily create your own levels by using any **SoundCloud track** as music for your level. When finished, you might share and exchange your levels online in text-format. This way it is easy to **play levels created by others**.
 
 ###Development
-TouchTheBeat is currently in active development. I am using Trello to organize feature-ideas and development progress. You can influence the further development by voting for features or commenting on them. Click on the screenshot below to get started:
-[<img src="https://trello.com/b/uJHkG6xQ.png">](https://trello.com/b/uJHkG6xQ)
+TouchTheBeat is currently in active development. We are using GitHub Issues to organize feature-ideas and development progress. You can influence the further development by opening or commenting on an issue. 
 
 ###Dependencies:
 
 TouchTheBeat uses the following **third party services**:
 - **'audio streaming service' offered by SoundCloud Limited**, a company incorporated under the laws of England & Wales and with its main place of business at Rheinsberger Str. 76/77, 10115 Berlin, Germany. More information about SoundCloud is available here: https://soundcloud.com/imprint 
 
-I may not be associated with any of these third party services or content provided by them.
+We may not be associated with any of these third party services or content provided by them.
 
 TouchTheBeat uses and contains the following **software components** under their respective licenses:
 
@@ -38,7 +36,7 @@ TouchTheBeat uses and contains the following **software components** under their
 
 ###Build
 
-To build the compressed version of TouchTheBeat, run the folliowing command
+To build the compressed version of TouchTheBeat, run the folliowing command:
 ```
 node r.js -o build.js
 ```
