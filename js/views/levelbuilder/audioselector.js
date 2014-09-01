@@ -18,12 +18,12 @@ define([
             this.randomtracks = [
                 'https://soundcloud.com/maxfrostmusic/white-lies',
                 'https://soundcloud.com/greco-roman/roosevelt-sea-1',
-                'https://soundcloud.com/t-e-e-d/garden',
+                //'https://soundcloud.com/t-e-e-d/garden',
                 'https://soundcloud.com/homoheadphonico/phantogram-don-t-move',
                 'https://soundcloud.com/etagenoir/parov-stelar-catgroove',
                 'https://soundcloud.com/fosterthepeoplemusic/pumpedupkicks',
                 'https://soundcloud.com/benkhan/savage',
-                'https://soundcloud.com/kooksmusic/forgive-forget'
+                //'https://soundcloud.com/kooksmusic/forgive-forget'
             ];
         },
 

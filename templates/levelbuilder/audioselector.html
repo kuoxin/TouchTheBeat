@@ -6,13 +6,16 @@
             Use a Soundcloud URL in this format: https://soundcloud.com/artist/track.
         </div>
     </div>
+    <h1>Level Generator</h1>
+    <hr/>
     <div id="trackselection">
-        <h3>Enter a link to a
-            <a href="http://soundcloud.com/" target="_blank">Soundcloud</a>
-            -Track to start:</h3>
+        <p>Here you can create your own levels. Choose a song from <a href="http://soundcloud.com/" target="_blank">Soundcloud</a>
+            and enter the track-url below.<br>
+            To start immediately, you can also use one of the preselected songs by pressing the small white button.</p>
+        <br>
 
-        <div class="input-group">
-            <input type="text" class="form-control" id="input_entertrack"
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control input-lg" id="input_entertrack"
                    placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)"/>
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" id="btn_recommendedtrack">
@@ -21,6 +24,7 @@
                 <button class="btn btn-primary" type="button" id="btn_entertrack">Select this track!</button>
             </span>
         </div>
+
     </div>
 
     <div class="row" id="trackinfo" style="display: none">
@@ -29,7 +33,8 @@
         <div class="col-sm-8" id="instructions">
             <h3>Great!</h3>
 
-            <p>You selected a track from Soundcloud. Click the button below to continue to the next step.</p>
+            <p>You selected a track from Soundcloud. After pressing the button below, the track will be played and you
+                can add TapObjects by tapping at your desired positions in time.</p>
 
             <button class="btn btn-primary pull-right" type="button" id="btn_gameobjectrecorder">Next step
             </button>

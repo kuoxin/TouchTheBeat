@@ -86,6 +86,7 @@ define([
             this.isrecording = false;
             console.error('Audio error!!!!!');
             this.audiocontroller.dispose();
+            alert("There was an error loading the audio file.");
         },
 
         recordingfinished: function () {

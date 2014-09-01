@@ -84,6 +84,7 @@ define([
         onAudioError: function () {
             console.error('Audio error!!!!!');
             console.log(parameters);
+            alert("There was an error loading the audio file.");
             this.audiocontroller.onClose();
             this.audiocontroller.dispose();
         },
