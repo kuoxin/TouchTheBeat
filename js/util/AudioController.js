@@ -1,11 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
-    'app',
-    'util/analytics'
+    'backbone'
 
-], function ($, _, Backbone, app, analytics) {
+], function ($, _, Backbone) {
     var AudioController = Backbone.View.extend({
         el: '#player',
 
@@ -38,10 +36,6 @@ define([
         },
 
         render: function (stream_url, playasap) {
-            this.canplaythrough = false;
-            this.notified_error = false;
-            this.notified_success = false;
-            this.notified_readytoplay = false;
             this.notified_ended = false;
             this.active = true;
 
@@ -57,8 +51,14 @@ define([
                 request.open('GET', stream_url, true);
                 request.responseType = 'arraybuffer';
 
+                request.addEventListener("progress", this.passloadingpercentage.bind(this), false);
+
                 var loader = function (e) {
-                    console.log('onload');
+                    if (this.audioloaderview) {
+                        this.audioloaderview.hideLoadingIndicator();
+                        this.audioloaderview.showProcessingInformation();
+                    }
+
                     if (this.active)
                         this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
                 }.bind(this);
@@ -74,6 +74,15 @@ define([
             }
         },
 
+        passloadingpercentage: function (evt) {
+            if (evt.lengthComputable) {
+                var percent = evt.loaded / evt.total;
+                if (this.audioloaderview)
+                    this.audioloaderview.setProgress(percent);
+
+            }
+        },
+
         initsound: function (buffer) {
             console.log('init sound');
             if (!this.active)
@@ -83,6 +92,10 @@ define([
             source.connect(this.context.destination);
             source.onended = this.onended.bind(this);
             this.source = source;
+
+            if (this.audioloaderview)
+                this.audioloaderview.hideProcessingInformaion();
+
             this.callback_readytoplay();
 
         },
@@ -111,6 +124,10 @@ define([
         getDuration: function () {
             return this.source.buffer.duration;
 
+        },
+
+        attachAudioLoadingView: function (audioloaderview) {
+            this.audioloaderview = audioloaderview;
         }
 
     });

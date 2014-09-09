@@ -577,7 +577,7 @@
          **
          - a (number) start _slave_ number
          - A (number) end _slave_ number
-         - b (number) start _master_ number (start time in general case)
+         - b (number) start _master_ number (start time in components case)
          - B (number) end _master_ number (end time in gereal case)
          - get (function) getter of _master_ number (see @mina.time)
          - set (function) setter of _slave_ number

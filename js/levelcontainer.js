@@ -1427,7 +1427,7 @@ define([
          {"type": "Tap", "x": 1375, "y": 723, "taptime": 189.52533333333335},
          {"type": "Tap", "x": 224, "y": 1026, "taptime": 189.824}
          ], "name": "sdce", "author": "coloreddrums"}*/
-    ]
+    ];
 
     return levelcontainer;
 });

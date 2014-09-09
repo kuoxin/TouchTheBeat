@@ -4,11 +4,10 @@ define([
     'backbone',
     'util/levelvalidator',
     'text!templates/leveloverview.html',
-    'views/levelpanel',
+    'views/components/html/levelpanel',
     'views/PlayView',
-    'levelcontainer',
-    'app'
-], function ($, _, Backbone, levelvalidator, LevelOverviewTemplate, LevelPanel, PlayView, levelcontainer, app) {
+    'levelcontainer'
+], function ($, _, Backbone, levelvalidator, LevelOverviewTemplate, LevelPanel, PlayView, levelcontainer) {
     var ChooseLevelView = Backbone.View.extend({
         render: function () {
             Backbone.history.navigate('chooselevel', {trigger: false, replace: true});

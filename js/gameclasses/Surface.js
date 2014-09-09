@@ -12,7 +12,6 @@ define([
         this.r.attr({
             fill: (this.options['bgcolor'] ? this.options['bgcolor'] : '#000000')
         });
-
     };
 
 
@@ -20,14 +19,9 @@ define([
         width: 1600,
         height: 1200,
 
-        showLoadingIndicator: function () {
-            this.loadingindicator = this.snap.text(this.width / 2, this.height / 2, "Loading...");
-
+        setProgress: function (progress) {
             this.loadingindicator.attr({
-                fill: "#FFFFFF",
-                "font-size": "5em",
-                textAnchor: 'middle',
-                filter: this.snap.filter(Snap.filter.shadow(0, 2, 3))
+                width: (this.loadingindicatorwidth * progress)
             });
         },
 
@@ -37,12 +31,6 @@ define([
 
         getRootRect: function () {
             return this.r;
-        },
-
-        hideLoadingIndicator: function () {
-            console.log('hiding loading indicator');
-            if (this.loadingindicator)
-                this.loadingindicator.remove();
         },
 
         requestStartFromUser: function (callback) {
@@ -58,12 +46,35 @@ define([
 
             this.startaction = startaction;
 
-            $('#startactionbutton').click(function () {
-                startaction.untouchend();
+            //this.isstartactionvisible = true;
+            //requestAnimationFrame(this.animateStartAction.bind(this));
+            var continue_function = function () {
+                this.getRootRect().unclick();
+                this.startaction.unclick();
+                //this.isstartactionvisible = false;
                 startaction.remove();
                 callback();
-            });
+            }.bind(this);
+
+
+            this.getRootRect().click(continue_function);
+            this.startaction.click(continue_function);
         }
+        /*
+
+         // This animation is not rendering fluently on the testing device
+
+         animateStartAction: function(time){
+
+         if (this.startaction && this.isstartactionvisible ){
+         this.startaction.attr({
+         opacity: 0.33*Math.sin(time/500) + 0.66
+         });
+
+         requestAnimationFrame(this.animateStartAction.bind(this));
+         }
+         },
+         */
 
     };
 

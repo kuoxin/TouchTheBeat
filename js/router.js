@@ -4,18 +4,19 @@ define([
     'backbone',
     'app',
     'util/analytics',
-    'views/menu',
+    'views/components/html/menu',
     'views/home',
     'views/chooselevel',
-    'views/applicationwithmenu',
+    'views/components/html/applicationwithmenu',
     'views/PageNotFoundView',
     'views/legal',
     'views/PlayView',
     'views/highscore',
     'views/levelbuilder/audioselector',
     'views/levelbuilder/gameobjectrecorder',
-    'views/levelbuilder/metadataview'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView) {
+    'views/levelbuilder/metadataview',
+    'views/components/svg/AudioLoaderView'
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView, AudioLoaderView) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
@@ -41,6 +42,7 @@ define([
             this.levelbuilder_audioselectorview = new AudioSelectorView();
             this.levelbuilder_gameobjectrecorderview = new GameObjectRecorderView();
             this.levelbuilder_metadataview = new MetaDataView();
+            this.audioloaderview = new AudioLoaderView();
 
             this.on('route:home', function () {
                 app.setContent(this.homeview);

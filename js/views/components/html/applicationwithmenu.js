@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'text!templates/applicationwithmenu.html',
-    'views/menu'
+    'views/components/html/menu'
 ], function ($, _, Backbone, awmtemplate, MenuView) {
     var ApplicationWithMenuView = Backbone.View.extend({
         el: 'body',

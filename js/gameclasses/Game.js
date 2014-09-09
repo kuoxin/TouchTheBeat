@@ -6,16 +6,15 @@ define([
     'gameclasses/TapObject'
 ], function ($, _, Backbone, Surface, TapObject) {
 
-    var Game = function (playview) {
-        this.playview = playview;
-        this.level = this.playview.level;
+    var Game = function (level, audiocontroller) {
+        this.audiocontroller = audiocontroller;
+        this.level = level;
         this.gameobjects = [];
         this.setup();
         this.surface = new Surface(
             {bgcolor: '#000000'}
         );
-        this.surface.showLoadingIndicator();
-
+        this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
     };
 
     Game.prototype = {
@@ -43,7 +42,7 @@ define([
         },
 
         getTime: function () {
-            return this.playview.getTimeDelta.bind(this.playview)();
+            return this.audiocontroller.getCurrentTime();
         },
 
         update: function () {

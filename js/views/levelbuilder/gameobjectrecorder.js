@@ -5,7 +5,7 @@ define([
     'snap',
     'gameclasses/TapObject',
     'gameclasses/Surface',
-    'views/audio',
+    '../../util/AudioController',
     'util/SoundcloudLoader',
     'text!templates/levelbuilder/gameobjectrecorder.html',
     'app'
@@ -31,15 +31,38 @@ define([
             var template = _.template(recordertemplate, {});
             this.$el.html(template);
 
+            this.audioloaderview = app.router.audioloaderview;
+            this.audioloaderview.render({bgcolor: '#222222'});
+
             this.audiocontroller = new AudioController();
+            this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.recordingfinished.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
             this.audiocontroller.render(SoundcloudLoader.getStreamUrl(this.sound.stream_url), true);
 
+        },
+
+        /* addTapObjectAtRandomPosition: function (timestamp) {
+         var x = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.width - TapObject.prototype.radius);
+         var y = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.height - TapObject.prototype.radius);
+         this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
+         }, */
+
+        addTapObject: function (timestamp, x, y) {
+            this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
+        },
+
+        onAudioReady: function () {
+
             this.surface = new Surface({bgcolor: '#222222'});
-            this.surface.showLoadingIndicator();
 
             this.svgelem = document.getElementById('svg');
 
+
+            this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
+        },
+
+        onAudioStarted: function () {
+            this.isrecording = true;
             this.surface.getRootRect().touchstart(function (e) {
                 if (this.isrecording) {
                     console.log("touch on surface");
@@ -61,25 +84,6 @@ define([
                     }
                 }
             }.bind(this));
-        },
-
-        /* addTapObjectAtRandomPosition: function (timestamp) {
-         var x = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.width - TapObject.prototype.radius);
-            var y = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.height - TapObject.prototype.radius);
-            this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
-         }, */
-
-        addTapObject: function (timestamp, x, y) {
-            this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
-        },
-
-        onAudioReady: function () {
-            this.surface.hideLoadingIndicator();
-            this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
-        },
-
-        onAudioStarted: function () {
-            this.isrecording = true;
         },
 
         onAudioError: function () {

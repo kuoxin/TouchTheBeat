@@ -5,18 +5,15 @@ define([
     'text!templates/play.html',
     'app',
     'util/SoundcloudLoader',
-    'views/applicationwithmenu',
     'gameclasses/Game',
     'util/analytics',
-    'views/audio',
+    '../util/AudioController',
     'util/scripts'
 
-], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, ApplicationWithMenuView, Game, analytics, AudioController) {
+], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, Game, analytics, AudioController) {
     var PlayView = Backbone.View.extend({
         el: '#body',
 
-        // this.game.start();
-        //analytics.trackAction('game', 'starting', 'now');
         onClose: function () {
             console.log('onclose event fired');
             if (this.startobj != null) {
@@ -35,8 +32,6 @@ define([
             }
 
             this.game = null;
-            if (this.player)
-                this.player.off();
         },
 
         stopGame: function () {
@@ -63,18 +58,19 @@ define([
             var template = _.template(playTemplate, {});
             this.$el.html(template);
 
+            this.audioloaderview = app.router.audioloaderview;
+            this.audioloaderview.render();
+
             this.audiocontroller = new AudioController();
+            this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.stopGame.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
             this.audiocontroller.render(SoundCloudLoader.getStreamUrl(this.level.audio.stream_url), true);
-
-            this.game = new Game(this);
 
 
         },
 
         onAudioReady: function () {
-            this.game.surface.hideLoadingIndicator();
-            this.game.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
+            this.game = new Game(this.level, this.audiocontroller);
         },
 
         onAudioStarted: function () {
@@ -83,14 +79,9 @@ define([
 
         onAudioError: function () {
             console.error('Audio error!!!!!');
-            console.log(parameters);
             alert("There was an error loading the audio file.");
             this.audiocontroller.onClose();
             this.audiocontroller.dispose();
-        },
-
-        getTimeDelta: function () {
-            return this.audiocontroller.getCurrentTime();
         },
 
         exitview: function () {

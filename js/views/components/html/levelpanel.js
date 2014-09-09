@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'util/levelvalidator',
+    '../../../util/levelvalidator',
     'text!templates/levelpanel.html',
     'app'
 ], function ($, _, Backbone, levelvalidator, LevelPanelTemplate, app) {
