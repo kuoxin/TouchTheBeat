@@ -77,9 +77,9 @@ define([
             this.game.start();
         },
 
-        onAudioError: function () {
-            console.error('Audio error!!!!!');
-            alert("There was an error loading the audio file.");
+        onAudioError: function (error) {
+            console.error(error);
+            alert(error);
             this.audiocontroller.onClose();
             this.audiocontroller.dispose();
         },

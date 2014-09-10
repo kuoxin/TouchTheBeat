@@ -70,7 +70,9 @@ define([
             }
 
             catch (e) {
+                console.error(e);
                 this.callback_error('Web Audio API is not supported in this browser');
+                return;
             }
         },
 
