@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'snap',
-    'util/analytics'
-], function ($, _, Backbone, Snap, analytics) {
+    'util/analytics',
+    "gameclasses/ShapeFactory"
+], function ($, _, Backbone, Snap, analytics, ShapeFactory) {
 
     var TapObject = function (game, timestamp, x, y) {
         this.game = game;
@@ -63,13 +64,18 @@ define([
 
         createVisualElement: function () {
 
-            switch (this.visual_type) {
-                case 'circle':
-                    this.snapobject = this.game.surface.getSnap().circle(this.x, this.y, this.radius);
-                    break;
-                default:
-                    console.error('unknown tapobject type: ' + this.visual_type);
+            var pickRandomObject = function (parent) {
+                var result;
+                var count = 0;
+                for (var prop in parent)
+                    if (Math.random() < 1 / ++count)
+                        result = prop;
+                return result;
             }
+            // uncomment this for a quick demo of the ShapeFactory
+            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
+
+            this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), 'circle', {x: this.x, y: this.y, size: "medium"});
 
             this.snapobject.attr({
                 fill: this.color_plain_fill,

@@ -12,6 +12,7 @@ define([
         this.r.attr({
             fill: (this.options['bgcolor'] ? this.options['bgcolor'] : '#000000')
         });
+
     };
 
 

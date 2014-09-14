@@ -70,6 +70,7 @@ define([
         stop: function () {
             clearInterval(this.updateinterval);
             this.stopped = true;
+            console.log("stopped game");
         },
 
         calculateHighScore: function () {

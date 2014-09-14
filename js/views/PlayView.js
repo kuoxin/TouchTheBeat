@@ -16,15 +16,11 @@ define([
 
         onClose: function () {
             console.log('onclose event fired');
-            if (this.startobj != null) {
-                console.log('closing game');
-                analytics.trackAction('game', 'closing game');
-                if (this.game != null)
-                    this.game.stop();
+            analytics.trackAction('game', 'closing game');
+            if (this.game != null)
+                this.game.stop();
 
-                this.startobj = null;
-                this.result = null;
-            }
+            this.result = null;
 
             if (this.audiocontroller) {
                 this.audiocontroller.onClose();
@@ -60,6 +56,7 @@ define([
 
             this.audioloaderview = app.router.audioloaderview;
             this.audioloaderview.render();
+
 
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
