@@ -1,0 +1,12 @@
+<td><%- index %></td>
+<td><%- time %></td>
+<td>Tap</td>
+<td><%- x %></td>
+<td><%- y %></td>
+<td>
+    <div class="btn-group">
+        <% _.each(shapes, function(shape) { %>
+        <button type="button" class="btn btn-default symbol symbol_<%= shape %>"></button>
+        <% }); %>
+    </div>
+</td>

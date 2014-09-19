@@ -73,5 +73,34 @@ define([
         return ShapeFactory.shapes[name](snap, options);
     };
 
+    /**
+     * This method generates .symbol_SHAPENAME CSS rules that set the corresponding shape as background-image. It should be somehow integrated into the runtime or the build-process.
+     */
+    ShapeFactory.setCSSRules = function () {
+        //var element = document.createElement('svg');
+        //element.setAttribute("height","1000");
+        //element.setAttribute("width","1000");
+        var size = "medium";
+        var template = " .symbol_<%= classname %>{ background-image: url(\'data:image/svg+xml;utf8,<%= svgstring %>\')}\n";
+        var dim = ShapeFactory.sizes[size] * 2;
+
+        var outputstring = "";
+        for (var prop in ShapeFactory.shapes) {
+            var snap = new Snap(dim, dim);
+            var shape = ShapeFactory.createShape(snap, prop, {x: dim / 2, y: dim / 2, size: size});
+            shape.attr({
+                fill: '#000000'
+            });
+            outputstring = outputstring +
+                _.template(template,
+                    {
+                        classname: prop,
+                        svgstring: snap.toString()
+                    }
+                );
+        }
+        console.log(outputstring);
+    };
+
     return ShapeFactory;
 });

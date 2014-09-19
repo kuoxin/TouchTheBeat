@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'text!templates/levelbuilder/audioselector.html',
-    'text!templates/trackpanel.html',
+    'text!templates/components/trackpanel.html',
     'util/SoundcloudLoader',
     'util/scripts',
     'bootstrap'
@@ -86,12 +86,6 @@ define([
 
             $("#trackinfo").fadeIn();
             $("#trackselection").slideUp();
-        },
-
-        onAudioError: function () {
-            this.audioisplaying = false;
-            this.loading_error('There was an error during audio playback. Sorry!');
-            this.audiocontroller.dispose();
         },
 
         loading_error: function (errorMessage) {

@@ -14,9 +14,10 @@ define([
     'views/HighScoreView',
     'views/levelbuilder/AudioSelectorView',
     'views/levelbuilder/GameObjectRecorderView',
+    'views/levelbuilder/GameObjectEditorView',
     'views/levelbuilder/MetaDataView',
     'views/components/svg/AudioLoaderView'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, MetaDataView, AudioLoaderView) {
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, GameObjectEditorView, MetaDataView, AudioLoaderView) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
@@ -26,6 +27,7 @@ define([
             'legal': 'legal',
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',
+            'editlevel': 'editlevel',
 
             // Default
             '*notfound': 'notfound'
@@ -64,6 +66,12 @@ define([
 
             this.on('route:legal', function () {
                 app.setContent(this.legalview);
+            });
+
+            //TODO: integrate this temporary route into the LevelBuilder
+            this.on('route:editlevel', function () {
+                var view = new GameObjectEditorView(levelcontainer[0]);
+                app.setContent(view);
             });
         },
 
