@@ -16,3 +16,32 @@ div.svgcontainer {
     margin-left: auto;
     margin-right: auto;
 }
+.shape {
+    height: 1.7em;
+    background-size: contain;
+    moz-background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.shape_selected {
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    background-color: #C7C7C7 !important;
+    border-color: #979797 !important;
+    z-index: 2;
+}
+.shape_circle {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><circle cx="141.1764705882353" cy="141.1764705882353" r="120" fill="#000000" style="opacity: 0.75;"></circle></svg>') !important
+}
+.shape_square_sidedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><rect x="39.176470588235304" y="39.176470588235304" width="204" height="204" fill="#000000" style="opacity: 0.75;"></rect></svg>') !important
+}
+.shape_square_edgedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="141.1764705882353,261.1764705882353,21.176470588235304,141.1764705882353,141.1764705882353,21.176470588235304,261.1764705882353,141.1764705882353" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
+}
+.shape_triangle_sidedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="21.176470588235304,261.1764705882353,141.1764705882353,21.176470588235304,261.1764705882353,261.1764705882353" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
+}
+.shape_triangle_edgedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="141.1764705882353,261.1764705882353,21.176470588235304,21.176470588235304,261.1764705882353,21.176470588235304" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
+}

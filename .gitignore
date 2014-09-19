@@ -1,3 +1,6 @@
-webpage/.idea/
-img/Thumbs.db
-latest/js/infrastructure.js
+.idea/
+Thumbs.db
+build.js
+build.txt
+infrastructure.js
+r.js
