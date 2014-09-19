@@ -21,7 +21,7 @@ div.svgcontainer {
     margin-right: auto;
 }
 
-.symbol {
+.shape {
     height: 1.7em;
     background-size: contain;
     moz-background-size: contain;
@@ -30,31 +30,34 @@ div.svgcontainer {
 
 }
 
-.symbol_selected {
+.shape_selected {
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    background-color: #C7C7C7 !important;
+    border-color: #979797 !important;
+    z-index: 2;
 }
 
 /* The following part was generated from ShapeFactory's method "createCSS()" */
 
-.symbol_circle {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><circle cx="120" cy="120" r="120" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></circle></svg>')
+.shape_circle {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><circle cx="141.1764705882353" cy="141.1764705882353" r="120" fill="#000000" style="opacity: 0.75;"></circle></svg>') !important
 }
 
-.symbol_square_sidedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><rect x="0" y="0" width="240" height="240" transform="matrix(0.8,0,0,0.8,24,24)" fill="#000000" style="opacity: 0.75;"></rect></svg>')
+.shape_square_sidedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><rect x="39.176470588235304" y="39.176470588235304" width="204" height="204" fill="#000000" style="opacity: 0.75;"></rect></svg>') !important
 }
 
-.symbol_square_edgedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="120,240,0,120,120,0,240,120" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></polygon></svg>')
+.shape_square_edgedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="141.1764705882353,261.1764705882353,21.176470588235304,141.1764705882353,141.1764705882353,21.176470588235304,261.1764705882353,141.1764705882353" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
 }
 
-.symbol_triangle_sidedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></polygon></svg>')
+.shape_triangle_sidedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="21.176470588235304,261.1764705882353,141.1764705882353,21.176470588235304,261.1764705882353,261.1764705882353" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
 }
 
-.symbol_triangle_edgedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" transform="matrix(0.8,0,0,0.8,24,24)" fill="#000000" style="opacity: 0.75;"></polygon></svg>')
+.shape_triangle_edgedown {
+    background-image: url('data:image/svg+xml;utf8,<svg height="282.3529411764706" version="1.1" width="282.3529411764706" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="141.1764705882353,261.1764705882353,21.176470588235304,21.176470588235304,261.1764705882353,21.176470588235304" fill="#000000" style="opacity: 0.75;"></polygon></svg>') !important
 }
 
 /* end of generated part */

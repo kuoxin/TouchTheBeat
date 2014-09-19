@@ -6,7 +6,8 @@
 <td>
     <div class="btn-group">
         <% _.each(shapes, function(shape) { %>
-        <button type="button" class="btn btn-default symbol symbol_<%= shape %>"></button>
+        <button type="button" class="btn btn-default shape shape_<%= shape %>" alt="<%= shape %>"
+                title="<%= shape %>"></button>
         <% }); %>
     </div>
 </td>

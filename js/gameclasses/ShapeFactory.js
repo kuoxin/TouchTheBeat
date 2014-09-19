@@ -35,8 +35,9 @@ define([
             return snap.circle(options.x, options.y, ShapeFactory.sizes[options.size]);
         },
         "square_sidedown": function (snap, options) {
-            var d = ShapeFactory.sizes[options.size];
-            return scaleObject(snap, snap.rect(options.x - d, options.y - d, 2 * d, 2 * d), options.x, options.y, 0.8);
+            var scale = 0.85;
+            var d = scale * ShapeFactory.sizes[options.size];
+            return  snap.rect(options.x - d, options.y - d, 2 * d, 2 * d);
         },
         "square_edgedown": function (snap, options) {
             var mx = options.x;
@@ -51,9 +52,13 @@ define([
             return snap.polygon(mx - d, my + d, mx, my - d, mx + d, my + d);
         },
         "triangle_edgedown": function (snap, options) {
-            var obj = ShapeFactory.shapes["triangle_sidedown"](snap, options);
-            rotateObject(snap, obj, options.x, options.y, -180);
-            return obj;
+            // var obj = ShapeFactory.shapes["triangle_sidedown"](snap, options);
+            // rotateObject(snap, obj, options.x, options.y, -180);
+            // return obj;
+            var mx = options.x;
+            var my = options.y;
+            var d = ShapeFactory.sizes[options.size];
+            return snap.polygon(mx, my + d, mx - d, my - d, mx + d, my - d);
         }
     };
 
@@ -81,18 +86,18 @@ define([
         //element.setAttribute("height","1000");
         //element.setAttribute("width","1000");
         var size = "medium";
-        var template = " .symbol_<%= classname %>{ background-image: url(\'data:image/svg+xml;utf8,<%= svgstring %>\')}\n";
+        var scale = 0.85;
+        var template = " .shape_<%= classname %>{ background-image: url(\'data:image/svg+xml;utf8,<%= svgstring %>\') !important}\n";
         var dim = ShapeFactory.sizes[size] * 2;
 
         var outputstring = "";
         for (var prop in ShapeFactory.shapes) {
-            var snap = new Snap(dim, dim);
-            var shape = ShapeFactory.createShape(snap, prop, {x: dim / 2, y: dim / 2, size: size});
-            shape.attr({
+            var snap = new Snap(dim / scale, dim / scale);
+            var shape = ShapeFactory.createShape(snap, prop, {x: dim / (2 * scale), y: dim / (2 * scale), size: size}).attr({
                 fill: '#000000',
                 opacity: 0.75
             });
-            shape = scaleObject(snap, shape, dim / 2, dim / 2, 0.8);
+            //shape = scaleObject(snap, shape, dim / 2, dim / 2, 0.8);
             outputstring = outputstring +
                 _.template(template,
                     {

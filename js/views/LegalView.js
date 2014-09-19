@@ -12,7 +12,7 @@ define([
             var template = _.template(legalTemplate, {});
             this.$el.html(template);
             // can be used for temporaly creation of shape css rules:
-            //ShapeFactory.setCSSRules();
+            ShapeFactory.setCSSRules();
         }
     });
     return LegalView;
