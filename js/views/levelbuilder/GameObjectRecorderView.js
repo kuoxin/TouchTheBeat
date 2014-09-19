@@ -5,7 +5,7 @@ define([
     'snap',
     'gameclasses/TapObject',
     'gameclasses/Surface',
-    '../../util/AudioController',
+    'util/AudioController',
     'util/SoundcloudLoader',
     'text!templates/levelbuilder/gameobjectrecorder.html',
     'app'

@@ -6,8 +6,6 @@ define([
     'text!templates/levelbuilder/metadata.html',
     'util/scripts',
     'bootstrap'
-
-
 ], function ($, _, Backbone, app, levelbuilderTemplate) {
     var MetaDataView = Backbone.View.extend({
         el: '#content',

@@ -10,30 +10,21 @@
 
 
     <hr/>
-        <p>
-            TouchTheBeat lets you create your own levels, too. To start a level you or someone else has created, copy
-            the level-text into the input-field below.
+    <p>
+        TouchTheBeat lets you create your own levels, too. To start a level you or someone else has created, copy
+        the level-text into the input-field below.
     </p>
 
-        <div class="alert alert-fatal alert-danger" id="alert_invalidlevel" style="display:none;">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <div id="alert_tinvalidlevel_text"><strong>Oh snap!</strong> TouchTheBeat could not parse your leveltext.
-                You
-                might want to <a href="#buildlevel" class="alert-link">create a new level</a>...
-            </div>
-
+    <div class="alert alert-fatal alert-danger" id="alert_invalidlevel" style="display:none;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <div id="alert_tinvalidlevel_text"><strong>Oh snap!</strong> TouchTheBeat could not parse your leveltext.
+            You
+            might want to <a href="#buildlevel" class="alert-link">create a new level</a>...
         </div>
 
-        <p>
-
-        <div class="form-group" id="inputstatediv">
-            <label class="control-label" for="leveljsoninput">The level-text</label>
-            <input type="text" class="form-control input-lg" placeholder="Copy you level-text here..."
-                   id="leveljsoninput">
-        </div>
-        </p>
-    <div class="row">
-        <div id="levelcontainer_custom" class="list-group"></div>
     </div>
+
+    <p id="manualinputcontainer">
+    </p>
 
 </div>

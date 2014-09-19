@@ -2,12 +2,14 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    '../../../util/levelvalidator',
-    'text!templates/levelpanel.html',
-    'app'
-], function ($, _, Backbone, levelvalidator, LevelPanelTemplate, app) {
+    'text!templates/levelpanel.html'
+], function ($, _, Backbone, LevelPanelTemplate) {
     var LevelPanelView = Backbone.View.extend({
         tagName: "a",
+
+        initialize: function (callback) {
+            this.callback = callback;
+        },
 
         attributes: {
             class: 'list-group-item',
@@ -28,12 +30,12 @@ define([
             this.level = level;
         },
         events: {
-            'click': 'startlevel'
+            'click': 'triggercallback'
         },
 
-        startlevel: function (event) {
+        triggercallback: function (event) {
             event.preventDefault();
-            app.startlevel(this.level);
+            this.callback(this.level);
         }
     });
     return LevelPanelView;

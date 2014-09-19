@@ -7,7 +7,7 @@ define([
     'util/SoundcloudLoader',
     'gameclasses/Game',
     'util/analytics',
-    '../util/AudioController',
+    'util/AudioController',
     'util/scripts'
 
 ], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, Game, analytics, AudioController) {
