@@ -121,5 +121,15 @@ define(['jquery'], function ($) {
 
     })();
 
-    return {};
+    var scripts = {};
+
+    scripts.pickRandomObject = function (parent) {
+        var result, count = 0;
+        for (var prop in parent)
+            if (Math.random() < 1 / ++count)
+                result = prop;
+        return result;
+    }
+
+    return scripts;
 });

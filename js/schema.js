@@ -47,6 +47,19 @@ define([
                             },
                             "y": {
                                 "type": "number"
+                            },
+                            "shape": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": ["circle", "square_sidedown", "square_edgedown", "triangle_sidedown", "triangle_edgedown" ]
+                                    },
+                                    "size": {
+                                        "type": "string",
+                                        "enum": ["small", "medium", "large"]
+                                    }
+                                }
                             }
 
                         },

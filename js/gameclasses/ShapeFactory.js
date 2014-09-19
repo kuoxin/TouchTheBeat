@@ -104,5 +104,15 @@ define([
         console.log(outputstring);
     };
 
+
+    ShapeFactory.randomizeShapes = function (level) {
+        var index;
+        var a = level.gameobjects;
+        for (index = 0; index < a.length; ++index) {
+            console.log(a[index]);
+        }
+        return level;
+    };
+
     return ShapeFactory;
 });

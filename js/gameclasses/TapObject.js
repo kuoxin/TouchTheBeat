@@ -4,8 +4,9 @@ define([
     'backbone',
     'snap',
     'util/analytics',
-    "gameclasses/ShapeFactory"
-], function ($, _, Backbone, Snap, analytics, ShapeFactory) {
+    "gameclasses/ShapeFactory",
+    "util/scripts"
+], function ($, _, Backbone, Snap, analytics, ShapeFactory, scripts) {
 
     var TapObject = function (game, timestamp, x, y) {
         this.game = game;
@@ -64,16 +65,8 @@ define([
 
         createVisualElement: function () {
 
-            var pickRandomObject = function (parent) {
-                var result;
-                var count = 0;
-                for (var prop in parent)
-                    if (Math.random() < 1 / ++count)
-                        result = prop;
-                return result;
-            }
             // uncomment this for a quick demo of the ShapeFactory
-            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
+            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), scripts.pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
 
             this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), 'circle', {x: this.x, y: this.y, size: "medium"});
 
