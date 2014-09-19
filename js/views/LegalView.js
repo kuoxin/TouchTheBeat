@@ -3,13 +3,16 @@ define([
     'underscore',
     'backbone',
     'text!templates/legal.html',
-    'app'
-], function ($, _, Backbone, legalTemplate, app) {
+    'app',
+    'gameclasses/ShapeFactory'
+], function ($, _, Backbone, legalTemplate, app, ShapeFactory) {
     var LegalView = Backbone.View.extend({
         el: '#content',
         render: function () {
             var template = _.template(legalTemplate, {});
             this.$el.html(template);
+            // can be used for temporaly creation of shape css rules:
+            //ShapeFactory.setCSSRules();
         }
     });
     return LegalView;

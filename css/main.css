@@ -30,26 +30,31 @@ div.svgcontainer {
 
 }
 
+.symbol_selected {
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
 /* The following part was generated from ShapeFactory's method "createCSS()" */
 
 .symbol_circle {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><circle cx="120" cy="120" r="120" fill="#000000"></circle></svg>')
+    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><circle cx="120" cy="120" r="120" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></circle></svg>')
 }
 
 .symbol_square_sidedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><rect x="0" y="0" width="240" height="240" transform="matrix(0.8,0,0,0.8,24,24)" fill="#000000"></rect></svg>')
+    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><rect x="0" y="0" width="240" height="240" transform="matrix(0.8,0,0,0.8,24,24)" fill="#000000" style="opacity: 0.75;"></rect></svg>')
 }
 
 .symbol_square_edgedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="120,240,0,120,120,0,240,120" fill="#000000"></polygon></svg>')
+    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="120,240,0,120,120,0,240,120" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></polygon></svg>')
 }
 
 .symbol_triangle_sidedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" fill="#000000"></polygon></svg>')
+    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" fill="#000000" transform="matrix(0.8,0,0,0.8,24,24)" style="opacity: 0.75;"></polygon></svg>')
 }
 
 .symbol_triangle_edgedown {
-    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" transform="matrix(-1,0,0,-1,240,240)" fill="#000000"></polygon></svg>')
+    background-image: url('data:image/svg+xml;utf8,<svg height="240" version="1.1" width="240" xmlns="http://www.w3.org/2000/svg"><desc>Created with Snap</desc><defs></defs><polygon points="0,240,120,0,240,240" transform="matrix(0.8,0,0,0.8,24,24)" fill="#000000" style="opacity: 0.75;"></polygon></svg>')
 }
 
 /* end of generated part */

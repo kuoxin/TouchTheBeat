@@ -89,8 +89,10 @@ define([
             var snap = new Snap(dim, dim);
             var shape = ShapeFactory.createShape(snap, prop, {x: dim / 2, y: dim / 2, size: size});
             shape.attr({
-                fill: '#000000'
+                fill: '#000000',
+                opacity: 0.75
             });
+            shape = scaleObject(snap, shape, dim / 2, dim / 2, 0.8);
             outputstring = outputstring +
                 _.template(template,
                     {

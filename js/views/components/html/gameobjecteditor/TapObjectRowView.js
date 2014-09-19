@@ -22,6 +22,8 @@ define([
                     shapes: Object.keys(ShapeFactory.shapes)
                 });
             this.$el.html(template);
+
+            this.$('.symbol_circle').addClass('symbol_selected');
         }
     });
 
