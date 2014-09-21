@@ -19,6 +19,7 @@ define([
             this.containerelement_custom = $('#levelcontainer_custom');
             this.inputstatediv = $('#inputstatediv');
             this.containerelement_packaged.html('');
+
             var callback = app.startlevel.bind(app);
             for (var i = 0; i < levelcontainer.length; i++) {
                 var clevel = levelcontainer[i];
@@ -28,7 +29,6 @@ define([
                 this.levelpanelviews.push(view);
             }
 
-            console.log("creating manual input view");
             var manualinputview = new LevelTextInputView(callback);
             manualinputview.render();
             $('#manualinputcontainer').html(manualinputview.el);

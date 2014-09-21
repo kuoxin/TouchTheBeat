@@ -9,41 +9,39 @@ define([
     var app = {
         router: null,
 
-        applicationwithmenuisrendered: false,
-        currentview: null,
+        baseviewIsRendered: false,
+
 
         startlevel: function (level) {
-            app.setFullScreenContent(app.router.playlevelview, level);
+            app.setFullScreenContent(app.router.views.playlevelview, level);
         },
 
         setFullScreenContent: function () {
-            console.log(arguments);
-            app.router.applicationwithmenuisrendered = false;
+            app.baseviewIsRendered = false;
 
-            app.currentview = [].shift.call(arguments);
-            app.currentview.setElement('#body').render.apply(app.currentview, arguments);
-            analytics.trackPageView(app.router.current());
-
+            app.router.views.current = [].shift.call(arguments);
+            app.router.views.current.setElement('#body').render.apply(app.router.views.current, arguments);
+            analytics.trackPageView(app.router.getCurrentAppStatus());
         },
 
         setContent: function () {
 
-            if (!app.router.applicationwithmenuisrendered) {
-                app.router.applicationwithmenuview.render();
-                app.router.applicationwithmenuisrendered = true;
+            if (!app.baseviewIsRendered) {
+                app.router.views.baseview.render();
+                app.baseviewIsRendered = true;
             }
 
-            if (app.currentview != null) {
-                if (app.currentview.onClose)
-                    app.currentview.onClose();
+            if (app.router.views.current != null) {
+                if (app.router.views.current.onClose)
+                    app.router.views.current.onClose();
 
-                app.currentview.dispose();
+                app.router.views.current.dispose();
             }
 
-            app.currentview = [].shift.call(arguments);
-            app.currentview.setElement($('#content')).render.apply(app.currentview, arguments);
+            app.router.views.current = [].shift.call(arguments);
+            app.router.views.current.setElement($('#content')).render.apply(app.router.views.current, arguments);
 
-            analytics.trackPageView(app.router.current());
+            analytics.trackPageView(app.router.getCurrentAppStatus());
 
         }
 

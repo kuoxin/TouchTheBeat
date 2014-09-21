@@ -16,14 +16,15 @@ define([
     'views/levelbuilder/GameObjectRecorderView',
     'views/levelbuilder/GameObjectEditorView',
     'views/levelbuilder/MetaDataView',
+    'views/levelbuilder/StartView',
     'views/components/svg/AudioLoaderView'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, GameObjectEditorView, MetaDataView, AudioLoaderView) {
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, AudioSelectorView, GameObjectRecorderView, GameObjectEditorView, MetaDataView, StartView, AudioLoaderView) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
             'chooselevel': 'chooselevel',
-            'buildlevel': 'buildlevel',
-            'buildlevel/:soundcloudurl': 'buildlevel',
+            'levelbuilder': 'buildlevel',
+            'levelbuilder/create(/:soundcloudurl)': 'createlevel',
             'legal': 'legal',
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',
@@ -33,51 +34,64 @@ define([
             '*notfound': 'notfound'
         },
 
+        views: {
+            current: null,
+            baseview: new ApplicationWithMenuView(),
+            homeview: new HomeView(),
+            chooselevelview: new ChooseLevelView(),
+            pagenotfoundview: new PageNotFoundView(),
+            legalview: new LegalView(),
+            playlevelview: new PlayView(),
+            highscoreview: new HighScoreView(),
+            levelbuilder: {
+                startview: new StartView(),
+                audioselectorview: new AudioSelectorView(),
+                gameobjectrecorderview: new GameObjectRecorderView(),
+                metadataview: new MetaDataView()
+            },
+
+            audioloaderview: new AudioLoaderView()
+        },
+
         init: function () {
-            this.applicationwithmenuview = new ApplicationWithMenuView();
-            this.homeview = new HomeView();
-            this.chooselevelview = new ChooseLevelView();
-            this.pagenotfoundview = new PageNotFoundView();
-            this.legalview = new LegalView();
-            this.playlevelview = new PlayView();
-            this.highscoreview = new HighScoreView();
-            this.levelbuilder_audioselectorview = new AudioSelectorView();
-            this.levelbuilder_gameobjectrecorderview = new GameObjectRecorderView();
-            this.levelbuilder_metadataview = new MetaDataView();
-            this.audioloaderview = new AudioLoaderView();
+
 
             this.on('route:home', function () {
-                app.setContent(this.homeview);
+                app.setContent(app.router.views.homeview);
             });
 
             this.on('route:chooselevel', function () {
-                app.setContent(this.chooselevelview);
+                app.setContent(app.router.views.chooselevelview);
             });
 
-            this.on('route:buildlevel', function (soundcloudurl) {
-                app.setContent(this.levelbuilder_audioselectorview, soundcloudurl);
+            this.on('route:buildlevel', function () {
+                app.setContent(app.router.views.levelbuilder.startview);
+            });
+
+            this.on('route:createlevel', function (soundcloudurl) {
+                app.setContent(app.router.views.levelbuilder.audioselectorview, soundcloudurl);
             });
 
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
-                app.setContent(this.homeview);
-                this.pagenotfoundview.render();
+                app.setContent(app.router.views.homeview);
+                app.router.views.pagenotfoundview.render();
             });
 
             this.on('route:legal', function () {
-                app.setContent(this.legalview);
+                app.setContent(app.router.views.legalview);
             });
 
             //TODO: integrate this temporary route into the LevelBuilder
             this.on('route:editlevel', function () {
-                var view = new GameObjectEditorView(levelcontainer[0]);
-                app.setContent(view);
+                //var view = new GameObjectEditorView(levelcontainer[0]);
+                //app.setContent(view);
             });
         },
 
 
         // taken from http://stackoverflow.com/a/16191880/2618345
-        current: function () {
+        getCurrentAppStatus: function () {
             var Router = this,
                 fragment = Backbone.history.fragment,
                 routes = _.pairs(Router.routes),

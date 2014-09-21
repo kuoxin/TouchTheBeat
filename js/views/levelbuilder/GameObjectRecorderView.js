@@ -31,7 +31,7 @@ define([
             var template = _.template(recordertemplate, {});
             this.$el.html(template);
 
-            this.audioloaderview = app.router.audioloaderview;
+            this.audioloaderview = app.router.views.audioloaderview;
             this.audioloaderview.render({bgcolor: '#222222'});
 
             this.audiocontroller = new AudioController();
@@ -96,7 +96,7 @@ define([
         recordingfinished: function () {
             this.isrecording = false;
             console.log('finished');
-            app.setContent(app.router.levelbuilder_metadataview, this.sound, this.gameobjects);
+            app.setContent(app.router.views.levelbuilder.metadataview, this.sound, this.gameobjects);
         }
 
 

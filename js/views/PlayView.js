@@ -54,7 +54,7 @@ define([
             var template = _.template(playTemplate, {});
             this.$el.html(template);
 
-            this.audioloaderview = app.router.audioloaderview;
+            this.audioloaderview = app.router.views.audioloaderview;
             this.audioloaderview.render();
 
 
@@ -85,7 +85,7 @@ define([
 
             analytics.trackAction('game', 'ending regularly', 'highscore:' + this.result.highscore);
 
-            app.setContent(app.router.highscoreview, this.result);
+            app.setContent(app.router.views.highscoreview, this.result);
         }
 
 

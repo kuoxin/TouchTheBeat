@@ -67,13 +67,13 @@ define([
         },
 
         openGameObjectRecorder: function openGameObjectRecorder() {
-            app.setFullScreenContent(app.router.levelbuilder_gameobjectrecorderview, this.sound);
+            app.setFullScreenContent(app.router.views.levelbuilder.gameobjectrecorderview, this.sound);
         },
 
         loading_success: function (sound) {
             this.sound = sound;
             $("#alert_tracknotfound").slideUp();
-            Backbone.history.navigate('/buildlevel/' + encodeURIComponent($("#input_entertrack").val()));
+            Backbone.history.navigate('/levelbuilder/create/' + encodeURIComponent($("#input_entertrack").val()));
             this.updateTrackPanel(
                 {
                     // if no track artwork exists, use the user's avatar.
