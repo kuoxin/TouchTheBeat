@@ -66,9 +66,9 @@ define([
         createVisualElement: function () {
 
             // uncomment this for a quick demo of the ShapeFactory
-            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), scripts.pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
+            this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), scripts.pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
 
-            this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), 'circle', {x: this.x, y: this.y, size: "medium"});
+            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), 'circle', {x: this.x, y: this.y, size: "medium"});
 
             this.snapobject.attr({
                 fill: this.color_plain_fill,
