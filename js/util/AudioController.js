@@ -7,6 +7,8 @@ define([
     var AudioController = Backbone.View.extend({
         el: '#player',
 
+        cache: [],
+
         onClose: function () {
             this.active = false;
             console.log('closing audio');
@@ -42,10 +44,17 @@ define([
             this.inittime = null;
 
             this.playasap = playasap;
+            this.stream_url = stream_url;
 
             try {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
                 this.context = new AudioContext();
+
+                if (this.cache[stream_url] != undefined) {
+                    console.info('Reading audio-buffer from cache.')
+                    this.initsound(this.cache[stream_url]);
+                    return;
+                }
 
                 var request = new XMLHttpRequest();
                 request.open('GET', stream_url, true);
@@ -59,8 +68,9 @@ define([
                         this.audioloaderview.showProcessingInformation();
                     }
 
-                    if (this.active)
+                    if (this.active) {
                         this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
+                    }
                 }.bind(this);
 
                 request.onload = loader;
@@ -89,6 +99,10 @@ define([
             console.log('init sound');
             if (!this.active)
                 return;
+
+            if (this.cache[this.stream_url] == undefined)
+                this.cache[this.stream_url] = buffer;
+
             var source = this.context.createBufferSource();
             source.buffer = buffer;
             source.connect(this.context.destination);
@@ -101,6 +115,7 @@ define([
             this.callback_readytoplay();
 
         },
+
 
         start: function () {
             this.source.start(0);
