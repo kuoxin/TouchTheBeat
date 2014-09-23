@@ -8,7 +8,6 @@ define([
     'bootstrap'
 ], function ($, _, Backbone, app, levelbuilderTemplate) {
     var MetaDataView = Backbone.View.extend({
-        el: '#content',
 
         initialize: function () {
         },
@@ -22,7 +21,7 @@ define([
             var template = _.template(levelbuilderTemplate, {});
             this.$el.html(template);
 
-            $("#publish").fadeIn();
+            this.$("#publish").fadeIn();
 
         },
 
@@ -37,9 +36,9 @@ define([
 
         openPublish: function openPublish() {
             this.createLevel();
-            $("#leveljsoncontainer").html(JSON.stringify(this.level));
-            $("#publish").slideUp();
-            $("#finished").slideDown();
+            this.$("#leveljsoncontainer").html(JSON.stringify(this.level));
+            this.$("#publish").slideUp();
+            this.$("#finished").slideDown();
         },
 
         playLevelNow: function () {
@@ -52,7 +51,7 @@ define([
             level.audio.stream_url = this.sound.stream_url;
             level.audio.permalink_url = this.sound.permalink_url;
             level.gameobjects = this.gameobjects;
-            level.name = $("#levelname").val();
+            level.name = this.$("#levelname").val();
             level.track = {};
             level.track.title = this.sound.title;
             level.track.artist = this.sound.user.username;
