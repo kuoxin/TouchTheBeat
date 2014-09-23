@@ -9,6 +9,10 @@ define([
     var app = {
         router: null,
 
+        models: {
+            levelEditorModel: null
+        },
+
         baseviewIsRendered: false,
 
 
@@ -26,6 +30,11 @@ define([
 
         setContent: function () {
 
+            var newview = [].shift.call(arguments);
+
+            if (app.router.views.current == newview)
+                return;
+
             if (!app.baseviewIsRendered) {
                 app.router.views.baseview.render();
                 app.baseviewIsRendered = true;
@@ -38,7 +47,7 @@ define([
                 app.router.views.current.dispose();
             }
 
-            app.router.views.current = [].shift.call(arguments);
+            app.router.views.current = newview;
             app.router.views.current.setElement($('#content')).render.apply(app.router.views.current, arguments);
 
             analytics.trackPageView(app.router.getCurrentAppStatus());

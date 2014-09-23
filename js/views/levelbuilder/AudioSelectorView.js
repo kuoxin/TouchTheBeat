@@ -12,8 +12,6 @@ define([
 
 ], function ($, _, Backbone, app, audioselectorTemplate, trackPanelTemplate, SoundcloudLoader) {
     var AudioSelectorView = Backbone.View.extend({
-        el: '#content',
-
         initialize: function () {
             this.randomtracks = [
                 'https://soundcloud.com/maxfrostmusic/white-lies',
@@ -31,13 +29,11 @@ define([
             var template = _.template(audioselectorTemplate, {});
             this.$el.html(template);
 
-
             if (url != null) {
-                $("#input_entertrack").val(url);
+                console.log(url);
+                this.$("#input_entertrack").val(url);
                 this.enteredTrack();
             }
-
-
         },
 
         onClose: function () {
@@ -51,12 +47,12 @@ define([
         },
 
         enteredTrack: function () {
-            if ($("#input_entertrack").val() == '') {
+            if (this.$("#input_entertrack").val() == '') {
                 this.loading_error();
                 return;
             }
 
-            SoundcloudLoader.loadStream($("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
+            SoundcloudLoader.loadStream(this.$("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
         },
 
         selectedRandomTrack: function () {
@@ -67,13 +63,13 @@ define([
         },
 
         openGameObjectRecorder: function openGameObjectRecorder() {
-            app.setFullScreenContent(app.router.views.levelbuilder.gameobjectrecorderview, this.sound);
+            app.setFullScreenContent(app.router.views.levelbuilderview.contents.gameobjectrecorderview, this.sound);
         },
 
         loading_success: function (sound) {
             this.sound = sound;
-            $("#alert_tracknotfound").slideUp();
-            Backbone.history.navigate('/levelbuilder/create/' + encodeURIComponent($("#input_entertrack").val()));
+            this.$("#alert_tracknotfound").slideUp();
+            Backbone.history.navigate('/levelbuilder/create/' + encodeURIComponent(this.$("#input_entertrack").val()));
             this.updateTrackPanel(
                 {
                     // if no track artwork exists, use the user's avatar.
@@ -84,8 +80,8 @@ define([
                     track: this.sound.title
                 });
 
-            $("#trackinfo").fadeIn();
-            $("#trackselection").slideUp();
+            this.$("#trackinfo").fadeIn();
+            this.$("#trackselection").slideUp();
         },
 
         loading_error: function (errorMessage) {
@@ -96,10 +92,8 @@ define([
 
         updateTrackPanel: function updateTrackPanel(data) {
             var template = _.template(trackPanelTemplate, data);
-
-            $('#trackcontainer').html(template);
-
-            $('#trackinfo').fadeIn();
+            this.$('#trackcontainer').html(template);
+            this.$('#trackinfo').fadeIn();
         }
 
     });

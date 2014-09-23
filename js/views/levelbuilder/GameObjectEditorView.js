@@ -3,18 +3,19 @@ define([
     'underscore',
     'backbone',
     'text!templates/levelbuilder/gameobjecteditor.html',
-    'views/components/html/gameobjecteditor/TapObjectRowView'
-], function ($, _, Backbone, Template, TapObjectRowView) {
+    'views/components/html/gameobjecteditor/TapObjectRowView',
+    'app'
+], function ($, _, Backbone, Template, TapObjectRowView, app) {
     var GameObjectEditorView = Backbone.View.extend({
 
         template: _.template(Template, {}),
 
-        initialize: function (level) {
-            this.level = level;
-            this.gameobjectscounter = 0;
+        initialize: function () {
         },
 
         render: function () {
+            // Will be changed to really use the model instead of the JSON object
+            this.level = app.models.levelEditorModel.toJSON();
             this.$el.html(this.template);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
@@ -24,7 +25,7 @@ define([
 
                 if (gameobject.type == 'Tap') {
                     var view = new TapObjectRowView(gameobject);
-                    view.render(++this.gameobjectscounter);
+                    view.render(i + 1);
                     this.table.append(view.el);
                 }
             }

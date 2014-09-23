@@ -20,7 +20,13 @@ define([
                 $('.navbar-toggle:visible').click();
             });
 
-            Backbone.history.bind("route", this.updateMenuState);
+            Backbone.history.bind("route", this.updateMenuState.bind(this));
+        },
+
+        menustates: {
+            'createlevel': 'levelbuilder',
+            'editlevel': 'levelbuilder',
+            'buildlevel': 'levelbuilder'
         },
 
         updateMenuState: function (router, route) {
@@ -28,7 +34,7 @@ define([
             if (activeitem_old != null)
                 activeitem_old.removeClass('active');
 
-            var activeitem_new = $('#' + route);
+            var activeitem_new = $('#' + (this.menustates[route] || route));
             if (activeitem_new != null)
                 activeitem_new.addClass('active');
         }

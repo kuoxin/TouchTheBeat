@@ -17,6 +17,7 @@ define([
             this.$el.html(this.template);
             this.containerelement_custom = this.$('.levelcontainer_custom');
             this.inputstatediv = this.$('.inputstatediv');
+            return this;
         },
 
         events: {

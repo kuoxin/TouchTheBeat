@@ -96,7 +96,10 @@ define([
         recordingfinished: function () {
             this.isrecording = false;
             console.log('finished');
-            app.setContent(app.router.views.levelbuilder.metadataview, this.sound, this.gameobjects);
+            var levelbuilderview = app.router.views.levelbuilderview;
+            var args = [this.sound, this.gameobjects];
+            app.setContent(levelbuilderview);
+            levelbuilderview.setContent(levelbuilderview.contents.metadataview, args);
         }
 
 
