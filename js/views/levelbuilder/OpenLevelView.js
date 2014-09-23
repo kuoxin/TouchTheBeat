@@ -17,7 +17,8 @@ define([
 
         render: function () {
             this.$el.html(this.template);
-            this.$('.leveltextinput').append(this.leveltextinputview.render().el);
+            this.leveltextinputview.setElement(this.$('.leveltextinput'));
+            this.leveltextinputview.render();
         },
 
         levelselected: function (level) {

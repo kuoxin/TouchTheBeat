@@ -13,8 +13,9 @@ define([
     'views/PlayView',
     'views/HighScoreView',
     'views/levelbuilder/BaseView',
-    'views/components/svg/AudioLoaderView'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView, AudioLoaderView) {
+    'views/components/svg/AudioLoaderView',
+    'views/SignInView'
+], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView, AudioLoaderView, SignInView) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
@@ -25,6 +26,7 @@ define([
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',
             'levelbuilder/edit': 'editlevel',
+            'signin': 'signin',
 
             // Default
             '*notfound': 'notfound'
@@ -84,6 +86,11 @@ define([
 
             this.on('route:editlevel', function () {
                 this.openLevelEditor(this.views.levelbuilderview.contents.openlevelview);
+            });
+
+            this.on('route:signin', function () {
+                var signinview = new SignInView();
+                app.setContent(signinview);
             });
         },
 
