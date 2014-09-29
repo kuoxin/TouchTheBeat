@@ -95,7 +95,7 @@ define([
                 "required": ["id", "username"]
             }
         },
-        "required": ["id", "name", "audio", "gameObjects"]
+        "required": ["id", "name", "audio", "gameObjects", "owner"]
     };
     return schema;
 })
