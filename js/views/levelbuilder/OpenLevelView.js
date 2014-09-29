@@ -4,9 +4,8 @@ define([
     'backbone',
     'text!templates/levelbuilder/openlevel.html',
     'views/components/html/LevelTextInputView',
-    'app',
-    'models/Level'
-], function ($, _, Backbone, plainTemplate, LevelTextInputView, app, Level) {
+    'app'
+], function ($, _, Backbone, plainTemplate, LevelTextInputView, app) {
     var OpenLevelView = Backbone.View.extend({
 
         template: _.template(plainTemplate, {}),
@@ -22,7 +21,7 @@ define([
         },
 
         levelselected: function (level) {
-            app.models.levelEditorModel = new Level(level);
+            app.models.levelEditorModel = level;
             var levelbuilderview = app.router.views.levelbuilderview;
             levelbuilderview.setContent(levelbuilderview.contents.gameobjecteditorview);
 

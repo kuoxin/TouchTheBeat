@@ -19,7 +19,7 @@ define([
         matrix.rotate(angle, x, y);
         object.attr({transform: matrix});
         return object;
-    }
+    };
 
     var scaleObject = function (snap, object, x, y, scale) {
         var matrix = new Snap.Matrix();
@@ -27,7 +27,7 @@ define([
         object.attr({transform: matrix});
         return object;
 
-    }
+    };
 
     // factory methods for each predefined shape using snap.svg
     ShapeFactory.shapes = {
@@ -73,8 +73,8 @@ define([
             console.error('unknown shape type: ' + name);
             return ShapeFactory.shapes["circle"](snap, options);
         }
-        else
-            console.log(options);
+        //else
+        //console.log(options);
         return ShapeFactory.shapes[name](snap, options);
     };
 

@@ -17,14 +17,16 @@ define([
         },
 
         render: function (level) {
+            var track = level.get('audio');
+            var owner = level.get('owner');
             var template = _.template(LevelPanelTemplate, {
-                levelname: level.name,
-                artist: level.track.artist ? level.track.artist : 'Unknown',
+                levelname: level.get('name'),
+                artist: track.artist || 'Unknown',
                 artisturl: '#',
-                track: level.track.title ? level.track.title : 'Unknown',
-                trackurl: level.audio.permalink_url,
+                track: track.title || 'Unknown',
+                trackurl: track.permalinkUrl,
                 duration: 'not set',
-                author: level.author ? level.author : 'Unknown'
+                author: owner.username || 'Unknown'
             });
             this.$el.html(template);
             this.level = level;

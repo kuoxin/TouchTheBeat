@@ -11,8 +11,18 @@ define([
             }
         },
 
-        initialize: function () {
-
+        parse: function (data) {
+            var obj = {};
+            for (var k in data) {
+                switch (k) {
+                    case 'taptime':
+                        obj['tapTime'] = data[k];
+                        break;
+                    default:
+                        obj[k] = data[k];
+                }
+            }
+            return obj;
         }
     });
 

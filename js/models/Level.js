@@ -14,15 +14,12 @@ define([
         },
 
         parse: function (data) {
-            console.log('parsing');
-            console.log(data);
             var obj = {};
             for (var k in data) {
                 switch (k) {
-                    case 'gameobjects':
-                        obj[k] = new GameObjectCollection(data[k]);
+                    case 'gameObjects':
+                        obj['gameObjects'] = new GameObjectCollection(data[k], {parse: true});
                         break;
-
                     default:
                         obj[k] = data[k];
                 }

@@ -8,11 +8,12 @@ define([
     "util/scripts"
 ], function ($, _, Backbone, Snap, analytics, ShapeFactory, scripts) {
 
-    var TapObject = function (game, timestamp, x, y) {
+    var TapObject = function (game, timestamp, x, y, shape) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.timestamp = timestamp;
+        this.shape = shape;
     };
 
     TapObject.prototype = {
@@ -20,7 +21,6 @@ define([
         //relatve timing preferences
         startborder: -0.5,
         endborder: 0,
-        radius: 120,
         borderradius: 20,
         removeuntil: 0.5,
         removefrom: 0.4,
@@ -66,9 +66,9 @@ define([
         createVisualElement: function () {
 
             // uncomment this for a quick demo of the ShapeFactory
-            this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), scripts.pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
+            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), scripts.pickRandomObject(ShapeFactory.shapes), {x: this.x, y: this.y, size: "medium"});
 
-            //this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), 'circle', {x: this.x, y: this.y, size: "medium"});
+            this.snapobject = ShapeFactory.createShape(this.game.surface.getSnap(), this.shape.type, {x: this.x, y: this.y, size: this.shape.size});
 
             this.snapobject.attr({
                 fill: this.color_plain_fill,
@@ -93,7 +93,7 @@ define([
                 analytics.trackAction('game', 'TapObject', 'missed (too early)', Math.abs(Math.abs(Math.floor(this.time_logic * 100))));
             }
 
-            var diff = Math.abs(Math.floor(this.tapdiff * 1000));
+            //var diff = Math.abs(Math.floor(this.tapdiff * 1000));
 
         },
 

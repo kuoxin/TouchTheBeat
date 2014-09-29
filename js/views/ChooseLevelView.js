@@ -21,13 +21,12 @@ define([
             this.containerelement_packaged.html('');
 
             var callback = app.startlevel.bind(app);
-            for (var i = 0; i < levelcontainer.length; i++) {
-                var clevel = levelcontainer[i];
+            levelcontainer.forEach(function (level) {
                 var view = new LevelPanel(callback);
-                view.render(clevel);
+                view.render(level);
                 this.containerelement_packaged.append(view.el);
                 this.levelpanelviews.push(view);
-            }
+            }.bind(this));
 
             var manualinputview = new LevelTextInputView(callback);
             manualinputview.render();

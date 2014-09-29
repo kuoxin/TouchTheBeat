@@ -8,8 +8,9 @@ define([
 
     var Game = function (level, audiocontroller) {
         this.audiocontroller = audiocontroller;
-        this.level = level;
-        this.gameobjects = [];
+        console.log(level);
+        this.level = level.toJSON();
+        this.gameObjects = [];
         this.setup();
         this.surface = new Surface(
             {bgcolor: '#000000'}
@@ -25,14 +26,15 @@ define([
 
         setup: function () {
             console.log('setting up game');
-            for (i = 0; i < this.level.gameobjects.length; i++) {
-                var gameobject = this.level.gameobjects[i];
-                switch (gameobject.type) {
+            console.log(this.level);
+            for (i = 0; i < this.level.gameObjects.length; i++) {
+                var gameObject = this.level.gameObjects[i];
+                switch (gameObject.type) {
                     case 'Tap':
-                        this.gameobjects.push(new TapObject(this, gameobject.taptime, gameobject.x, gameobject.y));
+                        this.gameObjects.push(new TapObject(this, gameObject.tapTime, gameObject.x, gameObject.y, gameObject.shape));
                         break;
                     default:
-                        console.error("undefined gameobject detected")
+                        console.error("undefined gameObject detected")
                 }
             }
         },
@@ -47,16 +49,16 @@ define([
 
         update: function () {
             if (!this.stopped) {
-                for (var i = 0; i < this.gameobjects.length; i++) {
-                    this.gameobjects[i].update(this.getTime());
+                for (var i = 0; i < this.gameObjects.length; i++) {
+                    this.gameObjects[i].update(this.getTime());
                 }
             }
         },
 
         updateView: function (timestamp) {
             if (!this.stopped) {
-                for (var i = 0; i < this.gameobjects.length; i++) {
-                    this.gameobjects[i].render(timestamp);
+                for (var i = 0; i < this.gameObjects.length; i++) {
+                    this.gameObjects[i].render(timestamp);
                 }
                 requestAnimationFrame(this.updateView.bind(this));
             }
@@ -77,12 +79,12 @@ define([
             //var highscores = [];
             var highscoresum = 0;
 
-            for (var i = 0; i < this.gameobjects.length; i++) {
-                //highscores.push(this.gameobjects[i].getHighScore());
-                highscoresum += this.gameobjects[i].getHighScore();
+            for (var i = 0; i < this.gameObjects.length; i++) {
+                //highscores.push(this.gameObjects[i].getHighScore());
+                highscoresum += this.gameObjects[i].getHighScore();
             }
 
-            var highscoreaverage = highscoresum / this.gameobjects.length;
+            var highscoreaverage = highscoresum / this.gameObjects.length;
 
             return (highscoreaverage * 100).toFixed(1) + '%';
         }

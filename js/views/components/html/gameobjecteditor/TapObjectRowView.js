@@ -12,36 +12,47 @@ define([
 
         initialize: function (tapobject) {
             this.tapobject = tapobject;
-            this.currentShape = 'circle';
+            this.tapobject.on('change:shape', this.changeShape, this);
         },
 
         events: {
             'click .shape': 'clickedShapeButton'
         },
 
+
         render: function (index) {
             var template = _.template(Template,
                 {
                     index: index,
                     time: (Math.round(this.tapobject.taptime * 100) / 100).toFixed(2),
-                    x: this.tapobject.x,
-                    y: this.tapobject.y,
+                    x: this.tapobject.get('x'),
+                    y: this.tapobject.get('y'),
                     shapes: Object.keys(ShapeFactory.shapes),
-                    currentShape: this.currentShape
+                    currentShape: this.currentShape()
                 });
             this.$el.html(template);
-            this.getShapeElem(this.currentShape).addClass(this.css_classname_active);
+            this.getShapeElem(this.currentShape()).addClass(this.css_classname_active);
+        },
+
+        currentShape: function () {
+            return this.tapobject.get('shape').type;
+        },
+
+        previousShape: function () {
+            return this.tapobject.previous('shape').type;
         },
 
         clickedShapeButton: function (event) {
             var shapename = event.target.getAttribute('alt');
-            this.changeShape(shapename);
+            this.tapobject.set({shape: {
+                type: shapename,
+                size: 'medium'
+            }});
         },
 
-        changeShape: function (shapename) {
-            this.getShapeElem(this.currentShape).removeClass(this.css_classname_active);
-            this.currentShape = shapename;
-            this.getShapeElem(this.currentShape).addClass(this.css_classname_active);
+        changeShape: function () {
+            this.getShapeElem(this.previousShape()).removeClass(this.css_classname_active);
+            this.getShapeElem(this.currentShape()).addClass(this.css_classname_active);
         },
 
         getShapeElem: function (shapename) {

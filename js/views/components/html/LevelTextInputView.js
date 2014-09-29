@@ -52,7 +52,7 @@ define([
                     }
 
                     var view = new LevelPanel(this.callback);
-                    view.render(JSON.parse(value));
+                    view.render(new Level(JSON.parse(value), {parse: true}));
                     this.containerelement_custom.html(view.el);
 
                     if (!this.containerelement_custom.is(":visible")) {

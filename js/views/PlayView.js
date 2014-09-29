@@ -61,7 +61,7 @@ define([
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.stopGame.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(SoundCloudLoader.getStreamUrl(this.level.audio.stream_url), true);
+            this.audiocontroller.render(SoundCloudLoader.getStreamUrl(this.level.get('audio').streamUrl), true);
 
 
         },

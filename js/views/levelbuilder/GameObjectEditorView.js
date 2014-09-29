@@ -15,45 +15,42 @@ define([
         },
 
         events: {
-            'click #delete': 'delete',
-            'click #export': 'export',
-            'click #save': 'save'
+            'click #delete': 'deleteDraft',
+            'click #export': 'exportDraft',
+            'click #save': 'saveDraft'
         },
 
-        delete: function () {
+        deleteDraft: function () {
             console.log('triggered');
             app.models.levelEditorModel = null;
             var levelbuilderview = app.router.views.levelbuilderview;
             levelbuilderview.setContent(levelbuilderview.contents.startview);
         },
 
-        export: function () {
+        exportDraft: function () {
             console.log(app.models.levelEditorModel.toJSON());
             this.exportmodalview.render(app.models.levelEditorModel.toJSON());
         },
 
-        save: function () {
+        saveDraft: function () {
         },
 
 
         render: function () {
-            // Will be changed to really use the model instead of the JSON object
-            this.level = app.models.levelEditorModel.toJSON();
             this.$el.html(this.template);
             this.exportmodalview = new ExportModalView();
             this.$el.append(this.exportmodalview.el);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
-
-            for (var i = 0; i < this.level.gameobjects.length; i++) {
-                var gameobject = this.level.gameobjects[i];
-
-                if (gameobject.type == 'Tap') {
+            var i = 1;
+            app.models.levelEditorModel.get('gameObjects').forEach(function (gameobject) {
+                if (gameobject.get('type') == 'Tap') {
                     var view = new TapObjectRowView(gameobject);
-                    view.render(i + 1);
+                    view.render(i++);
                     this.table.append(view.el);
                 }
-            }
+
+            }.bind(this));
 
         }
     });
