@@ -4,8 +4,9 @@ define([
     'backbone',
     'util/levelvalidator',
     'text!templates/components/leveltext-input.html',
-    'views/components/html/LevelPanelView'
-], function ($, _, Backbone, levelvalidator, Template, LevelPanel) {
+    'views/components/html/LevelPanelView',
+    'models/Level'
+], function ($, _, Backbone, levelvalidator, Template, LevelPanel, Level) {
     var LevelTextInputView = Backbone.View.extend({
         template: _.template(Template, {}),
 
