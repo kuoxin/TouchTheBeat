@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Audio</div>
+    <div class="panel-body">
+        <p>Choose a song from <a href="http://soundcloud.com/" target="_blank">Soundcloud</a>
+            and enter the track-url below.<br>
+            To start immediately, you can also use one of the preselected songs by pressing the white button.</p>
+
+        <div class="alert alert-info alert-dismissable" id="alert_tracknotfound" style="display:none;">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <div id="alert_tracknotfound_text">
+                <strong>Track not found!</strong>
+                Use a Soundcloud URL in this format: https://soundcloud.com/artist/track.
+            </div>
+        </div>
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control input-lg" id="input_entertrack"
+                   placeholder="Paste Soundcloud URL here (https://soundcloud.com/artist/track)"/>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" id="btn_recommendedtrack">
+                    <span class='glyphicon glyphicon-random'></span>
+                </button>
+                <button class="btn btn-primary" type="button" id="btn_entertrack">Select this track!</button>
+            </span>
+        </div>
+        <div id="trackcontainer" class="margin-top-10"></div>
+
+    </div>
+</div>

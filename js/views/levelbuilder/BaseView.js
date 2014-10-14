@@ -2,49 +2,50 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'app',
     'text!templates/levelbuilder/base.html',
-    'views/levelbuilder/AudioSelectorView',
     'views/levelbuilder/GameObjectRecorderView',
-    'views/levelbuilder/GameObjectEditorView',
-    'views/levelbuilder/MetaDataView',
     'views/levelbuilder/StartView',
-    'views/levelbuilder/OpenLevelView'
-], function ($, _, Backbone, plainTemplate, AudioSelectorView, GameObjectRecorderView, GameObjectEditorView, MetaDataView, StartView, OpenLevelView) {
+    'views/levelbuilder/OpenLevelView',
+    'views/levelbuilder/LevelEditorView'
+], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView) {
     var BaseView = Backbone.View.extend({
 
         template: _.template(plainTemplate, {}),
 
-        currentContent: null,
-
         contents: {
             startview: new StartView(),
-            audioselectorview: new AudioSelectorView(),
             gameobjectrecorderview: new GameObjectRecorderView(),
-            metadataview: new MetaDataView(),
             openlevelview: new OpenLevelView(),
-            gameobjecteditorview: new GameObjectEditorView()
-        },
-
-        initialize: function () {
+            leveleditorview: new LevelEditorView()
         },
 
         render: function () {
-            this.$el.html(this.template);
+            if (app.models.levelEditorModel)
+                this.setContent('leveleditor');
+            else
+                this.setContent('start');
+
         },
 
         setContent: function (view, args) {
+            this.$el.html(this.template);
+
             if (this.currentContent != null) {
                 if (this.currentContent.onClose)
                     this.currentContent.onClose();
 
                 this.currentContent.dispose();
             }
-            this.currentContent = view;
-            this.$('.content').html('');
-            this.currentContent.setElement($('.content'));
-            this.currentContent.render.apply(this.currentContent, args);
-            //this.$('.content').html(this.currentContent.el);
 
+            this.currentContent = this.contents[view + 'view'];
+            this.currentContent.setElement(this.$('.content').first());
+            this.currentContent.render.apply(this.currentContent, args);
+        },
+
+        onClose: function () {
+            if (this.currentContent && this.currentContent.onClose)
+                this.currentContent.onClose();
         }
     });
 

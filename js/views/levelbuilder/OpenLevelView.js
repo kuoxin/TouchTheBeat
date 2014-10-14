@@ -23,8 +23,7 @@ define([
         levelselected: function (level) {
             app.models.levelEditorModel = level;
             var levelbuilderview = app.router.views.levelbuilderview;
-            levelbuilderview.setContent(levelbuilderview.contents.gameobjecteditorview);
-
+            levelbuilderview.setContent('leveleditor');
         }
 
 

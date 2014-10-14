@@ -3,15 +3,14 @@ define([
     'underscore',
     'backbone',
     'app',
-    'text!templates/levelbuilder/audioselector.html',
+    'text!templates/levelbuilder/panels/audio.html',
     'text!templates/components/trackpanel.html',
     'util/SoundcloudLoader',
     'util/scripts',
     'bootstrap'
+], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, SoundcloudLoader) {
+    var MetaDataPanelView = Backbone.View.extend({
 
-
-], function ($, _, Backbone, app, audioselectorTemplate, trackPanelTemplate, SoundcloudLoader) {
-    var AudioSelectorView = Backbone.View.extend({
         initialize: function () {
             this.randomtracks = [
                 'https://soundcloud.com/maxfrostmusic/white-lies',
@@ -25,19 +24,19 @@ define([
             ];
         },
 
-        render: function (url) {
-            var template = _.template(audioselectorTemplate, {});
+        render: function () {
+            var template = _.template(mainTemplate, {});
             this.$el.html(template);
-
-            if (url != null) {
-                console.log(url);
-                this.$("#input_entertrack").val(url);
-                this.enteredTrack();
+            var audio = app.getLevelEditorModel().get('audio');
+            if (audio.title) {
+                this.$("#input_entertrack").val(audio.permalinkUrl);
+                this.updateTrackPanel();
             }
+
+            this.listenTo(app.getLevelEditorModel(), 'change:audio', this.updateTrackPanel.bind(this));
         },
 
         onClose: function () {
-            // the audiocontroller will be passed to another view and that is why it cannot be disposed here
         },
 
         events: {
@@ -56,46 +55,35 @@ define([
         },
 
         selectedRandomTrack: function () {
+            console.log('click');
             var random = this.randomtracks[Math.floor(Math.random() * (this.randomtracks.length))];
             console.log('random: ' + random);
             $("#input_entertrack").val(random);
             this.enteredTrack();
         },
 
-        openGameObjectRecorder: function openGameObjectRecorder() {
-            app.setFullScreenContent(app.router.views.levelbuilderview.contents.gameobjectrecorderview, this.sound);
+
+        loading_success: function (data) {
+            app.getLevelEditorModel().setSoundcloudAudio(data);
         },
 
-        loading_success: function (sound) {
-            this.sound = sound;
-            this.$("#alert_tracknotfound").slideUp();
-            Backbone.history.navigate('/levelbuilder/create/' + encodeURIComponent(this.$("#input_entertrack").val()));
-            this.updateTrackPanel(
-                {
-                    // if no track artwork exists, use the user's avatar.
-                    imageurl: this.sound.artwork_url ? this.sound.artwork_url : this.sound.user.avatar_url,
-                    artisturl: this.sound.user.permalink_url,
-                    trackurl: this.sound.permalink_url,
-                    artist: this.sound.user.username,
-                    track: this.sound.title
-                });
-
-            this.$("#trackinfo").fadeIn();
-            this.$("#trackselection").slideUp();
-        },
 
         loading_error: function (errorMessage) {
-            console.log("error");
+            console.error(errorMessage);
             this.$("#alert_tracknotfound_text").html(errorMessage);
             this.$("#alert_tracknotfound").slideDown();
         },
 
-        updateTrackPanel: function updateTrackPanel(data) {
-            var template = _.template(trackPanelTemplate, data);
+        updateTrackPanel: function updateTrackPanel() {
+            var sound = app.getLevelEditorModel().get('audio');
+            this.$("#input_entertrack").val(sound.permalinkUrl);
+            var template = _.template(trackPanelTemplate, sound);
             this.$('#trackcontainer').html(template);
             this.$('#trackinfo').fadeIn();
         }
 
+
+
     });
-    return AudioSelectorView;
+    return MetaDataPanelView;
 });

@@ -4,8 +4,9 @@ define([
     'backbone',
     'router',
     'util/analytics',
+    'models/Level',
     'bootstrap'
-], function ($, _, Backbone, Router, analytics) {
+], function ($, _, Backbone, Router, analytics, Level) {
     var app = {
         router: null,
 
@@ -14,7 +15,6 @@ define([
         },
 
         baseviewIsRendered: false,
-
 
         startlevel: function (level) {
             app.setFullScreenContent(app.router.views.playlevelview, level);
@@ -26,6 +26,25 @@ define([
             app.router.views.current = [].shift.call(arguments);
             app.router.views.current.setElement('#body').render.apply(app.router.views.current, arguments);
             analytics.trackPageView(app.router.getCurrentAppStatus());
+        },
+
+        getLevelEditorModel: function () {
+            return app.models.levelEditorModel;
+        },
+
+        createLevelEditorModel: function (soundcloudURL) {
+            console.log(app.getLevelEditorModel());
+            if (app.getLevelEditorModel()) {
+                console.warn('The current LevelEditor-draft will be overwritten. Trying to log the level-text as backup:');
+                try {
+                    console.log(JSON.stringify(app.getLevelEditorModel().toJSON()));
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            }
+            app.models.levelEditorModel = soundcloudURL ? Level.createFromSoundCloud(soundcloudURL) : new Level();
+            return app.getLevelEditorModel();
         },
 
         setContent: function () {
@@ -44,7 +63,7 @@ define([
                 if (app.router.views.current.onClose)
                     app.router.views.current.onClose();
 
-                app.router.views.current.dispose();
+                //app.router.views.current.dispose();
             }
 
             app.router.views.current = newview;

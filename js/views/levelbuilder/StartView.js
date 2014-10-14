@@ -13,15 +13,19 @@ define([
         },
 
         events: {
-            'click #edit': 'edit'
+            'click #edit': 'edit',
+            'click #new': 'create'
+        },
+
+        create: function () {
+            console.log('click');
+            app.createLevelEditorModel();
+            app.router.views.levelbuilderview.setContent('leveleditor');
+            return false;
         },
 
         edit: function () {
-            var levelbuilderview = app.router.views.levelbuilderview;
-            if (app.models.levelEditorModel != null)
-                levelbuilderview.setContent(levelbuilderview.contents.gameobjecteditorview);
-            else
-                levelbuilderview.setContent(levelbuilderview.contents.openlevelview);
+            app.router.views.levelbuilderview.setContent('openlevel');
             return false;
         },
 

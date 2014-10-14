@@ -9,7 +9,8 @@ require.config({
         snap: ['//cdn.jsdelivr.net/snap.svg/0.3.0/snap.svg-min', 'lib/snap.svg'],
         'google-analytics': ['//www.google-analytics.com/analytics', 'lib/analytics'],
         tv4: 'lib/tv4',
-        schema: 'schema'
+        schema: 'schema',
+        sc: '//w.soundcloud.com/player/api'
     },
     shim: {
         'bootstrap': ['jquery'],
@@ -18,6 +19,9 @@ require.config({
         },
         'google-analytics': {
             exports: 'ga'
+        },
+        'sc': {
+            exports: 'SC'
         }
     }
 
@@ -36,14 +40,15 @@ require([
         //_.each(this.bindings, function (binding) {
         //     binding.model.unbind(binding.ev, binding.callback);
         // });
-        // this.bindings = [];
-        this.unbind();
-        this.undelegateEvents();
 
-        // this.unbind();        // This will unbind all listeners to events from
-        // this view. This is probably not necessary
-        // because this view will be garbage collected.
-        //this.remove(); // Uses the default Backbone.View.remove() method which
+        // This will unbind all listeners to events from this view
+        //this.unbind();
+        //this.undelegateEvents();
+
+        //this.bindings = [];
+
+        this.remove();
+        // Uses the default Backbone.View.remove() method which
         // removes this.el from the DOM and removes DOM events.
     };
 

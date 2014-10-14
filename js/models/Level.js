@@ -3,14 +3,36 @@ define([
     'underscore',
     'backbone',
     'util/levelvalidator',
-    'collections/GameObjectCollection'
-], function ($, _, Backbone, Validator, GameObjectCollection) {
+    'collections/GameObjectCollection',
+    'util/SoundcloudLoader'
+], function ($, _, Backbone, Validator, GameObjectCollection, SoundcloudLoader) {
     var Level = Backbone.Model.extend({
         defaults: {
+            gameObjects: new GameObjectCollection(),
+            tags: [],
+            audio: {},
+            owner: {}
         },
 
         initialize: function () {
+            this.on('change', function () {
+                console.log(this.toJSON())
+            }, this);
+        },
 
+        setSoundcloudAudio: function (data) {
+            this.set({
+                audio: {
+                    streamUrl: data.stream_url,
+                    permalinkUrl: data.permalink_url,
+                    artist: data.user.username,
+                    title: data.title,
+                    duration: data.duration,
+                    artworkUrl: data.artwork_url,
+                    avatarUrl: data.avatar_url,
+                    artistUrl: data.user.permalink_url
+                }
+            });
         },
 
         parse: function (data) {
@@ -25,7 +47,6 @@ define([
                 }
             }
             return obj;
-
         },
 
         toJSON: function () {
@@ -33,9 +54,12 @@ define([
         },
 
         deepcopy: function (copyof) {
-            var obj = {};
+            var obj = (copyof instanceof Array) ? [] : {};
+
             for (var k in copyof) {
                 if (typeof copyof[k] == "object" && copyof[k] !== null) {
+                    console.log('found ' + typeof copyof[k] + ' ' + k);
+
 
                     if (typeof copyof[k].toJSON == "function") {
                         console.info('.toJSON() method used for nested model/collection ' + k);
@@ -47,6 +71,7 @@ define([
                 }
 
                 else {
+                    console.log('copied leaf ' + k);
                     obj[k] = copyof[k];
                 }
             }
@@ -54,9 +79,20 @@ define([
         },
 
         validate: function (attributes) {
-
         }
     });
+
+
+    Level.createFromSoundCloud = function (soundcloudURL) {
+        var model = new Level();
+        var callback = function soundcloudCallback(data) {
+            model.setSoundcloudAudio(data);
+        };
+        SoundcloudLoader.loadStream(soundcloudURL, callback, function (e) {
+            throw e;
+        });
+        return model;
+    };
 
     return Level;
 });

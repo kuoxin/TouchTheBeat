@@ -17,7 +17,7 @@ define([
             Backbone.history.navigate('highscore', false);
 
             this.game = game;
-            var template = _.template(highscoreTemplate, {highscore: this.game.highscore, levelname: this.game.level.levelname});
+            var template = _.template(highscoreTemplate, {highscore: this.game.highscore, levelname: this.game.level.get('name')});
             this.$el.html(template);
         },
 

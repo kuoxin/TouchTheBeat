@@ -24,7 +24,7 @@ define([
             var template = _.template(Template,
                 {
                     index: index,
-                    time: (Math.round(this.tapobject.taptime * 100) / 100).toFixed(2),
+                    time: (Math.round(this.tapobject.get('tapTime') * 100) / 100).toFixed(2),
                     x: this.tapobject.get('x'),
                     y: this.tapobject.get('y'),
                     shapes: Object.keys(ShapeFactory.shapes),

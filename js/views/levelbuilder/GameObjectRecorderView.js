@@ -8,8 +8,9 @@ define([
     'util/AudioController',
     'util/SoundcloudLoader',
     'text!templates/levelbuilder/gameobjectrecorder.html',
-    'app'
-], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, SoundcloudLoader, recordertemplate, app) {
+    'app',
+    'models/GameObject'
+], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, SoundcloudLoader, recordertemplate, app, GameObject) {
     var GameObjectRecorderView = Backbone.View.extend({
         el: '#body',
 
@@ -20,11 +21,7 @@ define([
             }
         },
 
-        render: function (sound) {
-
-            this.sound = sound;
-            this.gameobjects = [];
-
+        render: function () {
             if (this.audiocontroller)
                 this.audiocontroller.dispose();
 
@@ -37,7 +34,7 @@ define([
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.recordingfinished.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(SoundcloudLoader.getStreamUrl(this.sound.stream_url), true);
+            this.audiocontroller.render(SoundcloudLoader.getStreamUrl(app.models.levelEditorModel.get('audio').streamUrl), true);
 
         },
 
@@ -48,16 +45,14 @@ define([
          }, */
 
         addTapObject: function (timestamp, x, y) {
-            this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
+            app.getLevelEditorModel().get('gameObjects').add(
+                new GameObject({"type": "Tap", "x": x, "y": y, "tapTime": timestamp})
+            );
         },
 
         onAudioReady: function () {
-
             this.surface = new Surface({bgcolor: '#222222'});
-
             this.svgelem = document.getElementById('svg');
-
-
             this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
         },
 
@@ -65,7 +60,6 @@ define([
             this.isrecording = true;
             this.surface.getRootRect().touchstart(function (e) {
                 if (this.isrecording) {
-                    console.log("touch on surface");
                     var touch = e.changedTouches[0];
 
                     var pos = this.svgelem.createSVGPoint();
@@ -78,7 +72,6 @@ define([
                         pos = pos.matrixTransform(ctm);
                         console.log(JSON.stringify(pos));
                         this.addTapObject(this.audiocontroller.getCurrentTime(), Math.floor(pos.x), Math.floor(pos.y));
-                        console.log(this.gameobjects[this.gameobjects.length - 1]);
                     } else {
                         console.error('error retrieving position');
                     }
@@ -96,10 +89,7 @@ define([
         recordingfinished: function () {
             this.isrecording = false;
             console.log('finished');
-            var levelbuilderview = app.router.views.levelbuilderview;
-            var args = [this.sound, this.gameobjects];
-            app.setContent(levelbuilderview);
-            levelbuilderview.setContent(levelbuilderview.contents.metadataview, args);
+            app.router.openLevelBuilder('leveleditor');
         }
 
 

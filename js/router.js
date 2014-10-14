@@ -45,14 +45,10 @@ define([
             audioloaderview: new AudioLoaderView()
         },
 
-        openLevelEditor: function () {
+        openLevelBuilder: function () {
             var levelbuilderview = app.router.views.levelbuilderview;
-            var subview = [].shift.call(arguments);
-            if (!subview)
-                subview = levelbuilderview.contents.startview;
-
-            app.setContent(levelbuilderview);
-            levelbuilderview.setContent(subview, arguments);
+            var subroute = [].shift.call(arguments);
+            app.setContent(levelbuilderview, subroute);
         },
 
         init: function () {
@@ -67,11 +63,14 @@ define([
             });
 
             this.on('route:buildlevel', function () {
-                this.openLevelEditor();
+                this.openLevelBuilder();
             });
 
             this.on('route:createlevel', function (soundcloudurl) {
-                this.openLevelEditor(this.views.levelbuilderview.contents.audioselectorview, soundcloudurl);
+                console.log(soundcloudurl);
+                app.createLevelEditorModel(soundcloudurl);
+                this.openLevelBuilder('leveleditor');
+
             });
 
             this.on('route:notfound', function (actions) {
@@ -85,7 +84,8 @@ define([
             });
 
             this.on('route:editlevel', function () {
-                this.openLevelEditor(this.views.levelbuilderview.contents.openlevelview);
+                this.openLevelBuilder();
+                console.warn('triggered route editlevel');
             });
 
             this.on('route:signin', function () {
