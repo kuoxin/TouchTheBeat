@@ -2,28 +2,36 @@ define([
     'jquery'
 ], function ($) {
 
-    var SoundcloudLoader = {
+    var regex = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
 
+    var errorMessages = {
+        SOUNDCLOUDERROR: 'Sorry. The track you entered could not be found. Please check if the url is correct, try again and contact me if the error still occurs.',
+        NOTSTREAMABLE: 'Sorry. The track you entered is not streamable. Please select a different one.',
+        WRONGFORMAT: 'Please make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track'
+    };
+
+    var SoundcloudLoader = {
         loadStream: function (track_url, successCallback, errorCallback) {
             console.log('resolving: ' + track_url);
+            if (!track_url.match(regex)) {
+                errorCallback(errorMessages['WRONGFORMAT']);
+                return;
+            }
             $.get("//dev.coloreddrums.de/ttb/server/gettrack.php", {p: track_url}).done(
                 function resolveTrack(data) {
-                    try {
-                        if (data.errors) {
-                            errorCallback('There was an error loading the track from SoundCloud. Please try again later or contact me if the error still occurs.');
-                        }
-                        if (!data.streamable) {
-                            errorCallback('Sorry. The track you entered is not streamable. Please select a different one.');
-                        }
-                        else {
-                            console.log('resolved: ' + data.stream_url);
-                            successCallback(data);
-                        }
+                    if (data.errors) {
+                        errorCallback(errorMessages['SOUNDCLOUDERROR']);
+                        return;
                     }
-                    catch (e) {
-                        console.error(e);
-                        errorCallback('Make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track');
+                    if (!data.streamable) {
+                        errorCallback(errorMessages['NOTSTREAMABLE']);
+                        return;
                     }
+                    else {
+                        successCallback(data);
+                    }
+                }).fail(function (data) {
+                    errorCallback(errorMessages['SOUNDCLOUDERROR']);
                 });
         },
 

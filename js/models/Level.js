@@ -32,7 +32,10 @@ define([
                     avatarUrl: data.avatar_url,
                     artistUrl: data.user.permalink_url
                 }
-            });
+            }, {silent: true});
+            this.trigger('change:audio');
+            // the change:audio event is triggered manually, because in AudioPanelView it is expected to be also triggered when the audio property gets set with the same values that it already had.
+
         },
 
         /**

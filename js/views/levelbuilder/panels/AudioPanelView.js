@@ -6,9 +6,10 @@ define([
     'text!templates/levelbuilder/panels/audio.html',
     'text!templates/components/trackpanel.html',
     'util/SoundcloudLoader',
+    'views/components/html/ErrorMessageView',
     'util/scripts',
     'bootstrap'
-], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, SoundcloudLoader) {
+], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, SoundcloudLoader, ErrorMessageView) {
     var MetaDataPanelView = Backbone.View.extend({
 
         initialize: function () {
@@ -42,7 +43,8 @@ define([
         events: {
             'click #btn_entertrack': 'enteredTrack',
             'click #btn_recommendedtrack': 'selectedRandomTrack',
-            'click #btn_gameobjectrecorder': 'openGameObjectRecorder'
+            'click #btn_gameobjectrecorder': 'openGameObjectRecorder',
+            'input #input_entertrack': 'enteredTrack'
         },
 
         enteredTrack: function () {
@@ -64,18 +66,28 @@ define([
 
 
         loading_success: function (data) {
+            console.log('setting audio');
             app.getLevelEditorModel().setSoundcloudAudio(data);
         },
 
 
         loading_error: function (errorMessage) {
             console.error(errorMessage);
-            this.$("#alert_tracknotfound_text").html(errorMessage);
-            this.$("#alert_tracknotfound").slideDown();
+            this.$('#audio_inputgroup').removeClass('has-success').addClass('has-error');
+            this.$('#trackcontainer').html('');
+            var errorview = new ErrorMessageView();
+            console.log(errorview.render(errorMessage));
+            this.$('#alert_tracknotfound_container').html(errorview.$el);
+
+            //this.$("#alert_tracknotfound_text").html(errorMessage);
+            //this.$("#alert_tracknotfound").slideDown();
+
         },
 
         updateTrackPanel: function updateTrackPanel() {
+            this.$('#audio_inputgroup').removeClass('has-error').addClass('has-success');
             var sound = app.getLevelEditorModel().get('audio');
+            this.$('#alert_tracknotfound_container').html('');
             this.$("#input_entertrack").val(sound.permalinkUrl);
             var template = _.template(trackPanelTemplate, sound);
             this.$('#trackcontainer').html(template);
