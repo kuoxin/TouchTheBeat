@@ -7,7 +7,7 @@ define([
 
 
     levelcontainer = [
-        {"audio": {"title": "Great White Bear", "artist": "Dear Reader", "streamUrl": "http://api.soundcloud.com/tracks/57984848/stream", "permalinkUrl": "http://soundcloud.com/dearreadermusic/03-great-white-bear", "duration": 0}, "gameObjects": [
+        {"audio": {"streamUrl": "https://api.soundcloud.com/tracks/57984848/stream", "permalinkUrl": "http://soundcloud.com/dearreadermusic/03-great-white-bear", "artist": "Dear Reader", "title": "Great White Bear", "duration": 245939, "artworkUrl": "https://i1.sndcdn.com/artworks-000029335022-06ag8f-large.jpg", "artistUrl": "http://soundcloud.com/dearreadermusic"}, "gameObjects": [
             {"type": "Tap", "x": 130, "y": 650, "tapTime": 7.9786666666667, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 450, "y": 350, "tapTime": 9.8986666666667, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 750, "y": 950, "tapTime": 10.837333333333, "shape": {"type": "circle", "size": "medium"}},
@@ -325,7 +325,7 @@ define([
             {"type": "Tap", "x": 1150, "y": 650, "tapTime": 240.98133333333, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 1420, "y": 650, "tapTime": 241.28, "shape": {"type": "circle", "size": "medium"}}
         ], "name": "Demolevel 1", "owner": {"username": "LiaLinnéa", "id": "undefined"}, "id": "undefined_1"},
-        {"audio": {"title": "Don't Wanna Dance (Clip)", "artist": "_MØ_", "streamUrl": "http://api.soundcloud.com/tracks/129873688/stream", "permalinkUrl": "http://soundcloud.com/momomoyouth/dont-wanna-dance-90clip", "duration": 0}, "gameObjects": [
+        {"audio": {"streamUrl": "https://api.soundcloud.com/tracks/129873688/stream", "permalinkUrl": "http://soundcloud.com/momomoyouth/dont-wanna-dance-90clip", "artist": "_MØ_", "title": "Don't Wanna Dance (Clip)", "duration": 90078, "artworkUrl": "https://i1.sndcdn.com/artworks-000071118932-dol82q-large.jpg", "artistUrl": "http://soundcloud.com/momomoyouth"}, "gameObjects": [
             {"type": "Tap", "x": 400, "y": 600, "tapTime": 7.637333333333332, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 800, "y": 600, "tapTime": 7.978666666666667, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 1200, "y": 600, "tapTime": 8.319999999999999, "shape": {"type": "circle", "size": "medium"}},

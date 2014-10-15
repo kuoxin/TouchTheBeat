@@ -35,6 +35,23 @@ define([
             });
         },
 
+        /**
+         * @returns {string} the duration of the level in human-readable format, e.g. 3:07 or 0:12
+         */
+        getDurationString: function () {
+            var ms = this.get('audio').duration;
+            if (ms) {
+                ms = 1000 * Math.round(ms / 1000); // round to nearest second
+                var seconds = ((ms % 60000) / 1000);
+                return Math.floor(ms / 60000) + ":" + (seconds < 10 ? '0' : '') + seconds;
+                //var d = new Date(ms);
+                //return d.toTimeString();//d.getUTCMinutes() + ':' + d.getUTCSeconds();
+            }
+            else {
+                return 'unknown';
+            }
+        },
+
         parse: function (data) {
             var obj = {};
             for (var k in data) {

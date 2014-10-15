@@ -21,12 +21,12 @@ define([
             var owner = level.get('owner');
             var template = _.template(LevelPanelTemplate, {
                 levelname: level.get('name'),
-                artist: track.artist || 'Unknown',
+                artist: track.artist || 'unknown',
                 artisturl: '#',
-                track: track.title || 'Unknown',
+                track: track.title || 'unknown',
                 trackurl: track.permalinkUrl,
-                duration: 'not set',
-                author: owner.username || 'Unknown'
+                duration: level.getDurationString(),
+                author: owner.username || 'unknown'
             });
             this.$el.html(template);
             this.level = level;
