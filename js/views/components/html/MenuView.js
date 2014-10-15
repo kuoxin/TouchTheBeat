@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'text!templates/menu.html',
+    'views/SignInView',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate) {
+], function ($, _, Backbone, menuTemplate, SignInView) {
     var MenuView = Backbone.View.extend({
         el: '#menu',
         render: function () {
@@ -27,6 +28,16 @@ define([
             'createlevel': 'levelbuilder',
             'editlevel': 'levelbuilder',
             'buildlevel': 'levelbuilder'
+        },
+
+        events: {
+            'click #btn_signin': 'openSignInModal'
+        },
+
+        openSignInModal: function () {
+            var signinview = new SignInView();
+            signinview.render();
+            $('#abovecontent').html(signinview.el);
         },
 
         updateMenuState: function (router, route) {

@@ -3,13 +3,12 @@ define([
     'underscore',
     'backbone',
     'text!templates/signin.html'
-], function ($, _, Backbone, gapi, plaintemplate) {
+], function ($, _, Backbone, plaintemplate) {
     var SignInView = Backbone.View.extend({
-        el: '#content',
         render: function () {
             this.$el.html(_.template(plaintemplate, {}));
+            this.$('#user_modal').modal('show');
         }
     });
     return SignInView;
 });
-220
