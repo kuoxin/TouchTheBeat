@@ -3,12 +3,15 @@ define([
     'underscore',
     'backbone',
     'router',
+    'models/Session',
     'util/analytics',
     'models/Level',
     'bootstrap'
-], function ($, _, Backbone, Router, analytics, Level) {
+], function ($, _, Backbone, Router, session, analytics, Level) {
     var app = {
         router: null,
+
+        session: session,
 
         models: {
             levelEditorModel: null
@@ -33,7 +36,6 @@ define([
         },
 
         createLevelEditorModel: function (soundcloudURL) {
-            console.log(app.getLevelEditorModel());
             if (app.getLevelEditorModel()) {
                 console.warn('The current LevelEditor-draft will be overwritten. Trying to log the level-text as backup:');
                 try {

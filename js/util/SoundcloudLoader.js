@@ -1,7 +1,7 @@
 define([
-    'jquery'
-], function ($) {
-
+    'jquery',
+    'util/api'
+], function ($, API) {
     var regex = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
 
     var errorMessages = {
@@ -17,12 +17,9 @@ define([
                 errorCallback(errorMessages['WRONGFORMAT']);
                 return;
             }
-            $.get("//dev.coloreddrums.de/ttb/server/gettrack.php", {p: track_url}).done(
-                function resolveTrack(data) {
-                    if (data.errors) {
-                        errorCallback(errorMessages['SOUNDCLOUDERROR']);
-                        return;
-                    }
+
+            API.request('GET', 'audio/soundcloud/' + encodeURIComponent(encodeURIComponent(track_url)), {
+                success: function resolveTrack(data) {
                     if (!data.streamable) {
                         errorCallback(errorMessages['NOTSTREAMABLE']);
                         return;
@@ -30,9 +27,11 @@ define([
                     else {
                         successCallback(data);
                     }
-                }).fail(function (data) {
+                },
+                error: function () {
                     errorCallback(errorMessages['SOUNDCLOUDERROR']);
-                });
+                }
+            });
         },
 
         getStreamUrl: function (url) {
