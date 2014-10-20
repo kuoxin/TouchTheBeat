@@ -5,11 +5,11 @@ define([
     'app',
     'text!templates/levelbuilder/panels/audio.html',
     'text!templates/components/trackpanel.html',
-    'util/SoundcloudLoader',
+    'models/Track',
     'views/components/html/ErrorMessageView',
     'util/scripts',
     'bootstrap'
-], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, SoundcloudLoader, ErrorMessageView) {
+], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, Track, ErrorMessageView) {
     var MetaDataPanelView = Backbone.View.extend({
 
         initialize: function () {
@@ -29,7 +29,7 @@ define([
             var template = _.template(mainTemplate, {});
             this.$el.html(template);
             var audio = app.getLevelEditorModel().get('audio');
-            if (audio.title) {
+            if (audio.get('title')) {
                 this.$("#input_entertrack").val(audio.permalinkUrl);
                 this.updateTrackPanel();
             }
@@ -53,7 +53,17 @@ define([
                 return;
             }
 
-            SoundcloudLoader.loadStream(this.$("#input_entertrack").val(), this.loading_success.bind(this), this.loading_error.bind(this));
+            var track = new Track();
+            track.fetch({
+                data: {
+                    url: this.$("#input_entertrack").val()
+                },
+                success: function (track) {
+                    console.log('setting audio');
+                    app.getLevelEditorModel().set('audio', track);
+                },
+                error: this.loading_error.bind(this)
+            });
         },
 
         selectedRandomTrack: function () {
@@ -62,12 +72,6 @@ define([
             console.log('random: ' + random);
             $("#input_entertrack").val(random);
             this.enteredTrack();
-        },
-
-
-        loading_success: function (data) {
-            console.log('setting audio');
-            app.getLevelEditorModel().setSoundcloudAudio(data);
         },
 
 
@@ -86,10 +90,11 @@ define([
 
         updateTrackPanel: function updateTrackPanel() {
             this.$('#audio_inputgroup').removeClass('has-error').addClass('has-success');
-            var sound = app.getLevelEditorModel().get('audio');
+            var track = app.getLevelEditorModel().get('audio');
             this.$('#alert_tracknotfound_container').html('');
-            this.$("#input_entertrack").val(sound.permalinkUrl);
-            var template = _.template(trackPanelTemplate, sound);
+            this.$("#input_entertrack").val(track.get('permalinkUrl'));
+            console.log(track);
+            var template = _.template(trackPanelTemplate, track.toJSON());
             this.$('#trackcontainer').html(template);
             this.$('#trackinfo').fadeIn();
         }

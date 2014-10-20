@@ -4,8 +4,8 @@ define([
     'backbone',
     'util/levelvalidator',
     'collections/GameObjectCollection',
-    'util/SoundcloudLoader'
-], function ($, _, Backbone, Validator, GameObjectCollection, SoundcloudLoader) {
+    'models/Track'
+], function ($, _, Backbone, Validator, GameObjectCollection, Track) {
     var Level = Backbone.Model.extend({
         defaults: {
             gameObjects: new GameObjectCollection(),
@@ -18,24 +18,6 @@ define([
             this.on('change', function () {
                 console.log(this.toJSON())
             }, this);
-        },
-
-        setSoundcloudAudio: function (data) {
-            this.set({
-                audio: {
-                    streamUrl: data.stream_url,
-                    permalinkUrl: data.permalink_url,
-                    artist: data.user.username,
-                    title: data.title,
-                    duration: data.duration,
-                    artworkUrl: data.artwork_url,
-                    avatarUrl: data.avatar_url,
-                    artistUrl: data.user.permalink_url
-                }
-            }, {silent: true});
-            this.trigger('change:audio');
-            // the change:audio event is triggered manually, because in AudioPanelView it is expected to be also triggered when the audio property gets set with the same values that it already had.
-
         },
 
         /**
@@ -62,6 +44,9 @@ define([
                     case 'gameObjects':
                         obj['gameObjects'] = new GameObjectCollection(data[k], {parse: true});
                         break;
+                    case 'audio':
+                        obj['audio'] = (new Track()).set(data[k]);
+                        break;
                     default:
                         obj[k] = data[k];
                 }
@@ -76,11 +61,15 @@ define([
 
     Level.createFromSoundCloud = function (soundcloudURL) {
         var model = new Level();
-        var callback = function soundcloudCallback(data) {
-            model.setSoundcloudAudio(data);
-        };
-        SoundcloudLoader.loadStream(soundcloudURL, callback, function (e) {
-            throw e;
+        var track = new Track();
+        track.fetch({
+            data: soundcloudURL,
+            success: function soundcloudCallback(data) {
+                model.setSoundcloudAudio(data);
+            },
+            error: function (e) {
+                throw e;
+            }
         });
         return model;
     };

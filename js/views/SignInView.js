@@ -66,8 +66,9 @@ define([
             var data = this.getFormData(form);
             console.log(data);
 
-            app.session.signin(data, {
-                error: function (e) {
+            app.session.fetch({
+                data: data,
+                error: function (session, e) {
                     switch (e) {
                         case 'SIGNIN_USER_NOT_FOUND':
                         case 'SIGNIN_CREDENTIALS_INCORRECT':
@@ -75,11 +76,12 @@ define([
                             self.markValid(false, 'signin_password');
                             break;
                         default:
-                            console.error('unhandled error from backend');
+                            console.error('unhandled error from backend: ' + e);
                     }
                 },
-                success: function (data) {
-                    console.log(data);
+                success: function (session, response) {
+                    console.log('sign in call successfull');
+                    console.log(response);
                 }
             });
             return false;

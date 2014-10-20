@@ -72,7 +72,6 @@ define([
             app.router.views.current.setElement($('#content')).render.apply(app.router.views.current, arguments);
 
             analytics.trackPageView(app.router.getCurrentAppStatus());
-
         }
 
     };

@@ -6,11 +6,11 @@ define([
     'gameclasses/TapObject',
     'gameclasses/Surface',
     'util/AudioController',
-    'util/SoundcloudLoader',
+    'models/Track',
     'text!templates/levelbuilder/gameobjectrecorder.html',
     'app',
     'models/GameObject'
-], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, SoundcloudLoader, recordertemplate, app, GameObject) {
+], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, Track, recordertemplate, app, GameObject) {
     var GameObjectRecorderView = Backbone.View.extend({
         el: '#body',
 
@@ -34,7 +34,7 @@ define([
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.recordingfinished.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(SoundcloudLoader.getStreamUrl(app.models.levelEditorModel.get('audio').streamUrl), true);
+            this.audiocontroller.render((new Track(app.models.levelEditorModel.get('audio'))).getStreamUrl(), true);
 
         },
 

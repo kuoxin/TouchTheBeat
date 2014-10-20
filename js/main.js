@@ -32,58 +32,9 @@ require([
     'backbone',
     'router',
     'app',
-    'bootstrap'
+    'BackboneModifications'
 ], function ($, _, Backbone, Router, app) {
 
-    _.extend(Backbone.View.prototype, {
-        dispose: function () {
-            //Will unbind all events this view has bound to
-            //_.each(this.bindings, function (binding) {
-            //     binding.model.unbind(binding.ev, binding.callback);
-            // });
-
-            // This will unbind all listeners to events from this view
-            //this.unbind();
-            //this.undelegateEvents();
-
-            //this.bindings = [];
-
-            this.remove();
-            // Uses the default Backbone.View.remove() method which
-            // removes this.el from the DOM and removes DOM events.
-        }
-    });
-
-    _.extend(Backbone.Model.prototype, {
-        toJSON: function () {
-            return this.deepcopy(this.attributes);
-        },
-
-        deepcopy: function (copyof) {
-            var obj = (copyof instanceof Array) ? [] : {};
-
-            for (var k in copyof) {
-                if (typeof copyof[k] == "object" && copyof[k] !== null) {
-                    console.log('found ' + typeof copyof[k] + ' ' + k);
-
-
-                    if (typeof copyof[k].toJSON == "function") {
-                        console.info('.toJSON() method used for nested model/collection ' + k);
-                        obj[k] = copyof[k].toJSON();
-                    }
-                    else {
-                        obj[k] = this.deepcopy(copyof[k]);
-                    }
-                }
-
-                else {
-                    console.log('copied leaf ' + k);
-                    obj[k] = copyof[k];
-                }
-            }
-            return obj;
-        }
-    });
 
     app.router = Router.initialize();
     app.router.init();

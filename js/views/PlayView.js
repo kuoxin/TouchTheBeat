@@ -4,13 +4,13 @@ define([
     'backbone',
     'text!templates/play.html',
     'app',
-    'util/SoundcloudLoader',
+    'models/Track',
     'gameclasses/Game',
     'util/analytics',
     'util/AudioController',
     'util/scripts'
 
-], function ($, _, Backbone, playTemplate, app, SoundCloudLoader, Game, analytics, AudioController) {
+], function ($, _, Backbone, playTemplate, app, Track, Game, analytics, AudioController) {
     var PlayView = Backbone.View.extend({
         el: '#body',
 
@@ -61,7 +61,7 @@ define([
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.stopGame.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(SoundCloudLoader.getStreamUrl(this.level.get('audio').streamUrl), true);
+            this.audiocontroller.render((new Track(this.level.get('audio'))).getStreamUrl(), true);
 
 
         },

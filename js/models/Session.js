@@ -1,10 +1,13 @@
 /**
  * using parts from https://github.com/alexanderscott/backbone-login (MIT License)
+ * and https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
  */
+
+
 define([
     "models/User",
-    "util/api"
-], function (User, API) {
+    'util/Storage'
+], function (User, Storage) {
 
     var DEBUG = true;
 
@@ -17,6 +20,15 @@ define([
             user: ''
         },
 
+        url: 'session',
+
+        options: {
+            local: true,
+            remote: true,
+            persist: false,
+            host: ""
+        },
+
         initialize: function () {
             //_.bindAll(this);
 
@@ -27,6 +39,40 @@ define([
             this.on('change:user', function () {
                 console.log(this.user)
             })
+
+            // pick a persistance solution
+            if (!this.options.persist && typeof sessionStorage != "undefined" && sessionStorage !== null) {
+                // choose localStorage
+                this.store = Storage.sessionStorage;
+            } else if (this.options.persist && typeof localStorage != "undefined" && localStorage !== null) {
+                // choose localStorage
+                this.store = Storage.localStorage;
+            } else {
+                // otherwise we need to store data in a cookie
+                this.store = Storage.cookie;
+            }
+
+            // try loading the session
+            var localSession = this.store.get("session");
+            console.log('local session: ' + localSession);
+            //
+            if (_.isNull(localSession)) {
+                // - no valid local session, try the server
+                this.fetch();
+            } else {
+                this.set(JSON.parse(localSession));
+                // reset the updated flag
+                this.set({ updated: 0 });
+                // sync with the server
+                this.save();
+            }
+
+            // event binders
+            this.bind("change", this.update);
+            this.bind("error", this.error);
+            this.on("logout", this.logout);
+
+
         },
 
 
@@ -35,9 +81,72 @@ define([
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
         },
 
+        update: function () {
+            console.log('changed session');
+            console.log(arguments);
+            // set a trigger
+            if (!this.state) {
+                this.state = true;
+                this.trigger("loaded");
+            }
+            ;
+            // caching is triggered after every model update (fetch/set)
+            if (this.get("updated") || !this.options["remote"]) {
+                this.cache();
+            }
+        },
+        cache: function () {
+            // update the local session
+            this.store.set("session", JSON.stringify(this.toJSON()));
+            // check if the object has changed locally
+            //...
+        },
+        // Destroy session - Source: http://backbonetutorials.com/cross-domain-sessions/
+        logout: function (options) {
+            // Do a DELETE to /session and clear the clientside data
+            var self = this;
+            options = options || {};
+            // delete local version
+            this.store.clear("session");
+            // notify remote
+            this.destroy({
+                wait: true,
+                success: function (model, resp) {
+                    model.clear();
+                    model.id = null;
+                    // Set auth to false to trigger a change:auth event
+                    // The server also returns a new csrf token so that
+                    // the user can relogin without refreshing the page
+                    self.set({auth: false});
+                    if (resp && resp._csrf) self.set({_csrf: resp._csrf});
+                    // reload the page if needed
+                    if (options.reload) {
+                        window.location.reload();
+                    }
+                }
+            });
+        },
+        // if data request fails request offline mode.
+        error: function (model, req, options, error) {
+            // consider redirecting based on statusCode
+        },
+
+        // Helpers
+        // - Creates a unique id for identification purposes
+        generateUid: function (separator) {
+
+            var delim = separator || "-";
+
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+
+            return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
+        },
+
 
         /*
-         * Check for session from API 
+         * Check for session from API
          * The API will parse client cookies using its secret token
          * and return a user object if authenticated
          */
@@ -63,39 +172,7 @@ define([
         },
 
 
-        /*
-         * Abstracted fxn to make a POST request to the auth endpoint
-         * This takes care of the CSRF header for security, as well as
-         * updating the user and session after receiving an API response
-         */
-        postAuth: function (opts, callback) {
-            var self = this;
-            var postData = _.omit(opts, 'method');
-            if (DEBUG) console.log(postData);
-
-            API.request('POST', 'auth/' + opts.method, {
-                success: function (data) {
-                    return;
-                    if (_.indexOf(['signin', 'signup'], opts.method) !== -1) {
-                        self.updateSessionUser(res.user || {});
-                        self.set({ user_id: res.user.id, logged_in: true });
-                    } else {
-                        self.set({ logged_in: false });
-                    }
-                    if (callback && 'success' in callback)
-                        callback.success(res);
-
-                },
-                error: function (error) {
-                    if (callback && 'error' in callback)
-                        callback.error(error);
-                },
-                always: function () {
-                    if (callback && 'complete' in callback) callback.complete(res);
-                }
-            }, {data: _.omit(opts, 'method')});
-        },
-
+        // Methods
 
         signin: function (opts, callback, args) {
             this.postAuth(_.extend(opts, { method: 'signin' }), callback);
@@ -112,6 +189,7 @@ define([
         // removeAccount: function(opts, callback, args){
         //      this.postAuth(_.extend(opts, { method: 'remove_account' }), callback);
         // }
+
 
     });
 

@@ -1,11 +1,8 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
-    'util/levelvalidator',
-    'collections/GameObjectCollection',
-    'util/SoundcloudLoader'
-], function ($, _, Backbone, Validator, GameObjectCollection, SoundcloudLoader) {
+    'backbone'
+], function ($, _, Backbone) {
     var User = Backbone.Model.extend({
         defaults: {},
 
