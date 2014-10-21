@@ -19,7 +19,7 @@ define([
 
         createGravatarURL: function () {
             //documentation: https://en.gravatar.com/site/implement/images/
-            return 'http://gravatar.com/avatar/' + md5.MD5(this.get("email").toLowerCase()).toString() + '?d=mm?s=200';
+            return '//gravatar.com/avatar/' + md5.MD5(this.get("email").toLowerCase()).toString() + '?d=mm?s=200';
         },
 
         validate: function (attributes) {
