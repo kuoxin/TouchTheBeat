@@ -11,7 +11,7 @@ define([
     };
 
     var Track = Backbone.Model.extend({
-        url: 'audio/soundcloud/',
+        url: 'audio/soundcloud',
 
         validate: function (data) {
             console.log('validation');

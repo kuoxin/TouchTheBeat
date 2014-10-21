@@ -3,16 +3,23 @@ define([
     'underscore',
     'backbone',
     'text!templates/signin.html',
-    'app'
-], function ($, _, Backbone, plaintemplate, app) {
+    'app',
+    'models/User'
+], function ($, _, Backbone, plaintemplate, app, User) {
     var SignInView = Backbone.View.extend({
+        initialize: function () {
+
+        },
+
+
         render: function () {
             this.$el.html(_.template(plaintemplate, {}));
             this.$('#user_modal').modal('show');
+            this.listenTo(app.session, 'change:logged_in', function (session) {
+                $('#user_modal').modal('hide');
+            });
             console.log(app.session)
-            /* app.session.on('change:logged_in', function(){
-             console.log('Login state changed: '+app.session.logged_in);
-             });*/
+
         },
 
         events: {
@@ -31,8 +38,13 @@ define([
                     return false;
                 }
 
-                app.session.signup(_.pick(data, 'username', 'email', 'password', 'homepage'), {
+                var user = new User();
+                user.set(_.pick(data, 'username', 'email', 'password', 'homepage'));
+                user.save({
+                    emulateJSON: true,
                     success: function () {
+                        console.log('signup succeeded');
+                        console.log(arguments);
                     },
                     error: function (e) {
                         switch (e) {
@@ -49,7 +61,6 @@ define([
                                 console.error('unhandled error from backend');
                         }
                     }
-
                 });
             }
 

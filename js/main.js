@@ -30,14 +30,18 @@ require([
     'jquery',
     'underscore',
     'backbone',
-    'router',
     'app',
+    'API',
+    'models/Session',
+    'router',
     'BackboneModifications'
-], function ($, _, Backbone, Router, app) {
-
-
-    app.router = Router.initialize();
+], function ($, _, Backbone, app, API, Session, Router) {
+    API.initialize();
+    app.session = new Session();
+    if (app.session.has('hash'))
+        app.session.updateSessionUser();
+    app.router = new Router();
     app.router.init();
     Backbone.history.start();
-    console.info('loading of TouchTheBeat complete');
+    console.info('Starting TouchTheBeat has completed.');
 });

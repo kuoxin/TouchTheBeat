@@ -10,7 +10,7 @@ define([
         defaults: {
             gameObjects: new GameObjectCollection(),
             tags: [],
-            audio: {},
+            audio: new Track(),
             owner: {}
         },
 

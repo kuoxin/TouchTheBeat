@@ -2,17 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'router',
-    'models/Session',
     'util/analytics',
     'models/Level',
     'bootstrap'
-], function ($, _, Backbone, Router, session, analytics, Level) {
+], function ($, _, Backbone, analytics, Level) {
     var app = {
         router: null,
-
-        session: session,
-
         models: {
             levelEditorModel: null
         },
@@ -73,7 +68,6 @@ define([
 
             analytics.trackPageView(app.router.getCurrentAppStatus());
         }
-
     };
     return app;
 });

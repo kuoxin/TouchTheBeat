@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'util/analytics',
-    'views/components/html/MenuView',
+    'views/MenuView',
     'views/HomeView',
     'views/ChooseLevelView',
     'views/components/html/ApplicationWithMenuView',
@@ -67,10 +67,8 @@ define([
             });
 
             this.on('route:createlevel', function (soundcloudurl) {
-                console.log(soundcloudurl);
                 app.createLevelEditorModel(soundcloudurl);
                 this.openLevelBuilder('leveleditor');
-
             });
 
             this.on('route:notfound', function (actions) {
@@ -123,12 +121,6 @@ define([
 
     });
 
-    var initialize = function () {
-        var router = new Router;
-        return router;
-    };
 
-    return {
-        initialize: initialize
-    };
+    return Router;
 });

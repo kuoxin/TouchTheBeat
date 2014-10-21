@@ -49,49 +49,4 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             return obj;
         }
     });
-
-    //console.log('customizing ajax');
-
-    var getRequestToString = function (method, route) {
-        return 'API-Request ' + method + ' ' + route;
-    };
-
-    var ErrorCodeModel = Backbone.Model.extend({
-        url: 'system/codes',
-        parse: function (data) {
-            return _.invert(data);
-        }
-    });
-
-    var errorCodeModel = new ErrorCodeModel();
-
-    Backbone.sync = _.wrap(Backbone.sync, function (f, method, obj, opts) {
-        var customopts = _.omit(opts, 'success', 'error');
-
-        customopts.success = function (response) {
-            if (response.error) {
-                console.warn(getRequestToString(method, obj.url) + ' return an error: "' + errorCodeModel.get(response.error) + '"')
-                opts.error(errorCodeModel.get(response.error));
-            } else {
-                console.info(getRequestToString(method, obj.url) + ' successfull.');
-                console.log(response.data);
-                opts.success(response.data);
-            }
-        };
-
-        customopts.error = function (jqXHR) {
-            console.error(getRequestToString(method, obj.url) + ' failed. (' + jqXHR.status + ')');
-            opts.error(jqXHR.status);
-        };
-
-        f(method, obj, customopts);
-    });
-
-    Backbone.ajax = _.wrap(Backbone.ajax, function (f, params) {
-        params.url = 'http://localhost/ttb-backend/' + params.url;
-        f(params);
-    });
-
-    errorCodeModel.fetch({parse: true});
-
 });

@@ -6,6 +6,8 @@ define([
     var User = Backbone.Model.extend({
         defaults: {},
 
+        url: 'user',
+
         initialize: function () {
             this.on('change', function () {
                 console.log(this.toJSON())

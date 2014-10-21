@@ -4,10 +4,16 @@ define([
     'backbone',
     'text!templates/menu.html',
     'views/SignInView',
+    'app',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate, SignInView) {
+], function ($, _, Backbone, menuTemplate, SignInView, app) {
     var MenuView = Backbone.View.extend({
         el: '#menu',
+
+        initialize: function () {
+            this.listenTo(app.session, 'change:logged_in', this.changeLoggedInState.bind(this));
+        },
+
         render: function () {
             if (this.closemenuitem)
                 this.closemenuitem.unbind();
@@ -22,6 +28,8 @@ define([
             });
 
             Backbone.history.bind("route", this.updateMenuState.bind(this));
+
+            this.changeLoggedInState(app.session);
         },
 
         menustates: {
@@ -31,7 +39,29 @@ define([
         },
 
         events: {
-            'click #btn_signin': 'openSignInModal'
+            'click #btn_signin': 'clickedSignInButton'
+        },
+
+        changeLoggedInState: function (session) {
+            console.log('MenuView registered login change');
+            var btn_signin = $('#btn_signin');
+            console.log(session.get('user'));
+            if (session.get('logged_in')) {
+                btn:btn_signin.html('Signed in as ' + session.get('user').escape('username'));
+            }
+            else {
+                btn:btn_signin.html('Sign in');
+            }
+        },
+
+        clickedSignInButton: function () {
+            if (app.session.get('logged_in')) {
+
+            }
+            else {
+                this.openSignInModal();
+            }
+
         },
 
         openSignInModal: function () {
