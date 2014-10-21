@@ -10,7 +10,8 @@ require.config({
         'google-analytics': ['//www.google-analytics.com/analytics', 'lib/analytics'],
         tv4: 'lib/tv4',
         schema: 'schema',
-        sc: '//w.soundcloud.com/player/api'
+        sc: '//w.soundcloud.com/player/api',
+        md5: ['//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5', 'lib/md5']
     },
     shim: {
         'bootstrap': ['jquery'],
@@ -22,6 +23,9 @@ require.config({
         },
         'sc': {
             exports: 'SC'
+        },
+        'md5': {
+            exports: 'CryptoJS'
         }
     }
 
