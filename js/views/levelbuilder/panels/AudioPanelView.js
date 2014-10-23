@@ -6,7 +6,7 @@ define([
     'text!templates/levelbuilder/panels/audio.html',
     'text!templates/components/trackpanel.html',
     'models/Track',
-    'views/components/html/ErrorMessageView',
+    'views/ErrorMessageView',
     'util/scripts',
     'bootstrap'
 ], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, Track, ErrorMessageView) {

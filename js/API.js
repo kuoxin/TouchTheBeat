@@ -50,15 +50,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         };
 
         errorCodeModel.fetch({
-            parse: true,
-            success: function () {
-                console.log('error code fetched successfull');
-                console.log(arguments);
-            },
-            error: function () {
-                console.log('error code fetching failed');
-                console.log(arguments);
-            }
+            parse: true
         });
     };
     return {

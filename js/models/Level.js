@@ -4,20 +4,22 @@ define([
     'backbone',
     'util/levelvalidator',
     'collections/GameObjectCollection',
-    'models/Track'
-], function ($, _, Backbone, Validator, GameObjectCollection, Track) {
+    'models/Track',
+    'app'
+], function ($, _, Backbone, Validator, GameObjectCollection, Track, app) {
     var Level = Backbone.Model.extend({
         defaults: {
             gameObjects: new GameObjectCollection(),
             tags: [],
-            audio: new Track(),
-            owner: {}
+            audio: new Track()
         },
 
         initialize: function () {
             this.on('change', function () {
                 console.log(this.toJSON())
             }, this);
+            if (!this.has('owner') && app.session && app.session.get('logged_in') && app.session.get('user'))
+                this.set('owner', app.session.get('user'));
         },
 
         /**
@@ -51,6 +53,7 @@ define([
                         obj[k] = data[k];
                 }
             }
+
             return obj;
         },
 

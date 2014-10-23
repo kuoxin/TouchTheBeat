@@ -2,9 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'util/levelvalidator',
+    '../util/levelvalidator',
     'text!templates/components/leveltext-input.html',
-    'views/components/html/LevelPanelView',
+    'views/LevelPanelView',
     'models/Level'
 ], function ($, _, Backbone, levelvalidator, Template, LevelPanel, Level) {
     var LevelTextInputView = Backbone.View.extend({

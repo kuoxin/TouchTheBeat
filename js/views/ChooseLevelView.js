@@ -3,10 +3,10 @@ define([
     'underscore',
     'backbone',
     'text!templates/leveloverview.html',
-    'views/components/html/LevelPanelView',
+    'views/LevelPanelView',
     'levelcontainer',
     'app',
-    'views/components/html/LevelTextInputView'
+    'views/LevelTextInputView'
 ], function ($, _, Backbone, LevelOverviewTemplate, LevelPanel, levelcontainer, app, LevelTextInputView) {
     var ChooseLevelView = Backbone.View.extend({
 

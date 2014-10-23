@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'text!templates/levelbuilder/openlevel.html',
-    'views/components/html/LevelTextInputView',
+    'views/LevelTextInputView',
     'app'
 ], function ($, _, Backbone, plainTemplate, LevelTextInputView, app) {
     var OpenLevelView = Backbone.View.extend({

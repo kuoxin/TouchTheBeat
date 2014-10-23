@@ -7,13 +7,13 @@ define([
     'views/MenuView',
     'views/HomeView',
     'views/ChooseLevelView',
-    'views/components/html/ApplicationWithMenuView',
+    'views/ApplicationWithMenuView',
     'views/PageNotFoundView',
     'views/LegalView',
-    'views/PlayView',
+    'views/game/PlayView',
     'views/HighScoreView',
     'views/levelbuilder/BaseView',
-    'views/components/svg/AudioLoaderView',
+    'views/game/AudioLoaderView',
     'views/SignInView'
 ], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView, AudioLoaderView, SignInView) {
     var Router = Backbone.Router.extend({

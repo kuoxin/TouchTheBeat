@@ -74,7 +74,7 @@ define([
                     });
                 },
                 error: function (error) {
-                    console.log('getting current user failed: ' + error);
+                    console.log('getting current user failed: ');
                     console.log(arguments);
                     session.set({
                         logged_in: false

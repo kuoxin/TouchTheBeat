@@ -3,8 +3,8 @@ define([
     'underscore',
     'backbone',
     'text!templates/levelbuilder/panels/gameobjects.html',
-    'views/components/html/gameobjecteditor/TapObjectRowView',
-    'views/components/html/ExportModalView',
+    'views/levelbuilder/TapObjectRowView',
+    'views/levelbuilder/ExportModalView',
     'app'
 ], function ($, _, Backbone, Template, TapObjectRowView, ExportModalView, app) {
     var GameObjectEditorPanelView = Backbone.View.extend({
