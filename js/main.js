@@ -1,3 +1,8 @@
+//var host = 'http://localhost/ttb-backend/';
+//var host = 'https://ttb-server.coloreddrums.de/
+if (host == '')
+    console.error('Backend host not specified. Open main.js to do so.')
+
 require.config({
     paths: {
         jquery: ['//code.jquery.com/jquery-2.1.1.min', 'lib/jquery'],

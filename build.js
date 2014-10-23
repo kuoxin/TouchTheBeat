@@ -20,7 +20,8 @@
         'jquery': 'empty:',
         'underscore': 'empty:',
         'backbone': 'empty:',
-        'snap': 'empty:'
+        'snap': 'empty:',
+        'md5': 'empty:'
     },
 
     fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/

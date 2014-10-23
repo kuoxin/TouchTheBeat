@@ -1,5 +1,5 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
-    var initialize = function () {
+    var initialize = function (host) {
         var getRequestToString = function (method, route) {
             return 'API-Request ' + method + ' ' + route;
         };
@@ -26,7 +26,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 console.info(getRequestToString(method, obj.url) + ' requesting without authorization key');
             }
 
-            customopts.url = 'http://localhost/ttb-backend/' + obj.url;
+            customopts.url = host + obj.url;
 
             customopts.success = function (response) {
                 if (response.error) {

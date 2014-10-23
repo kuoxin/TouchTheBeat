@@ -7,6 +7,7 @@ define([
     'backbone',
     'bootstrap',
     'snap',
-    "google-analytics"
+    "google-analytics",
+    'md5'
 ], function () {
 });
