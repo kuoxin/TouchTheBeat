@@ -37,7 +37,7 @@ TouchTheBeat uses and contains the following **software components** under their
 
 ###Build
 
-To build the compressed version of TouchTheBeat, run the folliowing command:
+To build the compressed version of TouchTheBeat, run the following command:
 ```
 node r.js -o build.js
 ```
