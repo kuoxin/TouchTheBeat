@@ -1,7 +1,7 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
     var initialize = function (host) {
-        var getRequestToString = function (method, route) {
-            return 'API-Request ' + method + ' ' + route;
+        var getRequestToString = function (method, route, authstring) {
+            return 'API-Request ' + method + ' ' + route + authstring;
         };
 
         var ErrorCodeModel = Backbone.Model.extend({
@@ -13,40 +13,53 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         var errorCodeModel = new ErrorCodeModel();
 
-        Backbone.sync = _.wrap(Backbone.sync, function (f, method, obj, opts) {
-            var customopts = _.omit(opts, 'success', 'error', 'headers');
+        var realajax = Backbone.ajax;
+        Backbone.ajax = function (p) {
+            var custom_p = _.clone(p);
+            var stringrep = 'API-Request "' + p.type + ' ' + p.url;
+
+            custom_p.url = host + p.url;
             if (app.session != undefined && app.session != null && app.session.has('hash')) {
-                console.info(getRequestToString(method, obj.url) + ' requesting with authorization key');// + app.session.get('hash'));
-                customopts.headers = _.extend(opts.headers || {},
+                stringrep += ' with session"'// + app.session.get('hash'));
+                custom_p.headers = _.extend(custom_p.headers || {},
                     {
                         'ttbSession': app.session.get('hash')
                     });
             }
             else {
-                console.info(getRequestToString(method, obj.url) + ' requesting without authorization key');
+                stringrep += ' without session"';
             }
 
-            customopts.url = host + obj.url;
-
-            customopts.success = function (response) {
+            custom_p.success = function (response, p2, p3) {
                 if (response.error) {
-                    console.warn(getRequestToString(method, obj.url) + ' return an error: "' + errorCodeModel.get(response.error) + '"')
-                    opts.error(errorCodeModel.get(response.error));
+                    console.warn(stringrep + ' returned an error: "' + errorCodeModel.get(response.error) + '"');
+                    p.error(errorCodeModel.get(response.error) || response.error);
                 } else {
-                    console.info(getRequestToString(method, obj.url) + ' successfull.');
-                    opts.success(response.data);
+                    console.info(stringrep + ' was successfull.');
+                    p.success(response.data, p2, p3);
                 }
             };
 
-            customopts.error = function (jqXHR) {
-                console.error(getRequestToString(method, obj.url) + ' failed. (' + jqXHR.status + ')');
-                opts.error(jqXHR.status);
+            custom_p.error = function (jqXHR, textStatus, errorThrown) {
+                console.error(stringrep + ' failed. (' + jqXHR.status + ')');
+                p.error(jqXHR.status);
             };
 
-            f(method, obj, customopts);
-        });
+            realajax(custom_p);
+            console.info(stringrep + ' raised');
+        };
 
-        errorCodeModel.fetch({parse: true});
+        errorCodeModel.fetch({
+            parse: true,
+            success: function () {
+                console.log('error code fetched successfull');
+                console.log(arguments);
+            },
+            error: function () {
+                console.log('error code fetching failed');
+                console.log(arguments);
+            }
+        });
     };
     return {
         initialize: initialize

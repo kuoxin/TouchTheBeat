@@ -4,8 +4,9 @@ define([
     'backbone',
     'text!templates/signin.html',
     'app',
-    'models/User'
-], function ($, _, Backbone, plaintemplate, app, User) {
+    'models/User',
+    'md5'
+], function ($, _, Backbone, plaintemplate, app, User, md5) {
     var SignInView = Backbone.View.extend({
         initialize: function () {
 
@@ -39,14 +40,17 @@ define([
                 }
 
                 var user = new User();
+                data.password = md5.MD5(data.password).toString();
                 user.set(_.pick(data, 'username', 'email', 'password', 'homepage'));
                 user.save({
                     emulateJSON: true,
                     success: function () {
                         console.log('signup succeeded');
-                        console.log(arguments);
+                        app.session.fetch({
+                            data: _.pick(data, 'email', 'password')
+                        });
                     },
-                    error: function (e) {
+                    error: function (user, e) {
                         switch (e) {
                             case 'USER_EMAIL_NOT_VALID':
                                 self.markValid(false, 'signup_email', 'This email address does not exist.');
@@ -75,6 +79,7 @@ define([
                 return;
 
             var data = this.getFormData(form);
+            data.password = md5.MD5(data.password).toString();
             console.log(data);
 
             app.session.fetch({

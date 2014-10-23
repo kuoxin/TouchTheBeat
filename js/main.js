@@ -1,7 +1,7 @@
-//var host = 'http://localhost/ttb-backend/';
+var host = 'http://localhost/ttb-backend/';
 //var host = 'https://ttb-server.coloreddrums.de/
-if (host == '')
-    console.error('Backend host not specified. Open main.js to do so.')
+if (typeof host == 'undefined')
+    throw ('Backend host not specified. Open main.js to do so.');
 
 require.config({
     paths: {
@@ -45,7 +45,7 @@ require([
     'router',
     'BackboneModifications'
 ], function ($, _, Backbone, app, API, Session, Router) {
-    API.initialize();
+    API.initialize(host);
     app.session = new Session();
     if (app.session.has('hash'))
         app.session.updateSessionUser();
