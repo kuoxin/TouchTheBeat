@@ -26,7 +26,7 @@ We may not be associated with any of these third party services or content provi
 
 TouchTheBeat uses and contains the following **software components** under their respective licenses:
 
-- **jQuery** JavaScript Library v1.10.1, http://jquery.com/, Includes Sizzle.js http://sizzlejs.com/ Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors Released under the MIT license
+- **jQuery** JavaScript Library v2.1.1, http://jquery.com/, Includes Sizzle.js http://sizzlejs.com/ Copyright 2005, 2014 jQuery Foundation, Inc. and other contributors Released under the MIT license
 - **Underscore.js** 1.6.0 http://underscorejs.org (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors MIT license.
 - **Backbone.js** 1.1.2 http://backbonejs.org (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors MIT license
 - **RequireJS** 2.1.13 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved. Available via the MIT or new BSD license. see: http://github.com/jrburke/requirejs for details
@@ -34,6 +34,7 @@ TouchTheBeat uses and contains the following **software components** under their
 - **Bootstrap** v3.2.0 (http://getbootstrap.com) Copyright 2011-2014 Twitter, Inc. Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
 - **Snap.svg** 0.3.0 Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved. Licensed under the Apache License, Version 2.0 ; http://www.apache.org/licenses/LICENSE-2.0
 - **TV4.js** Author: Geraint Luff and others Year: 2013 This code is released into the "public domain" by its author(s).  Anybody may use, alter and distribute the code without restriction.  The author makes no guarantees, and takes no liability of any kind for use of this code. If you find a bug or make an improvement, it would be courteous to let the author know, but it is not compulsory.
+-  CryptoJS v3.1.2 https://code.google.com/p/crypto-js (c) 2009-2013 by Jeff Mott. All rights reserved. https://code.google.com/p/crypto-js/wiki/License
 
 ###Build
 
