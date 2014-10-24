@@ -83,6 +83,13 @@ define([
             });
         },
 
+        reset: function () {
+            this.store.clear("session");
+            this.clear();
+            this.set({logged_in: false});
+
+        },
+
         update: function () {
             console.log('updated session');
             this.updateSessionUser();
@@ -112,7 +119,7 @@ define([
                     // Set auth to false to trigger a change:auth event
                     // The server also returns a new csrf token so that
                     // the user can relogin without refreshing the page
-                    self.set({auth: false});
+                    self.set({logged_in: false});
                     if (resp && resp._csrf) self.set({_csrf: resp._csrf});
                     // reload the page if needed
                     if (options.reload) {

@@ -5,20 +5,22 @@ define([
     'util/levelvalidator',
     'collections/GameObjectCollection',
     'models/Track',
+    'models/User',
     'app'
-], function ($, _, Backbone, Validator, GameObjectCollection, Track, app) {
+], function ($, _, Backbone, Validator, GameObjectCollection, Track, User, app) {
     var Level = Backbone.Model.extend({
         defaults: {
             gameObjects: new GameObjectCollection(),
             tags: [],
-            audio: new Track()
+            audio: new Track(),
+            owner: new User()
         },
 
         initialize: function () {
             this.on('change', function () {
                 console.log(this.toJSON())
             }, this);
-            if (!this.has('owner') && app.session && app.session.get('logged_in') && app.session.get('user'))
+            if (!this.has('owner') && app && app.session && app.session.get('logged_in') && app.session.get('user'))
                 this.set('owner', app.session.get('user'));
         },
 
@@ -45,6 +47,9 @@ define([
                 switch (k) {
                     case 'gameObjects':
                         obj['gameObjects'] = new GameObjectCollection(data[k], {parse: true});
+                        break;
+                    case 'owner':
+                        obj['owner'] = new User(data[k], {parse: true});
                         break;
                     case 'audio':
                         obj['audio'] = (new Track()).set(data[k]);

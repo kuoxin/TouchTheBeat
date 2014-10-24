@@ -29,8 +29,8 @@ define([
         },
 
         exportDraft: function () {
-            console.log(app.models.levelEditorModel.toJSON());
-            this.exportmodalview.render(app.models.levelEditorModel.toJSON());
+            console.log(this.getModel().toJSON());
+            this.exportmodalview.render(this.getModel().toJSON());
         },
 
         saveDraft: function () {
@@ -40,10 +40,14 @@ define([
             app.startlevel(app.getLevelEditorModel());
         },
 
+        getModel: function () {
+            return app.getLevelEditorModel();
+        },
+
         render: function () {
             var template = _.template(Template, {
-                levelname: app.models.levelEditorModel.get('name') || 'Levelname',
-                username: app.models.levelEditorModel.get('owner').username || 'unknown'
+                levelname: this.getModel().get('name') || 'New Level',
+                username: this.getModel().get('owner').get('username')
             });
             this.$el.html(template);
             this.exportmodalview = new ExportModalView();
@@ -62,8 +66,8 @@ define([
                 this.$('#panellist').append(this.panels[k].el);
             }
 
-            this.listenTo(app.models.levelEditorModel, 'change:name', function () {
-                this.$('#levelname').html(app.models.levelEditorModel.escape('name'));
+            this.listenTo(this.getModel(), 'change:name', function () {
+                this.$('#levelname').html(this.getModel().escape('name'));
             }.bind(this));
 
 

@@ -5,7 +5,9 @@ define([
     'md5'
 ], function ($, _, Backbone, md5) {
     var User = Backbone.Model.extend({
-        defaults: {},
+        defaults: {
+            username: 'unknown'
+        },
 
         url: 'user',
 
@@ -20,6 +22,10 @@ define([
             //documentation: https://en.gravatar.com/site/implement/images/
             var email = this.get("email") || '';
             return '//gravatar.com/avatar/' + md5.MD5(email.toLowerCase()).toString() + '?d=mm&s=200';
+        },
+
+        parse: function (data) {
+            return _.pick(data, 'username', 'homepage')
         },
 
         validate: function (attributes) {

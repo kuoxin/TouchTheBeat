@@ -3,11 +3,13 @@ define([
     'underscore',
     'backbone',
     'text!templates/menu.html',
-    'views/SignInView',
+    'views/SignInButtonView',
     'app',
+    'mixins/ExchangeableContent',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate, SignInView, app) {
-    var MenuView = Backbone.View.extend({
+], function ($, _, Backbone, menuTemplate, SignInButtonView, app, ExchangeableContent) {
+    var MenuView = Backbone.View.extend(
+        _.extend(new ExchangeableContent, {
         el: '#menu',
 
         initialize: function () {
@@ -15,20 +17,13 @@ define([
         },
 
         render: function () {
-            if (this.closemenuitem)
-                this.closemenuitem.unbind();
-
+            this.configureExchangableContents({className: 'usermenucontainer'});
+            this.addContents({
+                nosession: new SignInButtonView()
+            });
             var template = _.template(menuTemplate, {});
             this.$el.html(template);
-
-            this.closemenuitem = $('.navbar-collapse ul li a:not(.dropdown-toggle)');
-
-            this.closemenuitem.bind('click', function () {
-                $('.navbar-toggle:visible').click();
-            });
-
             Backbone.history.bind("route", this.updateMenuState.bind(this));
-
             this.changeLoggedInState(app.session);
         },
 
@@ -39,35 +34,24 @@ define([
         },
 
         events: {
-            'click #btn_signin': 'clickedSignInButton'
+            'click .navbar-collapse ul li a:not(.dropdown-toggle)': 'changeMenuVisibility'
         },
+
+            changeMenuVisibility: function () {
+                this.$('.navbar-toggle:visible').click();
+            },
 
         changeLoggedInState: function (session) {
-            console.log('MenuView registered login change');
-            var btn_signin = $('#btn_signin');
+            console.log('MenuView updating session state');
             console.log(session.get('user'));
             if (session.get('logged_in')) {
-                btn:btn_signin.html('Signed in as ' + session.get('user').escape('username'));
-            }
-            else {
-                btn:btn_signin.html('Sign in');
-            }
-        },
-
-        clickedSignInButton: function () {
-            if (app.session.get('logged_in')) {
+                //btn:btn_signin.html('Signed in as ' + session.get('user').escape('username'));
 
             }
             else {
-                this.openSignInModal();
+                console.log('setting login button');
+                this.setContent('nosession');
             }
-
-        },
-
-        openSignInModal: function () {
-            var signinview = new SignInView();
-            signinview.render();
-            $('#abovecontent').html(signinview.el);
         },
 
         updateMenuState: function (router, route) {
@@ -79,6 +63,6 @@ define([
             if (activeitem_new != null)
                 activeitem_new.addClass('active');
         }
-    });
+        }));
     return MenuView;
 });

@@ -7,17 +7,33 @@ define([
     'views/levelbuilder/GameObjectRecorderView',
     'views/levelbuilder/StartView',
     'views/levelbuilder/OpenLevelView',
-    'views/levelbuilder/LevelEditorView'
-], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView) {
-    var BaseView = Backbone.View.extend({
+    'views/levelbuilder/LevelEditorView',
+    'mixins/ExchangeableContent'
+], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView, ExchangeableContent) {
+
+
+    var BaseView = Backbone.View.extend(
+        _.extend(new ExchangeableContent, {
 
         template: _.template(plainTemplate, {}),
 
-        contents: {
-            startview: new StartView(),
-            gameobjectrecorderview: new GameObjectRecorderView(),
-            openlevelview: new OpenLevelView(),
-            leveleditorview: new LevelEditorView()
+            initialize: function () {
+                console.log(this);
+
+                this.configureExchangableContents({
+                    callback_before: function () {
+                        this.$el.html(this.template);
+                        console.log(this.template);
+                    }.bind(this),
+                    className: 'content'
+                });
+
+                this.addContents({
+                    startview: new StartView(),
+                    gameobjectrecorderview: new GameObjectRecorderView(),
+                    openlevelview: new OpenLevelView(),
+                    leveleditorview: new LevelEditorView()
+                });
         },
 
         render: function () {
@@ -25,29 +41,14 @@ define([
                 this.setContent('leveleditor');
             else
                 this.setContent('start');
-
-        },
-
-        setContent: function (view, args) {
-            this.$el.html(this.template);
-
-            if (this.currentContent != null) {
-                if (this.currentContent.onClose)
-                    this.currentContent.onClose();
-
-                this.currentContent.dispose();
-            }
-
-            this.currentContent = this.contents[view + 'view'];
-            this.currentContent.setElement(this.$('.content').first());
-            this.currentContent.render.apply(this.currentContent, args);
         },
 
         onClose: function () {
-            if (this.currentContent && this.currentContent.onClose)
-                this.currentContent.onClose();
+            var currentContent = this.getCurrentContent();
+            if (currentContent && currentContent.onClose)
+                currentContent.onClose();
         }
-    });
+        }));
 
     return BaseView;
 });

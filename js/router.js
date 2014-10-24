@@ -32,18 +32,6 @@ define([
             '*notfound': 'notfound'
         },
 
-        views: {
-            current: null,
-            baseview: new ApplicationWithMenuView(),
-            homeview: new HomeView(),
-            chooselevelview: new ChooseLevelView(),
-            pagenotfoundview: new PageNotFoundView(),
-            legalview: new LegalView(),
-            playlevelview: new PlayView(),
-            highscoreview: new HighScoreView(),
-            levelbuilderview: new LevelBuilderBaseView(),
-            audioloaderview: new AudioLoaderView()
-        },
 
         openLevelBuilder: function () {
             var levelbuilderview = app.router.views.levelbuilderview;
@@ -52,6 +40,21 @@ define([
         },
 
         init: function () {
+
+            console.log(LevelBuilderBaseView);
+
+            this.views = {
+                current: null,
+                baseview: new ApplicationWithMenuView(),
+                homeview: new HomeView(),
+                chooselevelview: new ChooseLevelView(),
+                pagenotfoundview: new PageNotFoundView(),
+                legalview: new LegalView(),
+                playlevelview: new PlayView(),
+                highscoreview: new HighScoreView(),
+                levelbuilderview: new LevelBuilderBaseView(),
+                audioloaderview: new AudioLoaderView()
+            };
 
 
             this.on('route:home', function () {
