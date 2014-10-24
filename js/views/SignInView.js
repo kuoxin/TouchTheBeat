@@ -14,18 +14,22 @@ define([
 
 
         render: function () {
+            var self = this;
             this.$el.html(_.template(plaintemplate, {}));
             this.$('#user_modal').modal('show');
             this.listenTo(app.session, 'change:logged_in', function (session) {
                 $('#user_modal').modal('hide');
             });
-            console.log(app.session)
+            this.$('#user_modal').on('hidden.bs.modal', function (e) {
+                self.remove();
+            });
 
         },
 
         events: {
             'click #btn_signup': 'onSignUpBtnClick',
-            'click #btn_signin': 'onSignInBtnClick'
+            'click #btn_signin': 'onSignInBtnClick',
+            'click #closebutton': 'closeModal'
         },
 
         onSignUpBtnClick: function (event) {
@@ -145,6 +149,11 @@ define([
                 }
             });
             return o;
+        },
+
+        closeModal: function () {
+            console.log('triggered closing');
+            $('#user_modal').modal('hide');
         },
 
         onClose: function () {

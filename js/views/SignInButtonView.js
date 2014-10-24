@@ -12,7 +12,6 @@ define([
 
         render: function () {
             //this.$el.html('Sign In');
-            this.signinview = new SignInView();
             this.$el.html('Sign in');
         },
 
@@ -27,8 +26,9 @@ define([
         },
 
         openSignInModal: function () {
-            this.signinview.render();
-            $('#abovecontent').html(this.signinview.el);
+            var signinview = new SignInView();
+            signinview.render();
+            $('#abovecontent').html(signinview.el);
         }
     });
     return SignInButtonView;
