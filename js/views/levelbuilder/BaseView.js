@@ -18,12 +18,9 @@ define([
         template: _.template(plainTemplate, {}),
 
             initialize: function () {
-                console.log(this);
-
                 this.configureExchangableContents({
                     callback_before: function () {
                         this.$el.html(this.template);
-                        console.log(this.template);
                     }.bind(this),
                     className: 'content'
                 });

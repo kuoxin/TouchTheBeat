@@ -52,14 +52,15 @@ div.svgcontainer svg {
 .navbar-brand img {
     /* navbar is always 50px high */
     position: absolute;
-    max-height: 40px;
-    max-width: 40px;
-    top: 5px;
+    max-height: 36px;
+    max-width: 36px;
+    top: 7px;
 }
 
 @media (min-width: 768px) {
     .navbar-brand img {
         left: 50%;
+        margin-left: -18px;
     }
 }
 

@@ -40,9 +40,6 @@ define([
         },
 
         init: function () {
-
-            console.log(LevelBuilderBaseView);
-
             this.views = {
                 current: null,
                 baseview: new ApplicationWithMenuView(),

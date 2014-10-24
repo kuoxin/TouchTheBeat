@@ -11,7 +11,7 @@ define([
 
         render: function () {
             //this.$el.html('Sign In');
-            this.$el.html('<button class="btn navbar-btn" id="btn_showsigninmodal">Sign in</button>');
+            this.$el.html('<button class="btn navbar-btn btn-primary" style="margin-right: 30px;" id="btn_showsigninmodal">Sign in</button>');
         },
 
         events: {

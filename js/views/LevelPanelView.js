@@ -17,17 +17,9 @@ define([
         },
 
         render: function (level) {
-            var track = level.get('audio');
-            var owner = level.get('owner');
-            var template = _.template(LevelPanelTemplate, {
-                levelname: level.get('name'),
-                artist: track.artist || 'unknown',
-                artisturl: '#',
-                track: track.title || 'unknown',
-                trackurl: track.permalinkUrl,
-                duration: level.getDurationString(),
-                author: owner.username || 'unknown'
-            });
+            var template = _.template(LevelPanelTemplate, _.extend(level.toJSON(), {
+                duration: level.getDurationString()
+            }));
             this.$el.html(template);
             this.level = level;
         },
