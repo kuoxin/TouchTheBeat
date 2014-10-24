@@ -13,7 +13,17 @@ define([
         render: function () {
             var user = app.session.get('user');
             this.$el.html(_.template(template, user.toJSON()));
+        },
+
+        events: {
+            'click #item_logout': 'logout'
+        },
+
+        logout: function () {
+            app.session.logout();
         }
+
+
     });
     return UserMenuButtonView;
 });

@@ -3,6 +3,8 @@ var host = 'http://localhost/ttb-backend/';
 if (typeof host == 'undefined')
     throw ('Backend host not specified. Open main.js to do so.');
 
+var DEBUGMODE = true;
+
 require.config({
     paths: {
         jquery: ['//code.jquery.com/jquery-2.1.1.min', 'lib/jquery'],
@@ -45,6 +47,8 @@ require([
     'router',
     'BackboneModifications'
 ], function ($, _, Backbone, app, API, Session, Router) {
+    if (DEBUGMODE)
+        window.app = app;
     API.initialize(host);
     app.session = new Session();
     if (app.session.has('hash'))

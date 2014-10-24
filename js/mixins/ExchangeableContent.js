@@ -2,7 +2,7 @@
  * Created by Hermann on 24.10.2014.
  *  A Backbone View mixin for exchangeable sub-views. Subviews should be created in initialize or render and stored by calling addContent(key, view).
  *  The parent view's html has to contain a DOM element with the class 'content' functioning as a container.
- *
+ *  TODO: fix bug on second setContent-call with the same key
  */
 define(['underscore'], function (_) {
     var ExchangeableContents = function () {
@@ -10,7 +10,8 @@ define(['underscore'], function (_) {
             currentContent = null,
             callback_before = null,
             callback_after = null,
-            className = 'content';
+            className = 'content',
+            contentsareinstances = false;
 
         _.extend(this, {
             configureExchangableContents: function (options) {
@@ -18,6 +19,8 @@ define(['underscore'], function (_) {
                 callback_after = opts.callback_after;
                 callback_before = opts.callback_before;
                 className = opts.className;
+                if (typeof opts.contentsareinstances != 'undefined')
+                    contentsareinstances = opts.contentsareinstances;
             },
 
             addContent: function addContent(key, view) {
@@ -35,10 +38,11 @@ define(['underscore'], function (_) {
                 if (currentContent != null) {
                     if (currentContent.onClose)
                         currentContent.onClose();
-                    currentContent.remove();
+                    if (contentsareinstances)
+                        currentContent.remove();
                 }
 
-                this.currentContent = this.getContent(key);
+                this.currentContent = contentsareinstances ? new this.getContent(key) : this.getContent(key);
                 var container = this.$('.' + className).first();
                 this.currentContent.render.apply(this.currentContent, args);
                 container.html(this.currentContent.el);

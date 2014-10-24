@@ -17,7 +17,8 @@ define([
         // These will be overriden after the initial checkAuth
         defaults: {
             logged_in: false,
-            user: {}
+            user: {},
+            id: ''
         },
 
         url: 'session',
@@ -114,7 +115,7 @@ define([
             this.destroy({
                 wait: true,
                 success: function (model, resp) {
-                    model.clear();
+                    model.clear({silent: true});
                     model.id = null;
                     // Set auth to false to trigger a change:auth event
                     // The server also returns a new csrf token so that
@@ -125,25 +126,16 @@ define([
                     if (options.reload) {
                         window.location.reload();
                     }
+
+                },
+                error: function (error) {
+                    console.error(error);
                 }
             });
         },
         // if data request fails request offline mode.
         error: function (model, req, options, error) {
             // consider redirecting based on statusCode
-        },
-
-        // Helpers
-        // - Creates a unique id for identification purposes
-        generateUid: function (separator) {
-
-            var delim = separator || "-";
-
-            function S4() {
-                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-            }
-
-            return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
         }
 
     });

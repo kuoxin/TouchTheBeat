@@ -19,6 +19,7 @@ define([
         },
 
         clickedSignInButton: function () {
+            console.log('clicked signinbutton');
             if (!app.session.get('logged_in')) {
                 this.openSignInModal();
             }
