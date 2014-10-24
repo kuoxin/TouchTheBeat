@@ -4,10 +4,11 @@ define([
     'backbone',
     'text!templates/menu.html',
     'views/SignInButtonView',
+    'views/UserMenuButtonView',
     'app',
     'mixins/ExchangeableContent',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate, SignInButtonView, app, ExchangeableContent) {
+], function ($, _, Backbone, menuTemplate, SignInButtonView, UserMenuButtonView, app, ExchangeableContent) {
     var MenuView = Backbone.View.extend(
         _.extend(new ExchangeableContent, {
         el: '#menu',
@@ -19,7 +20,8 @@ define([
         render: function () {
             this.configureExchangableContents({className: 'usermenucontainer'});
             this.addContents({
-                nosession: new SignInButtonView()
+                nosession: new SignInButtonView(),
+                session: new UserMenuButtonView()
             });
             var template = _.template(menuTemplate, {});
             this.$el.html(template);
@@ -42,16 +44,7 @@ define([
             },
 
         changeLoggedInState: function (session) {
-            console.log('MenuView updating session state');
-            console.log(session.get('user'));
-            if (session.get('logged_in')) {
-                //btn:btn_signin.html('Signed in as ' + session.get('user').escape('username'));
-
-            }
-            else {
-                console.log('setting login button');
-                this.setContent('nosession');
-            }
+            this.setContent(session.get('logged_in') ? 'session' : 'nosession');
         },
 
         updateMenuState: function (router, route) {

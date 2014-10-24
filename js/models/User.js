@@ -25,7 +25,10 @@ define([
         },
 
         parse: function (data) {
-            return _.pick(data, 'username', 'homepage')
+            if (data == true)
+                return {};
+            else
+                return _.pick(data, 'username', 'homepage')
         },
 
         validate: function (attributes) {

@@ -49,6 +49,22 @@ div.svgcontainer svg {
     margin-top: 3.0em;
 }
 
+.navbar-brand img {
+    /* navbar is always 50px high */
+    position: absolute;
+    max-height: 40px;
+    max-width: 40px;
+    top: 5px;
+}
+
+@media (min-width: 768px) {
+    .navbar-brand img {
+        left: 50%;
+    }
+}
+
+
+
 .shape {
     height: 1.7em;
     background-size: contain;

@@ -7,16 +7,15 @@ define([
     'bootstrap'
 ], function ($, _, Backbone, SignInView, app) {
     var SignInButtonView = Backbone.View.extend({
-        tagName: 'button',
-        className: 'btn navbar-btn',
+        tagName: 'li',
 
         render: function () {
             //this.$el.html('Sign In');
-            this.$el.html('Sign in');
+            this.$el.html('<button class="btn navbar-btn" id="btn_showsigninmodal">Sign in</button>');
         },
 
         events: {
-            'click': 'clickedSignInButton'
+            'click #btn_showsigninmodal': 'clickedSignInButton'
         },
 
         clickedSignInButton: function () {
