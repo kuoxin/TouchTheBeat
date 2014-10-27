@@ -159,13 +159,7 @@ define([
         },
 
         closeModal: function () {
-            console.log('triggered closing');
             $('#user_modal').modal('hide');
-        },
-
-        onClose: function () {
-            //    app.session.off(null, null, this);
-            console.log('closing signinview')
         }
     });
     return SignInView;

@@ -3,12 +3,12 @@ define([
     'underscore',
     'backbone',
     'text!templates/menu.html',
-    'views/SignInButtonView',
+    'views/SignInMenuButtonView',
     'views/UserMenuButtonView',
     'app',
     'mixins/ExchangeableContent',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate, SignInButtonView, UserMenuButtonView, app, ExchangeableContent) {
+], function ($, _, Backbone, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
     var MenuView = Backbone.View.extend(
         _.extend(new ExchangeableContent, {
         el: '#menu',
@@ -23,7 +23,7 @@ define([
                 contentsareinstances: true
             });
             this.addContents({
-                nosession: new SignInButtonView(),
+                nosession: new SignInMenuButtonView(),
                 session: new UserMenuButtonView()
             });
             var template = _.template(menuTemplate, {});
@@ -47,7 +47,11 @@ define([
             },
 
         changeLoggedInState: function (session) {
-            this.setContent(session.get('logged_in') ? 'session' : 'nosession');
+            if (session.get('logged_in')) {
+                this.setContent('session');
+            }
+            else
+                this.setContent('nosession', ['navbar-btn']);
         },
 
         updateMenuState: function (router, route) {

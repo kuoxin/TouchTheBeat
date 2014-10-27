@@ -10,8 +10,7 @@ define([
         tagName: 'li',
 
         render: function () {
-            //this.$el.html('Sign In');
-            this.$el.html('<button class="btn navbar-btn btn-primary" style="margin-right: 30px;" id="btn_showsigninmodal">Sign in</button>');
+            this.$el.html('<button class="btn btn-primary navbar-btn" id="btn_showsigninmodal">Sign in</button>');
         },
 
         events: {
@@ -21,15 +20,10 @@ define([
         clickedSignInButton: function () {
             console.log('clicked signinbutton');
             if (!app.session.get('logged_in')) {
-                this.openSignInModal();
+                app.getMainView().openSignInModal();
             }
-        },
-
-        openSignInModal: function () {
-            var signinview = new SignInView();
-            signinview.render();
-            $('#abovecontent').html(signinview.el);
         }
+
     });
     return SignInButtonView;
 });

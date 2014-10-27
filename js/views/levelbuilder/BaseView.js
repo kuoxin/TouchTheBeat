@@ -8,8 +8,9 @@ define([
     'views/levelbuilder/StartView',
     'views/levelbuilder/OpenLevelView',
     'views/levelbuilder/LevelEditorView',
+    'views/levelbuilder/SignInCallView',
     'mixins/ExchangeableContent'
-], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView, ExchangeableContent) {
+], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView, SignInCallView, ExchangeableContent) {
 
 
     var BaseView = Backbone.View.extend(
@@ -19,9 +20,7 @@ define([
 
             initialize: function () {
                 this.configureExchangableContents({
-                    callback_before: function () {
-                        this.$el.html(this.template);
-                    }.bind(this),
+                    callback_before: this.checkroute.bind(this),
                     className: 'content',
                     contentsareinstances: true
                 });
@@ -30,11 +29,21 @@ define([
                     startview: new StartView(),
                     gameobjectrecorderview: new GameObjectRecorderView(),
                     openlevelview: new OpenLevelView(),
-                    leveleditorview: new LevelEditorView()
+                    leveleditorview: new LevelEditorView(),
+                    signincall: new SignInCallView()
                 });
+
+                this.listenTo(app.session, 'change:logged_in', this.updateloginstate.bind(this));
         },
 
+            checkroute: function (route, args) {
+                if (!app.session.get('logged_in')) {
+                    return 'signincall';
+                }
+            },
+
         render: function () {
+            this.$el.html(this.template);
             if (app.models.levelEditorModel)
                 this.setContent('leveleditor');
             else
@@ -45,6 +54,12 @@ define([
             var currentContent = this.getCurrentContent();
             if (currentContent && currentContent.onClose)
                 currentContent.onClose();
+        },
+
+            updateloginstate: function (session) {
+                if (session.get('logged_in')) {
+                    this.setContent('start');
+                }
         }
         }));
 

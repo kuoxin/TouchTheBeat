@@ -44,6 +44,11 @@ define([
             return app.getLevelEditorModel();
         },
 
+        getMainView: function () {
+            console.log(app.router.views.baseview);
+            return app.router.views.baseview;
+        },
+
         setContent: function () {
 
             var newview = [].shift.call(arguments);

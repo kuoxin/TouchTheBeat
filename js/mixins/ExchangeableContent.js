@@ -2,7 +2,7 @@
  * Created by Hermann on 24.10.2014.
  *  A Backbone View mixin for exchangeable sub-views. Subviews should be created in initialize or render and stored by calling addContent(key, view).
  *  The parent view's html has to contain a DOM element with the class 'content' functioning as a container.
- *  TODO: fix bug on second setContent-call with the same key
+ *  callback_before is a function that gets called with the content_key as param before content gets switched and has the possibility to return a content_key that will be used instead.
  */
 define(['underscore'], function (_) {
     var ExchangeableContents = function () {
@@ -32,9 +32,11 @@ define(['underscore'], function (_) {
             },
 
             setContent: function setContent(key, args) {
-                console.log('setting content ' + key + ' instance: ' + contentsareinstances);
-                if (callback_before)
-                    callback_before();
+                if (callback_before) {
+                    var return_value = callback_before(key, args);
+                    if (return_value)
+                        key = return_value;
+                }
 
                 if (currentContent != null) {
                     if (currentContent.onClose)
