@@ -25,16 +25,17 @@ define([
             ];
         },
 
-        render: function () {
+        render: function (model) {
+            this.model = model;
             var template = _.template(mainTemplate, {});
             this.$el.html(template);
-            var audio = app.getLevelEditorModel().get('audio');
+            var audio = this.model.get('audio');
             if (audio.get('title')) {
                 this.$("#input_entertrack").val(audio.permalinkUrl);
                 this.updateTrackPanel();
             }
 
-            this.listenTo(app.getLevelEditorModel(), 'change:audio', this.updateTrackPanel.bind(this));
+            this.listenTo(this.model, 'change:audio', this.updateTrackPanel.bind(this));
         },
 
         onClose: function () {
@@ -48,6 +49,7 @@ define([
         },
 
         enteredTrack: function () {
+            var self = this;
             if (this.$("#input_entertrack").val() == '') {
                 this.loading_error();
                 return;
@@ -58,18 +60,18 @@ define([
                 data: {
                     url: this.$("#input_entertrack").val()
                 },
-                success: function (track) {
-                    console.log('setting audio');
-                    app.getLevelEditorModel().set('audio', track);
-                },
+                success: this.loading_success.bind(this),
                 error: this.loading_error.bind(this)
             });
         },
 
+        loading_success: function (track) {
+            this.model.set('audio', track);
+        },
+
+
         selectedRandomTrack: function () {
-            console.log('click');
             var random = this.randomtracks[Math.floor(Math.random() * (this.randomtracks.length))];
-            console.log('random: ' + random);
             $("#input_entertrack").val(random);
             this.enteredTrack();
         },
@@ -80,7 +82,7 @@ define([
             this.$('#audio_inputgroup').removeClass('has-success').addClass('has-error');
             this.$('#trackcontainer').html('');
             var errorview = new ErrorMessageView();
-            console.log(errorview.render(errorMessage));
+            errorview.render(errorMessage);
             this.$('#alert_tracknotfound_container').html(errorview.$el);
 
             //this.$("#alert_tracknotfound_text").html(errorMessage);
@@ -90,10 +92,9 @@ define([
 
         updateTrackPanel: function updateTrackPanel() {
             this.$('#audio_inputgroup').removeClass('has-error').addClass('has-success');
-            var track = app.getLevelEditorModel().get('audio');
+            var track = this.model.get('audio');
             this.$('#alert_tracknotfound_container').html('');
             this.$("#input_entertrack").val(track.get('permalinkUrl'));
-            console.log(track);
             var template = _.template(trackPanelTemplate, track.toJSON());
             this.$('#trackcontainer').html(template);
             this.$('#trackinfo').fadeIn();

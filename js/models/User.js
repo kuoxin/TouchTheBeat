@@ -28,7 +28,7 @@ define([
             if (data == true)
                 return {};
             else
-                return _.pick(data, 'username', 'homepage')
+                return data;
         },
 
         validate: function (attributes) {

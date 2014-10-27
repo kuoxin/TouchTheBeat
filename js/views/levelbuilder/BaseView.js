@@ -44,7 +44,7 @@ define([
 
         render: function () {
             this.$el.html(this.template);
-            if (app.models.levelEditorModel)
+            if (!_.isUndefined(this.getContent('leveleditor').getModel()))
                 this.setContent('leveleditor');
             else
                 this.setContent('start');
@@ -61,6 +61,7 @@ define([
                     this.setContent('start');
                 }
         }
+
         }));
 
     return BaseView;

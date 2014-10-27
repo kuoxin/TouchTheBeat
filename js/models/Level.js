@@ -13,15 +13,22 @@ define([
             gameObjects: new GameObjectCollection(),
             tags: [],
             audio: new Track(),
-            owner: new User()
+            name: ''
         },
 
         initialize: function () {
             this.on('change', function () {
                 console.log(this.toJSON())
             }, this);
-            if (!this.has('owner') && app && app.session && app.session.get('logged_in') && app.session.get('user'))
-                this.set('owner', app.session.get('user'));
+
+            if (!this.has('owner')) {
+                if (_.isUndefined(app.session)) {
+                    console.warn('A level without owner was created before the session was initialized.');
+                }
+                else {
+                    this.set('owner', app.session.get('user'));
+                }
+            }
         },
 
         /**

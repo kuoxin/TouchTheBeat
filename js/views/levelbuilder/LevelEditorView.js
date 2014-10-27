@@ -11,8 +11,22 @@ define([
     'views/levelbuilder/panels/AudioPanelView',
     'views/levelbuilder/panels/GameObjectEditorPanelView',
     'views/levelbuilder/panels/MetaDataPanelView',
-    'app'
-], function ($, _, Backbone, Template, TapObjectRowView, ExportModalView, AudioPanelView, GameObjectEditorPanelView, MetaDataPanelView, app) {
+    'app',
+    'models/Level'
+], function ($, _, Backbone, Template, TapObjectRowView, ExportModalView, AudioPanelView, GameObjectEditorPanelView, MetaDataPanelView, app, Level) {
+
+    var logmodel = function (model) {
+        if (!_.isUndefined(model)) {
+            console.warn('The current LevelEditor-draft will be overwritten. Trying to log the level-text as backup:');
+            try {
+                console.log(JSON.stringify(model.toJSON()));
+            }
+            catch (e) {
+                console.error(e);
+            }
+        }
+    };
+
     var LevelEditorView = Backbone.View.extend({
         events: {
             'click #delete': 'deleteDraft',
@@ -21,9 +35,23 @@ define([
             'click #play': 'playLevel'
         },
 
+        getModel: function () {
+            return this.model;
+        },
+
+        setModel: function (model) {
+            logmodel(this.model);
+            this.model = model;
+        },
+
+
+        createModel: function (soundcloudURL) {
+            this.setModel(soundcloudURL ? Level.createFromSoundCloud(soundcloudURL) : new Level());
+            return this.getModel();
+        },
+
         deleteDraft: function () {
-            console.log('triggered');
-            app.models.levelEditorModel = null;
+            this.setModel(undefined);
             var levelbuilderview = app.router.views.levelbuilderview;
             levelbuilderview.setContent('start');
         },
@@ -37,14 +65,14 @@ define([
         },
 
         playLevel: function () {
-            app.startlevel(app.getLevelEditorModel());
-        },
-
-        getModel: function () {
-            return app.getLevelEditorModel();
+            app.startlevel(this.getModel());
         },
 
         render: function () {
+            if (_.isUndefined(this.getModel())) {
+                this.createModel();
+            }
+
             var template = _.template(Template, {
                 levelname: this.getModel().get('name') || 'New Level',
                 username: this.getModel().get('owner').get('username')
@@ -62,7 +90,7 @@ define([
             this.$('#panellist').html('');
 
             for (var k in this.panels) {
-                this.panels[k].render();
+                this.panels[k].render(this.getModel());
                 this.$('#panellist').append(this.panels[k].el);
             }
 
@@ -75,7 +103,6 @@ define([
 
         onClose: function () {
             this.exportmodalview.remove();
-
             for (var k in this.panels) {
                 this.panels[k].remove();
             }

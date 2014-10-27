@@ -3,14 +3,10 @@ define([
     'underscore',
     'backbone',
     'util/analytics',
-    'models/Level',
     'bootstrap'
-], function ($, _, Backbone, analytics, Level) {
+], function ($, _, Backbone, analytics) {
     var app = {
         router: null,
-        models: {
-            levelEditorModel: null
-        },
 
         baseviewIsRendered: false,
 
@@ -24,24 +20,6 @@ define([
             app.router.views.current = [].shift.call(arguments);
             app.router.views.current.setElement('#body').render.apply(app.router.views.current, arguments);
             analytics.trackPageView(app.router.getCurrentAppStatus());
-        },
-
-        getLevelEditorModel: function () {
-            return app.models.levelEditorModel;
-        },
-
-        createLevelEditorModel: function (soundcloudURL) {
-            if (app.getLevelEditorModel()) {
-                console.warn('The current LevelEditor-draft will be overwritten. Trying to log the level-text as backup:');
-                try {
-                    console.log(JSON.stringify(app.getLevelEditorModel().toJSON()));
-                }
-                catch (e) {
-                    console.error(e);
-                }
-            }
-            app.models.levelEditorModel = soundcloudURL ? Level.createFromSoundCloud(soundcloudURL) : new Level();
-            return app.getLevelEditorModel();
         },
 
         getMainView: function () {

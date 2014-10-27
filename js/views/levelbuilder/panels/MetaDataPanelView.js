@@ -12,11 +12,12 @@ define([
         initialize: function () {
         },
 
-        render: function () {
+        render: function (model) {
+            this.model = model;
             var template = _.template(mainTemplate,
                 {
-                    levelname: app.getLevelEditorModel().get('name'),
-                    username: app.getLevelEditorModel().get('owner').username
+                    levelname: this.model.get('name'),
+                    username: this.model.get('owner').get('username')
                 }
             );
             this.$el.html(template);
@@ -28,19 +29,12 @@ define([
 
         events: {
             'click #btn_recordgameobjects': 'recordGameObjects',
-            'input #username': 'saveUsername',
             'input #levelname': 'saveLevelname'
-        },
-
-        saveUsername: function () {
-            var owner = _(app.getLevelEditorModel().get('owner')).clone();
-            owner.username = this.$("#username").val();
-            app.getLevelEditorModel().set({owner: owner});
         },
 
         saveLevelname: function () {
             console.log('levelname');
-            app.getLevelEditorModel().set({
+            this.model.set({
                 name: this.$("#levelname").val()
             });
         }

@@ -19,7 +19,6 @@ define([
 
         create: function () {
             console.log('click');
-            app.createLevelEditorModel();
             app.router.views.levelbuilderview.setContent('leveleditor');
             return false;
         },

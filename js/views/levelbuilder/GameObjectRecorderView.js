@@ -21,7 +21,8 @@ define([
             }
         },
 
-        render: function () {
+        render: function (model) {
+            this.model = model;
             if (this.audiocontroller)
                 this.audiocontroller.dispose();
 
@@ -34,7 +35,7 @@ define([
             this.audiocontroller = new AudioController();
             this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
             this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.recordingfinished.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render((new Track(app.models.levelEditorModel.get('audio'))).getStreamUrl(), true);
+            this.audiocontroller.render(this.model.get('audio').getStreamUrl(), true);
 
         },
 
@@ -45,7 +46,7 @@ define([
          }, */
 
         addTapObject: function (timestamp, x, y) {
-            app.getLevelEditorModel().get('gameObjects').add(
+            this.model.get('gameObjects').add(
                 new GameObject({"type": "Tap", "x": x, "y": y, "tapTime": timestamp})
             );
         },

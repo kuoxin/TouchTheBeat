@@ -76,7 +76,6 @@ define([
                         "required": ["type", "tapTime", "x", "y", "shape"]
                     }
                 ],
-                "minItems": 1,
                 "uniqueItems": true
             },
             "owner": {
@@ -95,7 +94,7 @@ define([
                 "required": ["id", "username"]
             }
         },
-        "required": ["id", "name", "audio", "gameObjects", "owner"]
+        "required": ["name", "audio", "gameObjects", "owner"]
     };
     return schema;
 })

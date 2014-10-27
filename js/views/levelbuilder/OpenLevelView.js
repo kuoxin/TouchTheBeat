@@ -22,8 +22,8 @@ define([
 
         levelselected: function (level) {
             console.log(level);
-            app.models.levelEditorModel = level;
             var levelbuilderview = app.router.views.levelbuilderview;
+            levelbuilderview.getContent('leveleditor').setModel(level);
             levelbuilderview.setContent('leveleditor');
         }
 

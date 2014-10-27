@@ -67,7 +67,6 @@ define([
             });
 
             this.on('route:createlevel', function (soundcloudurl) {
-                app.createLevelEditorModel(soundcloudurl);
                 this.openLevelBuilder('leveleditor');
             });
 

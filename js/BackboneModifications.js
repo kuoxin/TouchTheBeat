@@ -20,8 +20,11 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var DEBUGDEEPCOPY = false;
     _.extend(Backbone.Model.prototype, {
-        toJSON: function () {
-            return this.deepcopy(this.attributes);
+        toJSON: function (model) {
+            var obj = this.deepcopy(this.attributes);
+            if (typeof this.id != 'undefined' && this.id != null)
+                obj.id = this.id;
+            return obj;
         },
 
         deepcopy: function (copyof) {

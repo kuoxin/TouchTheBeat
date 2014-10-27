@@ -14,12 +14,13 @@ define([
         initialize: function () {
         },
 
-        render: function () {
+        render: function (model) {
+            this.model = model;
             this.$el.html(this.template);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
             var i = 1;
-            var gameobjects = app.getLevelEditorModel().get('gameObjects');
+            var gameobjects = this.model.get('gameObjects');
             gameobjects.forEach(function (gameobject) {
                 if (gameobject.get('type') == 'Tap') {
                     var view = new TapObjectRowView(gameobject);
@@ -37,7 +38,7 @@ define([
 
         recordGameObjects: function recordgameobjects() {
             console.log('click');
-            app.setFullScreenContent(app.router.views.levelbuilderview.contents.gameobjectrecorderview);
+            app.setFullScreenContent(app.router.views.levelbuilderview.getContent('gameobjectrecorder'), this.model);
         }
     });
 
