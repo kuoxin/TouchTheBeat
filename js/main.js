@@ -1,5 +1,5 @@
-var host = 'http://localhost/ttb-backend/';
-//var host = 'https://ttb-server.coloreddrums.de/
+//var host = 'http://localhost/ttb-backend/';
+var host = 'https://cldr.pf-control.de/ttb-server/dev/'
 if (typeof host == 'undefined')
     throw ('Backend host not specified. Open main.js to do so.');
 
