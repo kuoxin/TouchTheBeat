@@ -12,6 +12,12 @@ define([
 
         },
 
+        default_texts: {
+            'signin_password': 'This email/password combination does not exist.',
+            'signup_email': 'This e-mail address is invalid.',
+            'signup_username': 'This username is already taken.',
+            'signup_password_repeat': 'These passwords do not match.'
+        },
 
         render: function () {
             var self = this;
@@ -39,7 +45,7 @@ define([
                 var data = this.getFormData(form);
                 if (data.password != data.password_repeat) {
                     self.markValid(false, 'signup_password');
-                    self.markValid(false, 'signup_password_repeat', 'These passwords do not match.');
+                    self.markValid(false, 'signup_password_repeat');
                     return false;
                 }
 
@@ -94,6 +100,7 @@ define([
                         case 'SIGNIN_CREDENTIALS_INCORRECT':
                             self.markValid(false, 'signin_email');
                             self.markValid(false, 'signin_password');
+
                             break;
                         default:
                             console.error('unhandled error from backend: ' + e);
@@ -118,7 +125,7 @@ define([
             var help_block = elem.siblings('.help-block').first();
             if (help_block) {
                 help_block[!valid ? 'show' : 'hide']();
-                help_block.html(text);
+                help_block.html(text || this.default_texts[name]);
             }
         },
 
@@ -128,7 +135,7 @@ define([
             var self = this;
             form.find("input").each(function () {
                 var elem_valid = this.checkValidity();
-                self.markValid(elem_valid, $(this).attr('id'), 'helptext here');
+                self.markValid(elem_valid, $(this).attr('id'));
                 valid = valid && elem_valid;
             });
             return valid;

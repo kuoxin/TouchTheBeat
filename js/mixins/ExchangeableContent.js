@@ -32,20 +32,27 @@ define(['underscore'], function (_) {
             },
 
             setContent: function setContent(key, args) {
+                console.log('setting content ' + key + ' instance: ' + contentsareinstances);
                 if (callback_before)
                     callback_before();
 
                 if (currentContent != null) {
                     if (currentContent.onClose)
                         currentContent.onClose();
-                    if (contentsareinstances)
+
+                    console.log('contentsareinstances: ' + contentsareinstances);
+                    if (!contentsareinstances)
                         currentContent.remove();
                 }
 
                 this.currentContent = contentsareinstances ? new this.getContent(key) : this.getContent(key);
                 var container = this.$('.' + className).first();
                 this.currentContent.render.apply(this.currentContent, args);
+
                 container.html(this.currentContent.el);
+
+                if (contentsareinstances)
+                    this.currentContent.delegateEvents();
 
                 if (callback_after)
                     callback_after();

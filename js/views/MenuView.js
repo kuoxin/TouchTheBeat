@@ -18,7 +18,10 @@ define([
         },
 
         render: function () {
-            this.configureExchangableContents({className: 'usermenucontainer'});
+            this.configureExchangableContents({
+                className: 'usermenucontainer',
+                contentsareinstances: true
+            });
             this.addContents({
                 nosession: new SignInButtonView(),
                 session: new UserMenuButtonView()

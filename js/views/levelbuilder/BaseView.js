@@ -22,7 +22,8 @@ define([
                     callback_before: function () {
                         this.$el.html(this.template);
                     }.bind(this),
-                    className: 'content'
+                    className: 'content',
+                    contentsareinstances: true
                 });
 
                 this.addContents({
