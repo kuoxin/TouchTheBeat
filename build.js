@@ -3,8 +3,8 @@
     appDir: "./",
     modules: [
         {
-            name: "main",
-            exclude: ['infrastructure']
+            name: "main"//,
+            //exclude: ['infrastructure']
         }
     ],
 
@@ -15,13 +15,14 @@
     dir: "../ttb-build",
 
     paths: {
-        'google-analytics': 'empty:',
-        'bootstrap': 'empty:',
-        'jquery': 'empty:',
-        'underscore': 'empty:',
-        'backbone': 'empty:',
-        'snap': 'empty:',
-        'md5': 'empty:'
+        //'google-analytics': 'empty:',
+        //'bootstrap': 'lib/bootstrap.min',
+        //'jquery': 'lib/jquery.min',
+        //'underscore': 'lib/underscore.min',
+        //'backbone': 'lib/backbone.min',
+
+        //using the unminified version here for now because the minified version causes an uncaught SyntaxError
+        //'snap': 'lib/snap.svg'
     },
 
     fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/
