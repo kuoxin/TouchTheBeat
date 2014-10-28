@@ -18,7 +18,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             var custom_p = _.clone(p);
             var stringrep = 'API-Request "' + p.type + ' ' + p.url;
 
-            custom_p.url = host + p.url;
+            var url = host + p.url;
             if (app.session != undefined && app.session != null && app.session.has('hash')) {
                 stringrep += ' with session"'// + app.session.get('hash'));
                 custom_p.headers = _.extend(custom_p.headers || {},
@@ -45,7 +45,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 p.error(jqXHR.status);
             };
 
-            realajax(custom_p);
+            realajax(url, custom_p);
             console.info(stringrep + ' raised');
         };
 

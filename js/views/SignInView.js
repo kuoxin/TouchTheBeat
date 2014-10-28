@@ -24,6 +24,7 @@ define([
             this.$el.html(_.template(plaintemplate, {}));
             this.$('#user_modal').modal('show');
             this.listenTo(app.session, 'change:logged_in', function (session) {
+                console.log('log-in state changed');
                 $('#user_modal').modal('hide');
             });
             this.$('#user_modal').on('hidden.bs.modal', function (e) {
@@ -52,8 +53,7 @@ define([
                 var user = new User();
                 data.password = md5.MD5(data.password).toString();
                 user.set(_.pick(data, 'username', 'email', 'password', 'homepage'));
-                user.save({
-                    emulateJSON: true,
+                user.save(['username', 'email', 'password', 'homepage'], {
                     success: function () {
                         console.log('signup succeeded');
                         app.session.fetch({
@@ -61,6 +61,7 @@ define([
                         });
                     },
                     error: function (user, e) {
+                        console.log('error catched');
                         switch (e) {
                             case 'USER_EMAIL_NOT_VALID':
                                 self.markValid(false, 'signup_email', 'This email address does not exist.');
