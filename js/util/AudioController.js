@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-
-], function ($, _, Backbone) {
-    var AudioController = Backbone.View.extend({
-        el: '#player',
-
+    'backbone',
+    'app'
+], function ($, _, Backbone, app) {
+    var AudioController = function () {
+    };
+    AudioController.prototype = _.extend(AudioController.prototype, {
         cache: [],
 
         onClose: function () {
@@ -16,9 +16,7 @@ define([
                 this.request.abort();
                 this.request = null;
             }
-
             try {
-
                 if (this.source) {
                     this.source.disconnect();
                     this.source.stop();
@@ -26,7 +24,6 @@ define([
                 }
             } catch (e) {
             }
-            ;
         },
 
         onended: function () {
@@ -37,21 +34,18 @@ define([
             }
         },
 
-        render: function (stream_url, playasap) {
+        render: function (stream_url) {
+
             this.notified_ended = false;
             this.active = true;
 
             this.inittime = null;
 
-            this.playasap = playasap;
             this.stream_url = stream_url;
 
             try {
-                window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                this.context = new AudioContext();
-
                 if (this.cache[stream_url] != undefined) {
-                    console.info('Reading audio-buffer from cache.')
+                    console.info('Reading audio-buffer from cache.');
                     this.initsound(this.cache[stream_url]);
                     return;
                 }
@@ -62,19 +56,18 @@ define([
 
                 request.addEventListener("progress", this.passloadingpercentage.bind(this), false);
 
-                var loader = function (e) {
+                var loader = function () {
                     if (this.audioloaderview) {
                         this.audioloaderview.hideLoadingIndicator();
                         this.audioloaderview.showProcessingInformation();
                     }
 
                     if (this.active) {
-                        this.context.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
+                        app.audiocontext.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
                     }
                 }.bind(this);
 
                 request.onload = loader;
-                console.log('loading audio');
                 this.request = request;
                 this.request.send();
             }
@@ -82,7 +75,6 @@ define([
             catch (e) {
                 console.error(e);
                 this.callback_error('Web Audio API is not supported in this browser');
-                return;
             }
         },
 
@@ -103,9 +95,9 @@ define([
             if (this.cache[this.stream_url] == undefined)
                 this.cache[this.stream_url] = buffer;
 
-            var source = this.context.createBufferSource();
+            var source = app.audiocontext.createBufferSource();
             source.buffer = buffer;
-            source.connect(this.context.destination);
+            source.connect(app.audiocontext.destination);
             source.onended = this.onended.bind(this);
             this.source = source;
 
@@ -119,7 +111,7 @@ define([
 
         start: function () {
             this.source.start(0);
-            this.inittime = this.context.currentTime;
+            this.inittime = app.audiocontext.currentTime;
             this.callback_started();
         },
 
@@ -131,7 +123,7 @@ define([
         },
 
         getCurrentTime: function () {
-            return this.context.currentTime - this.inittime;
+            return app.audiocontext.currentTime - this.inittime;
         },
 
         getPercentage: function () {
@@ -140,7 +132,6 @@ define([
 
         getDuration: function () {
             return this.source.buffer.duration;
-
         },
 
         attachAudioLoadingView: function (audioloaderview) {

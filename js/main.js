@@ -1,5 +1,5 @@
-//var host = 'http://localhost/ttb-backend/';
-var host = 'https://cldr.pf-control.de/ttb-server/dev/'
+var host = 'http://localhost/ttb-backend/';
+//var host = 'https://cldr.pf-control.de/ttb-server/dev/';
 if (typeof host == 'undefined')
     throw ('Backend host not specified. Open main.js to do so.');
 
@@ -50,11 +50,11 @@ require([
     if (DEBUGMODE)
         window.app = app;
     API.initialize(host);
-    app.session = new Session();
-    if (app.session.has('hash'))
-        app.session.updateSessionUser();
-    app.router = new Router();
-    app.router.init();
+    app.initialize({
+        session: new Session(),
+        router: new Router()
+
+    });
     Backbone.history.start();
     console.info('Starting TouchTheBeat has completed.');
 });

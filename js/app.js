@@ -50,6 +50,20 @@ define([
             app.router.views.current.setElement($('#content')).render.apply(app.router.views.current, arguments);
 
             analytics.trackPageView(app.router.getCurrentAppStatus());
+        },
+
+        initialize: function (data) {
+            try {
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                app.audiocontext = new AudioContext();
+            }
+            catch (e) {
+                console.error('Web Audio API is not supported in this browser');
+            }
+            app = _.extend(app, data);
+            if (app.session.has('hash'))
+                app.session.updateSessionUser();
+            app.router.init();
         }
     };
     return app;

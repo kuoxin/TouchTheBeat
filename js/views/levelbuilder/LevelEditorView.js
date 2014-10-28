@@ -102,9 +102,9 @@ define([
         },
 
         onClose: function () {
-            this.exportmodalview.remove();
+            this.exportmodalview.dispose();
             for (var k in this.panels) {
-                this.panels[k].remove();
+                this.panels[k].dispose();
             }
         }
     });

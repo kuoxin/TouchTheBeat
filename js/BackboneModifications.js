@@ -12,6 +12,9 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
             //this.bindings = [];
 
+            if (this.onClose)
+                this.onClose();
+
             this.remove();
             // Uses the default Backbone.View.remove() method which
             // removes this.el from the DOM and removes DOM events.
@@ -20,7 +23,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var DEBUGDEEPCOPY = false;
     _.extend(Backbone.Model.prototype, {
-        toJSON: function (model) {
+        toJSON: function () {
             var obj = this.deepcopy(this.attributes);
             if (typeof this.id != 'undefined' && this.id != null)
                 obj.id = this.id;
