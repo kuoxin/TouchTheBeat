@@ -52,8 +52,7 @@ define([
 
                 var user = new User();
                 data.password = md5.MD5(data.password).toString();
-                user.set(_.pick(data, 'username', 'email', 'password', 'homepage'));
-                user.save(['username', 'email', 'password', 'homepage'], {
+                user.save(_.pick(data, 'username', 'email', 'password', 'homepage'), {
                     success: function () {
                         console.log('signup succeeded');
                         app.session.fetch({
