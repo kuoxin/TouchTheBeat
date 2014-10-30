@@ -1,4 +1,3 @@
-console.log('google analytics locally loaded');
 (function () {
     var aa = encodeURIComponent, f = window, ba = setTimeout, n = Math;
 

@@ -6,7 +6,7 @@ define([], function () {
         host: 'http://localhost/ttb-backend/',
 
         /**
-         * when this option is true the app object is accessible in the console at window.app
+         * when this option is true logging is enabled and the app object is accessible at window.app
          */
         debug: true
     };

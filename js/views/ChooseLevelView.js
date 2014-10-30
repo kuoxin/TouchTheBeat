@@ -4,10 +4,10 @@ define([
     'backbone',
     'text!templates/leveloverview.html',
     'views/LevelPanelView',
-    'levelcontainer',
+    'collections/LevelCollection',
     'app',
     'views/LevelTextInputView'
-], function ($, _, Backbone, LevelOverviewTemplate, LevelPanel, levelcontainer, app, LevelTextInputView) {
+], function ($, _, Backbone, LevelOverviewTemplate, LevelPanel, LevelCollection, app, LevelTextInputView) {
     var ChooseLevelView = Backbone.View.extend({
 
         render: function () {
@@ -21,7 +21,8 @@ define([
             this.containerelement_packaged.html('');
 
             var callback = app.startlevel.bind(app);
-            levelcontainer.forEach(function (level) {
+            var levels = new LevelCollection();
+            levels.forEach(function (level) {
                 var view = new LevelPanel(callback);
                 view.render(level);
                 this.containerelement_packaged.append(view.el);

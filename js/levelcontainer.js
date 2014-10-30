@@ -1,12 +1,5 @@
-define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'collections/LevelCollection'
-], function ($, _, Backbone, LevelCollection) {
-
-
-    levelcontainer = [
+define([], function () {
+    return [
         {"audio": {"streamUrl": "https://api.soundcloud.com/tracks/57984848/stream", "permalinkUrl": "http://soundcloud.com/dearreadermusic/03-great-white-bear", "artist": "Dear Reader", "title": "Great White Bear", "duration": 245939, "artworkUrl": "https://i1.sndcdn.com/artworks-000029335022-06ag8f-large.jpg", "artistUrl": "http://soundcloud.com/dearreadermusic"}, "gameObjects": [
             {"type": "Tap", "x": 130, "y": 650, "tapTime": 7.9786666666667, "shape": {"type": "circle", "size": "medium"}},
             {"type": "Tap", "x": 450, "y": 350, "tapTime": 9.8986666666667, "shape": {"type": "circle", "size": "medium"}},
@@ -527,8 +520,4 @@ define([
             {"type": "Tap", "x": 800, "y": 180, "tapTime": 86.61333333333333, "shape": {"type": "circle", "size": "medium"}}
         ], "name": "Demolevel 2", "owner": {"username": "coloreddrums", "id": "undefined"}, "id": "undefined_2"}
     ];
-
-    var levelcollection = new LevelCollection(levelcontainer, {parse: true});
-    console.log(levelcollection.toJSON());
-    return levelcollection;
 });

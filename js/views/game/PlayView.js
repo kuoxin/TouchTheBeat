@@ -22,10 +22,12 @@ define([
 
             this.result = null;
 
-            if (this.audiocontroller) {
-                this.audiocontroller.onClose();
+            try {
                 this.audiocontroller.dispose();
             }
+            catch (e) {
+            }
+
 
             this.game = null;
         },

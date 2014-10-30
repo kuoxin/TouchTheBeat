@@ -44,11 +44,25 @@ require([
     'router',
     'BackboneModifications'
 ], function ($, _, Backbone, config, app, API, Session, Router) {
+
     if (typeof config.host == 'undefined')
         throw ('Backend host not specified. Open config.js to do so.');
 
-    if (config.DEBUGMODE)
+    if (config.debug) {
         window.app = app;
+    }
+    else {
+        try {
+            console.log = function () {
+            };
+            console.info = function () {
+            };
+        }
+        catch (e) {
+        }
+    }
+
+    console.info('Initializing TouchTheBeat.');
     API.initialize(config.host);
     app.initialize({
         session: new Session(),
@@ -56,5 +70,5 @@ require([
 
     });
     Backbone.history.start();
-    console.info('Starting TouchTheBeat has completed.');
+    console.info('Initializing TouchTheBeat has completed.');
 });

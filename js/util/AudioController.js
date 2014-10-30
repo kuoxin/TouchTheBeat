@@ -9,6 +9,10 @@ define([
     AudioController.prototype = _.extend(AudioController.prototype, {
         cache: [],
 
+        dispose: function () {
+            this.onClose();
+        },
+
         onClose: function () {
             this.active = false;
             console.log('closing audio');
