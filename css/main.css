@@ -68,6 +68,10 @@ div.svgcontainer svg {
     margin-right: 30px;
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 
 
 .shape {

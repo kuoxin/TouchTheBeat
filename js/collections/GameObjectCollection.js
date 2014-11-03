@@ -5,15 +5,13 @@ define([
     'models/GameObject'
 ], function ($, _, Backbone, GameObject) {
     var GameObjectCollection = Backbone.Collection.extend({
-        model: GameObject
+        model: GameObject,
 
-        /*
-         initialize: function(){
-         // debugging purpose
-         this.bind('add', function(param){
-         console.log(param.toJSON());
-         }, this)
-         }*/
+
+        initialize: function (models) {
+            Backbone.Select.Many.applyTo(this, models);
+        }
+
     });
     return GameObjectCollection;
 });

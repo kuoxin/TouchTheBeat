@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
+define(['jquery', 'underscore', 'backbone', 'lib/backbone.select'], function ($, _, Backbone) {
     _.extend(Backbone.View.prototype, {
         dispose: function () {
             //Will unbind all events this view has bound to

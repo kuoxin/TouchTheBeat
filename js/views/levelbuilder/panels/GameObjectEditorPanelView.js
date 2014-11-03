@@ -16,6 +16,8 @@ define([
 
         render: function (model) {
             this.model = model;
+            console.log(this.model.get('gameObjects'));
+            //this.model.get('gameObjects').add({"type": "Tap", "x": 800, "y": 1020, "tapTime": 80.59733333333334, "shape": {"type": "circle", "size": "medium"}});
             this.$el.html(this.template);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
@@ -35,6 +37,7 @@ define([
         events: {
             'click #record_gameobjects': 'recordGameObjects'
         },
+
 
         recordGameObjects: function recordgameobjects() {
             console.log('click');

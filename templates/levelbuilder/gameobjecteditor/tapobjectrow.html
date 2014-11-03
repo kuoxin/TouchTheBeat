@@ -1,13 +1,14 @@
-<td><%- index %></td>
-<td><%- time %></td>
+<td class="select_td"><input type="checkbox" class="checkbox_rowselection" id="<%- cid %>-selection" value="checked"/>
+</td>
+<td><input class="form-control input-sm" id="<%- cid %>-time" type="number" value="<%- time %>"/></td>
 <td>Tap</td>
-<td><%- x %></td>
-<td><%- y %></td>
+<td><input class="form-control input-sm" id="<%- cid %>-x" type="number" value="<%- x %>"/></td>
+<td><input class="form-control input-sm" id="<%- cid %>-y" type="number" value="<%- y %>"/></td>
 <td>
     <div class="btn-group">
-        <% _.each(shapes, function(shape) { %>
-        <button type="button" class="btn btn-default shape shape_<%= shape %>" alt="<%= shape %>"
-                title="<%= shape %>"></button>
+        <% _.each(shapes, function(s) { %>
+        <button type="button" class="btn btn-default shape shape_<%= s %>" alt="<%= s %>"
+                title="<%= s %>"></button>
         <% }); %>
     </div>
 </td>

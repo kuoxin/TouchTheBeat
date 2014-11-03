@@ -27,7 +27,8 @@ require.config({
         },
         'md5': {
             exports: 'CryptoJS'
-        }
+        },
+        'lib/jasny-bootstrap': ['jquery']
     }
 
 });
