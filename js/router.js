@@ -22,10 +22,11 @@ define([
             'chooselevel': 'chooselevel',
             'levelbuilder': 'buildlevel',
             'levelbuilder/create(/:soundcloudurl)': 'createlevel',
+            'levelbuilder/edit': 'editlevel',
+            'levelbuilder/signin': 'levelbuildersignin',
             'legal': 'legal',
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',
-            'levelbuilder/edit': 'editlevel',
             'signin': 'signin',
 
             // Default
@@ -36,7 +37,9 @@ define([
         openLevelBuilder: function () {
             var levelbuilderview = app.router.views.levelbuilderview;
             var subroute = [].shift.call(arguments);
-            app.setContent(levelbuilderview, subroute);
+            app.setContent(levelbuilderview);
+            if (!(typeof subroute === 'undefined'))
+                levelbuilderview.setContent(subroute);
         },
 
         init: function () {
@@ -70,6 +73,10 @@ define([
                 this.openLevelBuilder('leveleditor');
             });
 
+            this.on('route:levelbuildersignin', function () {
+                this.openLevelBuilder('signin');
+            });
+
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
                 app.setContent(this.views.homeview);
@@ -81,8 +88,7 @@ define([
             });
 
             this.on('route:editlevel', function () {
-                this.openLevelBuilder();
-                console.warn('triggered route editlevel');
+                this.openLevelBuilder('openlevel');
             });
 
             this.on('route:signin', function () {

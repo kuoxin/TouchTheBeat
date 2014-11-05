@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'tv4', 'schema'], function ($, _, Ba
         }
         return false;
 
-    }
+    };
 
     return levelvalidator;
 

@@ -33,7 +33,7 @@ define([
                     signincall: new SignInCallView()
                 });
 
-                this.listenTo(app.session, 'change:logged_in', this.updateloginstate.bind(this));
+                this.listenTo(app.session, 'change:logged_in', this.updateContent.bind(this));
         },
 
             checkroute: function (route, args) {
@@ -42,12 +42,12 @@ define([
                 }
             },
 
-        render: function () {
+            render: function (subroute) {
             this.$el.html(this.template);
-            if (!_.isUndefined(this.getContent('leveleditor').getModel()))
-                this.setContent('leveleditor');
+                if (!typeof subroute === 'undefined')
+                    this.setContent(subroute);
             else
-                this.setContent('start');
+                    this.updateContent(app.session);
         },
 
         onClose: function () {
@@ -56,9 +56,17 @@ define([
                 currentContent.onClose();
         },
 
-            updateloginstate: function (session) {
-                if (session.get('logged_in')) {
+            updateContent: function (session) {
+                // the signincall view takes care by itself to redirect to the previous route
+                if (session.get('logged_in') && this.getCurrentContent() !== this.getContent('signincall')) {
                     this.setContent('start');
+                }
+                else {
+                    if (!_.isUndefined(this.getContent('leveleditor').getModel()))
+                        this.setContent('leveleditor');
+                    else
+                    this.setContent('start');
+
                 }
         }
 

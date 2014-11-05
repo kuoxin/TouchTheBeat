@@ -1,9 +1,5 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
     var initialize = function (host) {
-        var getRequestToString = function (method, route, authstring) {
-            return 'API-Request ' + method + ' ' + route + authstring;
-        };
-
         var ErrorCodeModel = Backbone.Model.extend({
             url: 'system/codes',
             parse: function (data) {
@@ -20,7 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
             var url = host + p.url;
             if (app.session != undefined && app.session != null && app.session.has('hash')) {
-                stringrep += ' with session"'// + app.session.get('hash'));
+                stringrep += ' with session"';// + app.session.get('hash'));
                 custom_p.headers = _.extend(custom_p.headers || {},
                     {
                         'ttbSession': app.session.get('hash')

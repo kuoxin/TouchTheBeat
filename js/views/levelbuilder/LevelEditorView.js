@@ -32,7 +32,8 @@ define([
             'click #delete': 'deleteDraft',
             'click #export': 'exportDraft',
             'click #save': 'saveDraft',
-            'click #play': 'playLevel'
+            'click #play': 'playLevel',
+            'click #publish': 'publishLevel'
         },
 
         getModel: function () {
@@ -62,6 +63,20 @@ define([
         },
 
         saveDraft: function () {
+        },
+
+        publishLevel: function () {
+            /*
+             var level = new Level(this.model.toJSON());
+             level.save({
+             success: function(){
+             console.log(arguments);
+             },
+             error: function(){
+             console.log(arguments);
+             }
+             });
+             */
         },
 
         playLevel: function () {

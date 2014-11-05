@@ -27,7 +27,7 @@ define([
         setup: function () {
             console.log('setting up game');
             console.log(this.level);
-            for (i = 0; i < this.level.gameObjects.length; i++) {
+            for (var i = 0; i < this.level.gameObjects.length; i++) {
                 var gameObject = this.level.gameObjects[i];
                 switch (gameObject.type) {
                     case 'Tap':

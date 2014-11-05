@@ -32,6 +32,7 @@ define(['underscore'], function (_) {
             },
 
             setContent: function setContent(key, args) {
+                console.log('setting content: ' + key);
                 if (callback_before) {
                     var return_value = callback_before(key, args);
                     if (return_value)
@@ -42,19 +43,18 @@ define(['underscore'], function (_) {
                     if (currentContent.onClose)
                         currentContent.onClose();
 
-                    console.log('contentsareinstances: ' + contentsareinstances);
                     if (!contentsareinstances)
                         currentContent.remove();
                 }
 
-                this.currentContent = contentsareinstances ? new this.getContent(key) : this.getContent(key);
+                currentContent = contentsareinstances ? new this.getContent(key) : this.getContent(key);
                 var container = this.$('.' + className).first();
-                this.currentContent.render.apply(this.currentContent, args);
+                currentContent.render.apply(currentContent, args);
 
-                container.html(this.currentContent.el);
+                container.html(currentContent.el);
 
                 if (contentsareinstances)
-                    this.currentContent.delegateEvents();
+                    currentContent.delegateEvents();
 
                 if (callback_after)
                     callback_after();

@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/legal.html',
+    'text!templates/legal.html'
     //'gameclasses/ShapeFactory'
 ], function ($, _, Backbone, legalTemplate/*, ShapeFactory*/) {
     var LegalView = Backbone.View.extend({

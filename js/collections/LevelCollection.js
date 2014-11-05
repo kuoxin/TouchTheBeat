@@ -8,6 +8,8 @@ define([
     var LevelCollection = Backbone.Collection.extend({
         model: Level,
 
+        url: 'levels',
+
         initialize: function () {
             for (var key in levelcontainer) {
                 this.add(levelcontainer[key], {parse: true});

@@ -65,11 +65,7 @@ define([
 
             check: function (name) {
                 var cookie = this.get(name);
-                if (cookie != null && cookie != "") {
-                    return true;
-                } else {
-                    return false;
-                }
+                return cookie != null && cookie != "";
             },
 
             clear: function (name) {

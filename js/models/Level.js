@@ -16,6 +16,8 @@ define([
             name: ''
         },
 
+        urlRoot: 'level',
+
         initialize: function () {
             this.on('change', function () {
                 console.log(this.toJSON())
