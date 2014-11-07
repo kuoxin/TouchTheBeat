@@ -36,9 +36,17 @@ TouchTheBeat uses and contains the following **software components** under their
 - **TV4.js** Author: Geraint Luff and others Year: 2013 This code is released into the "public domain" by its author(s).  Anybody may use, alter and distribute the code without restriction.  The author makes no guarantees, and takes no liability of any kind for use of this code. If you find a bug or make an improvement, it would be courteous to let the author know, but it is not compulsory.
 - **CryptoJS** v3.1.2 https://code.google.com/p/crypto-js (c) 2009-2013 by Jeff Mott. All rights reserved. https://code.google.com/p/crypto-js/wiki/License
 - **Backbone.Select** v1.2.8 http://github.com/hashchange/backbone.select Copyright (c) 2014 Michael Heim (c) 2013 Derick Bailey, Muted Solutions, LLC. Distributed under MIT license
+
 ###Build
 
-To build the compressed version of TouchTheBeat, run the following command:
-```
-node r.js -o build.js
-```
+To build a compressed version of TouchTheBeat perform the following steps.
+
+- Ensure you have installed [Node.js](https://nodejs.org/) and [Grunt](http://gruntjs.com/).
+- run `` npm install ``
+
+Now you can run the following grunt tasks:
+
+| command | description |
+|---------|-------------|
+|``grunt build``|creates a minified build in the ``dist/`` directory|
+||*soon: docs generation*|

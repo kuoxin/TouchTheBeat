@@ -1,0 +1,13 @@
+{
+  "undef": true,
+  "unused": true,
+  "globals": {"define": false},
+  "browser": true,
+
+  "devel"       : true,
+
+  //codestyle
+  //"camelcase"   : true,
+  //"newcap"      : true
+
+}
