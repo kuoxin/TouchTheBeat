@@ -49,8 +49,7 @@ define([
         },
 
         enteredTrack: function () {
-            var self = this;
-            if (this.$("#input_entertrack").val() == '') {
+            if (this.$("#input_entertrack").val() === '') {
                 this.loading_error();
                 return;
             }

@@ -2,19 +2,15 @@
  * using parts from https://github.com/alexanderscott/backbone-login (MIT License)
  * and https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
  */
-
-
 define([
-    "models/User",
+    'underscore',
+    'Backbone',
+    'models/User',
     'util/Storage'
-], function (User, Storage) {
-
-    var DEBUG = true;
-
+], function (_, Backbone, User, Storage) {
+    console.log(Backbone);
     var SessionModel = Backbone.Model.extend({
 
-        // Initialize with negative/empty defaults
-        // These will be overriden after the initial checkAuth
         defaults: {
             logged_in: false,
             user: {},
@@ -28,8 +24,6 @@ define([
         },
 
         initialize: function () {
-            //_.bindAll(this);
-
             // pick a persistance solution
             if (!this.options.persist && typeof sessionStorage != "undefined" && sessionStorage !== null) {
                 this.store = Storage.sessionStorage;
@@ -58,6 +52,7 @@ define([
         },
 
         parse: function (data) {
+            console.log(data);
             return _.pick(data, 'hash', 'expireTime');
         },
 
@@ -74,7 +69,7 @@ define([
                         logged_in: true
                     });
                 },
-                error: function (error) {
+                error: function () {
                     console.log('getting current user failed: ');
                     console.log(arguments);
                     session.set({
@@ -132,15 +127,8 @@ define([
                     console.error(error);
                 }
             });
-        },
-        // if data request fails request offline mode.
-        error: function (model, req, options, error) {
-            // consider redirecting based on statusCode
         }
-
     });
-
-
     return SessionModel;
 });
 

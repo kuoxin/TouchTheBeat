@@ -13,8 +13,7 @@ define([
 
         initialize: function () {
             this.on('change', function () {
-                console.log(this.toJSON())
-
+                console.log(this.toJSON());
             }, this);
         },
 
@@ -25,13 +24,10 @@ define([
         },
 
         parse: function (data) {
-            if (data == true)
+            if (data === true)
                 return {};
             else
                 return data;
-        },
-
-        validate: function (attributes) {
         }
     });
 

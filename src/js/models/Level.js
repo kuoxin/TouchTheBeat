@@ -20,7 +20,7 @@ define([
 
         initialize: function () {
             this.on('change', function () {
-                console.log(this.toJSON())
+                console.log(this.toJSON());
             }, this);
 
             if (!this.has('owner')) {
@@ -55,13 +55,13 @@ define([
             for (var k in data) {
                 switch (k) {
                     case 'gameObjects':
-                        obj['gameObjects'] = new GameObjectCollection(data[k], {parse: true});
+                        obj.gameObjects = new GameObjectCollection(data[k], {parse: true});
                         break;
                     case 'owner':
-                        obj['owner'] = new User(data[k], {parse: true});
+                        obj.owner = new User(data[k], {parse: true});
                         break;
                     case 'audio':
-                        obj['audio'] = (new Track()).set(data[k]);
+                        obj.audio = (new Track()).set(data[k]);
                         break;
                     default:
                         obj[k] = data[k];
@@ -69,9 +69,6 @@ define([
             }
 
             return obj;
-        },
-
-        validate: function (attributes) {
         }
     });
 

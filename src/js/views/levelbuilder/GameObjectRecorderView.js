@@ -67,9 +67,9 @@ define([
                     pos.x = touch.pageX;
                     pos.y = touch.pageY;
 
-                    var ctm = e.target.getScreenCTM();
+                    var ctm = e.target.getScreenCTM().inverse();
 
-                    if (ctm = ctm.inverse()) {
+                    if (ctm) {
                         pos = pos.matrixTransform(ctm);
                         console.log(JSON.stringify(pos));
                         this.addTapObject(this.audiocontroller.getCurrentTime(), Math.floor(pos.x), Math.floor(pos.y));

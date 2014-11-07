@@ -2,11 +2,7 @@
  * using parts from https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
  */
 
-define([
-    'jquery',
-    'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+define([], function () {
     var Storage = {
         sessionStorage: {
             get: function (name) {
@@ -17,7 +13,7 @@ define([
                 return sessionStorage.setItem(name, val);
             },
             check: function (name) {
-                return ( sessionStorage.getItem(name) == null );
+                return ( sessionStorage.getItem(name) === null );
             },
             clear: function (name) {
                 // actually just removing the session...
@@ -34,7 +30,7 @@ define([
                 return localStorage.setItem(name, val);
             },
             check: function (name) {
-                return ( localStorage.getItem(name) == null );
+                return ( localStorage.getItem(name) === null );
             },
             clear: function (name) {
                 // actually just removing the session...
@@ -50,7 +46,7 @@ define([
                     value = cookies[i].substr(cookies[i].indexOf("=") + 1);
                     key = key.replace(/^\s+|\s+$/g, "");
                     if (key == name) {
-                        return unescape(value);
+                        return decodeURI(value);
                     }
                 }
             },
@@ -59,13 +55,13 @@ define([
                 // automatically expire session in a day
                 var expiry = 86400000;
                 var date = new Date(( new Date() ).getTime() + parseInt(expiry));
-                var value = escape(val) + ((expiry == null) ? "" : "; expires=" + date.toUTCString());
+                var value = encodeURI(val) + ((expiry === null) ? "" : "; expires=" + date.toUTCString());
                 document.cookie = name + "=" + value;
             },
 
             check: function (name) {
                 var cookie = this.get(name);
-                return cookie != null && cookie != "";
+                return cookie !== null && cookie !== "";
             },
 
             clear: function (name) {

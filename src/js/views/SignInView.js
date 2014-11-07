@@ -23,11 +23,11 @@ define([
             var self = this;
             this.$el.html(_.template(plaintemplate, {}));
             this.$('#user_modal').modal('show');
-            this.listenTo(app.session, 'change:logged_in', function (session) {
+            this.listenTo(app.session, 'change:logged_in', function () {
                 console.log('log-in state changed');
                 $('#user_modal').modal('hide');
             });
-            this.$('#user_modal').on('hidden.bs.modal', function (e) {
+            this.$('#user_modal').on('hidden.bs.modal', function () {
                 self.remove();
             });
 
@@ -39,7 +39,7 @@ define([
             'click #closebutton': 'closeModal'
         },
 
-        onSignUpBtnClick: function (event) {
+        onSignUpBtnClick: function () {
             var self = this;
             var form = $('#form_signup');
             if (this.validateForm(form)) {
@@ -81,7 +81,7 @@ define([
             return false;
         },
 
-        onSignInBtnClick: function (event) {
+        onSignInBtnClick: function () {
             var self = this;
             var form = $('#form_signin');
 

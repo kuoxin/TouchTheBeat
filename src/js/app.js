@@ -39,7 +39,7 @@ define([
                 app.baseviewIsRendered = true;
             }
 
-            if (app.router.views.current != null) {
+            if (app.router.views.current !== null) {
                 if (app.router.views.current.onClose)
                     app.router.views.current.onClose();
 
@@ -55,7 +55,7 @@ define([
         initialize: function (data) {
             try {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                app.audiocontext = new AudioContext();
+                app.audiocontext = new window.AudioContext();
             }
             catch (e) {
                 console.error('Web Audio API is not supported in this browser');

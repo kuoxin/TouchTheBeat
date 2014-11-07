@@ -10,7 +10,7 @@ define([
     'bootstrap'
 ], function ($, _, Backbone, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
     var MenuView = Backbone.View.extend(
-        _.extend(new ExchangeableContent, {
+        _.extend(new ExchangeableContent(), {
         el: '#menu',
 
         initialize: function () {
@@ -56,11 +56,11 @@ define([
 
         updateMenuState: function (router, route) {
             var activeitem_old = $('.active');
-            if (activeitem_old != null)
+            if (activeitem_old !== null)
                 activeitem_old.removeClass('active');
 
             var activeitem_new = $('#' + (this.menustates[route] || route));
-            if (activeitem_new != null)
+            if (activeitem_new !== null)
                 activeitem_new.addClass('active');
         }
         }));

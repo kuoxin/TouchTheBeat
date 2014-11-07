@@ -17,7 +17,7 @@ define([
         onClose: function () {
             console.log('onclose event fired');
             analytics.trackAction('game', 'closing game');
-            if (this.game != null)
+            if (this.game !== null)
                 this.game.stop();
 
             this.result = null;

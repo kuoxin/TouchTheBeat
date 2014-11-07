@@ -20,7 +20,7 @@ define([
             for (var k in data) {
                 switch (k) {
                     case 'tapTime':
-                        obj['tapTime'] = data[k];
+                        obj.tapTime = data[k];
                         break;
                     default:
                         obj[k] = data[k];

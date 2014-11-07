@@ -1,10 +1,12 @@
 {
   "undef": true,
   "unused": true,
-  "globals": {"define": false},
+  "globals": {
+    "define": false,
+    "require": false
+  },
   "browser": true,
-
-  "devel"       : true,
+  "devel": true
 
   //codestyle
   //"camelcase"   : true,

@@ -22,7 +22,7 @@ define([
                 "font-size": "5em",
                 textAnchor: 'middle',
                 filter: this.snap.filter(Snap.filter.shadow(0, 2, 3))
-            }
+            };
         },
 
         render: function (options) {
@@ -30,7 +30,7 @@ define([
             this.snap = new Snap('#svg');
             this.r = this.snap.rect(0, 0, "100%", "100%", 0);
             this.r.attr({
-                fill: (this.options['bgcolor'] ? this.options['bgcolor'] : '#000000')
+                fill: (this.option.bgcolor || '#000000')
             });
 
             this.loadingindicatorbackground = this.snap.rect(this.width / 2 - this.loadingindicatorwidth / 2,
@@ -57,9 +57,9 @@ define([
         },
 
         createStatusText: function (text) {
-            var text = this.snap.text(this.width / 2, 0.4 * this.height, text);
-            text.attr(this.textattributes());
-            return text;
+            var obj = this.snap.text(this.width / 2, 0.4 * this.height, text);
+            obj.attr(this.textattributes());
+            return obj;
         },
 
         setProgress: function (progress) {

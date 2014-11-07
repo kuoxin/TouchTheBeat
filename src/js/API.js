@@ -27,12 +27,12 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             }
 
             customizedParams.success = function (response, p2, p3) {
-                if (response.error) {
-                    console.warn(stringrep + ' returned an error: "' + errorCodeModel.get(response.error) + '"');
-                    p.error(errorCodeModel.get(response.error) || response.error);
-                } else {
+                if (typeof response.data !== 'undefined' && response.data !== null && !response.error) {
                     console.info(stringrep + ' was successfull.');
                     p.success(response.data, p2, p3);
+                } else {
+                    console.warn(stringrep + ' returned an error: "' + errorCodeModel.get(response.error) + '"');
+                    p.error(errorCodeModel.get(response.error) || response.error);
                 }
             };
 

@@ -48,7 +48,7 @@ define([
             this.stream_url = stream_url;
 
             try {
-                if (this.cache[stream_url] != undefined) {
+                if (typeof this.cache[stream_url] !== 'undefined') {
                     console.info('Reading audio-buffer from cache.');
                     this.initsound(this.cache[stream_url]);
                     return;
@@ -96,7 +96,7 @@ define([
             if (!this.active)
                 return;
 
-            if (this.cache[this.stream_url] == undefined)
+            if (typeof this.cache[this.stream_url] === 'undefined')
                 this.cache[this.stream_url] = buffer;
 
             var source = app.audiocontext.createBufferSource();

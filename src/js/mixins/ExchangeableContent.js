@@ -39,7 +39,7 @@ define(['underscore'], function (_) {
                         key = return_value;
                 }
 
-                if (currentContent != null) {
+                if (currentContent !== null) {
                     if (currentContent.onClose)
                         currentContent.onClose();
 

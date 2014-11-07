@@ -14,7 +14,7 @@ define([
             this.tapobject = tapobject;
             this.tapobject.on('change:shape', this.changeShape, this);
             this.listenTo(this.tapobject, 'selected', this.setSelected, this);
-            this.listenTo(this.tapobject, 'deselected', this.setDeselected, this)
+            this.listenTo(this.tapobject, 'deselected', this.setDeselected, this);
         },
 
         events: {
@@ -44,7 +44,7 @@ define([
                 this.tapobject.toggleSelected();
             }
         },
-        clickSelectionToggle: function (e) {
+        clickSelectionToggle: function () {
             this.tapobject.toggleSelected();
         },
 

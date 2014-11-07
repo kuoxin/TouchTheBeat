@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define([], function () {
 
     // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
     // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
@@ -23,12 +23,11 @@ define(['jquery'], function ($) {
 
         for (var x = 0, max = vendors.length; x < max && !window.requestAnimationFrame; x += 1) {
             window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
-                || window[vendors[x] + 'CancelRequestAnimationFrame'];
+            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
         }
 
         if (!window.requestAnimationFrame) {
-            window.requestAnimationFrame = function (callback, element) {
+            window.requestAnimationFrame = function (callback) {
                 var currTime = new Date().getTime();
                 var timeToCall = Math.max(0, 16 - (currTime - lastTime));
                 var id = window.setTimeout(function () {
@@ -50,7 +49,7 @@ define(['jquery'], function ($) {
         if (!hasPerformance) {
             // Store reference to existing rAF and initial startTime
             var rAF = window.requestAnimationFrame,
-                startTime = +new Date;
+                startTime = +new Date();
 
             // Override window rAF to include wrapped callback
             window.requestAnimationFrame = function (callback, element) {
@@ -64,7 +63,7 @@ define(['jquery'], function ($) {
 
                 // Call original rAF with wrapped callback
                 rAF(wrapped, element);
-            }
+            };
         }
     })();
     // end of requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
@@ -72,7 +71,7 @@ define(['jquery'], function ($) {
 
     // Prevent the backspace key from navigating back.
     // source: http://stackoverflow.com/a/2768256/2618345
-    $(document).unbind('keydown').bind('keydown', function (event) {
+    /*(document).unbind('keydown').bind('keydown', function (event) {
         var doPrevent = false;
         if (event.keyCode === 8) {
             var d = event.srcElement || event.target;
@@ -88,7 +87,7 @@ define(['jquery'], function ($) {
         if (doPrevent) {
             event.preventDefault();
         }
-    });
+     });*/
 
 
     // performance now polyfill

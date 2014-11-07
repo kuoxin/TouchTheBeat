@@ -2,9 +2,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/components/errormessagealert.html',
-    'app'
-], function ($, _, Backbone, plainTemplate, app) {
+    'text!templates/components/errormessagealert.html'
+], function ($, _, Backbone, plainTemplate) {
     var ErrorMessageView = Backbone.View.extend({
         initialize: function () {
         },

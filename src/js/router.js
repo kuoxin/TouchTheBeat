@@ -33,12 +33,11 @@ define([
             '*notfound': 'notfound'
         },
 
-
         openLevelBuilder: function () {
             var levelbuilderview = app.router.views.levelbuilderview;
             var subroute = [].shift.call(arguments);
             app.setContent(levelbuilderview);
-            if (!(typeof subroute === 'undefined'))
+            if (typeof subroute !== 'undefined')
                 levelbuilderview.setContent(subroute);
         },
 
@@ -69,7 +68,7 @@ define([
                 this.openLevelBuilder();
             });
 
-            this.on('route:createlevel', function (soundcloudurl) {
+            this.on('route:createlevel', function () {
                 this.openLevelBuilder('leveleditor');
             });
 

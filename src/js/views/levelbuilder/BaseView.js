@@ -14,7 +14,7 @@ define([
 
 
     var BaseView = Backbone.View.extend(
-        _.extend(new ExchangeableContent, {
+        _.extend(new ExchangeableContent(), {
 
         template: _.template(plainTemplate, {}),
 
@@ -36,7 +36,7 @@ define([
                 this.listenTo(app.session, 'change:logged_in', this.updateContent.bind(this));
         },
 
-            checkroute: function (route, args) {
+            checkroute: function () {
                 if (!app.session.get('logged_in')) {
                     return 'signincall';
                 }
@@ -44,7 +44,7 @@ define([
 
             render: function (subroute) {
             this.$el.html(this.template);
-                if (!typeof subroute === 'undefined')
+                if (typeof subroute !== 'undefined')
                     this.setContent(subroute);
             else
                     this.updateContent(app.session);

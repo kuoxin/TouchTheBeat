@@ -3,7 +3,7 @@ define(['jquery', 'underscore', 'backbone', 'google-analytics'], function ($, _,
     var analytics = {};
 
     analytics.trackPageView = function (current) {
-        ga('send', 'pageview', current.fragment == '' ? '/' : current.fragment);
+        ga('send', 'pageview', (current.fragment === '') ? '/' : current.fragment);
     };
 
     analytics.trackAction = function (category, action, label, value) {

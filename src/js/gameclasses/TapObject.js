@@ -6,7 +6,7 @@ define([
     'util/analytics',
     "gameclasses/ShapeFactory",
     "util/scripts"
-], function ($, _, Backbone, Snap, analytics, ShapeFactory, scripts) {
+], function ($, _, Backbone, Snap, analytics, ShapeFactory) {
 
     var TapObject = function (game, timestamp, x, y, shape) {
         this.game = game;
@@ -54,10 +54,10 @@ define([
 
 
         setSnapAttr: function (attr) {
-            if (this.snapobject == null) {
+            if (this.snapobject === null) {
                 this.createVisualElement();
             }
-            if (this.snapobject != null) {
+            if (this.snapobject !== null) {
                 this.snapobject.attr(attr);
             }
         },
@@ -183,7 +183,7 @@ define([
 
                 //fading in between startshow and endshow
                 if (this.time_render >= this.startshow && this.time_render < this.endshow) {
-                    if (this.snapobject == null)
+                    if (this.snapobject === null)
                         this.createVisualElement();
                     if (this.timestamp == this.debugtime)
                         console.log('fading in: ' + 1 - this.getPercentage(this.startshow, this.endshow));
@@ -202,7 +202,7 @@ define([
                 if (this.time_render >= this.removeuntil) {
                     this.renderloop_enabled = false;
 
-                    if (this.snapobject != null)
+                    if (this.snapobject !== null)
                         this.snapobject.remove();
 
                     if (!this.tapped) {
@@ -228,7 +228,7 @@ define([
         },
         /**
          *
-         * @returns a floating point number between 0 and 1 describing the accuracy of the users interaction (0 = no interaction, best == 1)
+         * @returns number a floating point number between 0 and 1 describing the accuracy of the users interaction (0 = no interaction, best == 1)
          */
         getHighScore: function () {
             if (isNaN(this.tapdiff))

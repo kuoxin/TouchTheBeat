@@ -25,7 +25,7 @@ define(['jquery', 'underscore', 'backbone', 'lib/backbone.select'], function ($,
     _.extend(Backbone.Model.prototype, {
         toJSON: function () {
             var obj = this.deepcopy(this.attributes);
-            if (typeof this.id != 'undefined' && this.id != null)
+            if (typeof this.id !== 'undefined' && this.id !== null)
                 obj.id = this.id;
             return obj;
         },

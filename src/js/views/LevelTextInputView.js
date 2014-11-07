@@ -28,7 +28,7 @@ define([
         inputchanged: function () {
             var value = this.$('.leveljsoninput').val();
 
-            if (value == '') {
+            if (value === '') {
                 //value is empty
                 this.inputstatediv.removeClass('has-success has-error');
                 this.containerelement_custom.slideUp();
