@@ -42,7 +42,8 @@ TouchTheBeat uses and contains the following **software components** under their
 To build a compressed version of TouchTheBeat perform the following steps.
 
 - Ensure you have installed [Node.js](https://nodejs.org/) and [Grunt](http://gruntjs.com/).
-- run `` npm install ``
+- Run `` npm install ``.
+- Create the file ``config.js`` in ``src/js``. You can refer to ``config.sample.js`` (in the same directory).
 
 Now you can run the following grunt tasks:
 

@@ -39,7 +39,15 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
+	grunt.registerTask('checkConfig', function () {
+		if (!grunt.file.exists('src/js/config.js')) {
+			grunt.fail.fatal("config.js in src/js/config.js does not exist. Please create it manually. You can refer to src/js/config.sample.js.");
+		}
+		;
+		return done();
+	});
+
 	// A very basic default task.
 	grunt.registerTask('default', 'jshint');
-	grunt.registerTask('build', 'requirejs');
+	grunt.registerTask('build', ['checkConfig', 'requirejs']);
 };
