@@ -1,4 +1,4 @@
 .idea/
-img/Thumbs.db
-config.js
-docs/
+src/js/config.js
+dist
+node_modules
