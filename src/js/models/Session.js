@@ -4,7 +4,7 @@
  */
 define([
     'underscore',
-    'Backbone',
+    'backbone',
     'models/User',
     'util/Storage'
 ], function (_, Backbone, User, Storage) {
