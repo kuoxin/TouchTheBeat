@@ -5,7 +5,7 @@ define([
     'text!templates/play.html',
     'app',
     'models/Track',
-    'gameclasses/Game',
+    'models/Game',
     'util/analytics',
     'util/AudioController',
     'util/scripts'
@@ -15,9 +15,7 @@ define([
         el: '#body',
 
         onClose: function () {
-            console.log('onclose event fired');
-            analytics.trackAction('game', 'closing game');
-            if (this.game !== null)
+            if (typeof this.game !== 'undefined')
                 this.game.stop();
 
             this.result = null;
@@ -33,8 +31,6 @@ define([
         },
 
         stopGame: function () {
-            analytics.trackAction('game', 'ending game');
-            console.info('Now ending game.');
             this.game.stop();
 
 
@@ -69,7 +65,11 @@ define([
         },
 
         onAudioReady: function () {
-            this.game = new Game(this.level, this.audiocontroller);
+            console.log('audio is ready');
+            this.game = new Game({
+                level: this.level,
+                audiocontroller: this.audiocontroller
+            });
         },
 
         onAudioStarted: function () {

@@ -13,7 +13,7 @@ define([
 ], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, Track, recordertemplate, app, GameObject) {
     var GameObjectRecorderView = Backbone.View.extend({
         el: '#body',
-
+        //TODO: test with latest refactoring
         onClose: function () {
             if (this.audiocontroller) {
                 this.audiocontroller.onClose();

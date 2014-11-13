@@ -19,12 +19,6 @@ define([
         width: 1600,
         height: 1200,
 
-        setProgress: function (progress) {
-            this.loadingindicator.attr({
-                width: (this.loadingindicatorwidth * progress)
-            });
-        },
-
         getSnap: function () {
             return this.snap;
         },

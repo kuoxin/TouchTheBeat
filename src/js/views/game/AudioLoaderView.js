@@ -4,9 +4,8 @@ define([
     'backbone',
     'snap'
 ], function ($, _, Backbone, Snap) {
-
+    "use strict";
     var AudioLoaderView = Backbone.View.extend({
-
         // ToDo: Add error handling and track information
         el: '#svg',
 
@@ -30,7 +29,7 @@ define([
             this.snap = new Snap('#svg');
             this.r = this.snap.rect(0, 0, "100%", "100%", 0);
             this.r.attr({
-                fill: (this.option.bgcolor || '#000000')
+                fill: (this.options.bgcolor || '#000000')
             });
 
             this.loadingindicatorbackground = this.snap.rect(this.width / 2 - this.loadingindicatorwidth / 2,

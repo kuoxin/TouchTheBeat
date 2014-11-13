@@ -14,7 +14,6 @@ define([
             for (var key in levelcontainer) {
                 this.add(levelcontainer[key], {parse: true});
             }
-            console.log(this);
         }
     });
     return LevelCollection;

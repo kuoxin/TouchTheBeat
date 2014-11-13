@@ -13,20 +13,6 @@ define([
 
         initialize: function () {
             Backbone.Select.Me.applyTo(this);
-        },
-
-        parse: function (data) {
-            var obj = {};
-            for (var k in data) {
-                switch (k) {
-                    case 'tapTime':
-                        obj.tapTime = data[k];
-                        break;
-                    default:
-                        obj[k] = data[k];
-                }
-            }
-            return obj;
         }
     });
 

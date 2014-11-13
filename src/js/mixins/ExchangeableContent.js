@@ -32,7 +32,6 @@ define(['underscore'], function (_) {
             },
 
             setContent: function setContent(key, args) {
-                console.log('setting content: ' + key);
                 if (callback_before) {
                     var return_value = callback_before(key, args);
                     if (return_value)
