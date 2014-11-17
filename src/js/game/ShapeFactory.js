@@ -1,9 +1,8 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
     'snap'
-], function ($, _, Backbone, Snap) {
+], function ($, _, Snap) {
 
     /**
      * @type {{sizes: {small: number, medium: number, large: number}}}

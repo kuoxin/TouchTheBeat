@@ -1,15 +1,15 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'snap',
     'util/analytics',
-    "../ShapeFactory",
+    "game/ShapeFactory",
     'game/renderer/TapObjectRenderer',
     "util/scripts"
-], function ($, _, Backbone, Snap, analytics, ShapeFactory, TapObjectRenderer) {
+], function ($, _, Framework, Snap, analytics, ShapeFactory, TapObjectRenderer) {
 
-    var TapObject = Backbone.GameObject.extend({
+    var TapObject = Framework.GameObject.extend({
 
         initialize: function (game, timestamp, x, y, shape) {
             this.game = game;

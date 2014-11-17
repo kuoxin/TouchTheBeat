@@ -2,9 +2,11 @@ define([
     'jquery',
     'underscore',
     'Framework',
+    'framework/API',
     'util/analytics'
-], function ($, _, Framework, analytics) {
+], function ($, _, Framework, API, analytics) {
     var app;
+    console.log(Framework);
     var App = Framework.Controller.extend({
         router: null,
 
@@ -53,6 +55,28 @@ define([
         },
 
         init: function (data) {
+
+
+            API.setupBackend({
+                host: data.host,
+
+                onAjaxPrepare: function prepareAjaxRequest(p) {
+                    "use strict";
+                    p.string = 'API-Request "' + p.type + ' ' + p.url;
+                    if (typeof app.session !== 'undefined' && app.session !== null && app.session.has('hash')) {
+                        p.string += ' with sessionID';
+                        _.extend(p.headers || {},
+                            {
+                                'ttbSession': app.session.get('hash')
+                            }
+                        );
+
+                    }
+                    return p;
+                }
+            });
+
+
             try {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
                 this.audiocontext = new window.AudioContext();
@@ -67,5 +91,6 @@ define([
         }
     });
     app = new App();
+    console.log(app);
     return app;
 });

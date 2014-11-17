@@ -1,11 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'snap'
-], function ($, _, Backbone, Snap) {
+], function ($, _, Framework, Snap) {
     "use strict";
-    var AudioLoadingRenderer = Backbone.Renderer.extend({
+    var AudioLoadingRenderer = Framework.Renderer.extend({
         // ToDo: Add error handling and track information
 
         width: 1600,

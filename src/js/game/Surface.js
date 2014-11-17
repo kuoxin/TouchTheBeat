@@ -1,9 +1,8 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
     'snap'
-], function ($, _, Backbone, Snap) {
+], function ($, _, Snap) {
 
     var Surface = function (options) {
         this.options = options;

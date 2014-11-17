@@ -1,11 +1,11 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
-	'../ShapeFactory'
-], function ($, _, Backbone, ShapeFactory) {
+	'Framework',
+	'game/ShapeFactory'
+], function ($, _, Framework, ShapeFactory) {
 	"use strict";
-	var TapObjectRenderer = Backbone.Renderer.extend({
+	var TapObjectRenderer = Framework.Renderer.extend({
 
 		//relatve timing preferences
 		startborder: -0.5,

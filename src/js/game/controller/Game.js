@@ -1,9 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'game/controller/TapObject'
-], function ($, _, Backbone, TapObject) {
+], function ($, _, Framework, TapObject) {
     "use strict";
 
     /**
@@ -14,7 +14,7 @@ define([
      *
      * @type {*|void}
      */
-    var Game = Backbone.Controller.extend({
+    var Game = Framework.Controller.extend({
         updateintervall: null,
         stopped: true,
 

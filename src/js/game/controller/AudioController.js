@@ -1,9 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'app'
-], function ($, _, Backbone, app) {
+], function ($, _, Framework, app) {
     "use strict";
     /**
      * to be initialized with the following arguments:
@@ -14,7 +14,7 @@ define([
      * renderer - an instance of AudioLoadingRenderer (optional)
      * @type {*|void}
      */
-    var AudioController = Backbone.Controller.extend({
+    var AudioController = Framework.Controller.extend({
         /**
          * cross AudioController-instance cache of audio-buffers
          */
