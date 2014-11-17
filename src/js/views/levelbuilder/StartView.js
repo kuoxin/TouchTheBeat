@@ -1,11 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/start.html',
     'app'
-], function ($, _, Backbone, plainTemplate, app) {
-    var StartLevelBuilderView = Backbone.View.extend({
+], function ($, _, Framework, plainTemplate, app) {
+    var StartLevelBuilderView = Framework.View.extend({
 
         template: _.template(plainTemplate, {}),
 

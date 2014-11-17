@@ -1,13 +1,13 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'app',
     'text!templates/levelbuilder/panels/metadata.html',
     'util/scripts',
     'bootstrap'
-], function ($, _, Backbone, app, mainTemplate) {
-    var MetaDataPanelView = Backbone.View.extend({
+], function ($, _, Framework, app, mainTemplate) {
+    var MetaDataPanelView = Framework.View.extend({
 
         initialize: function () {
         },

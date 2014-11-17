@@ -1,13 +1,13 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/panels/gameobjects.html',
     'views/levelbuilder/TapObjectRowView',
     'views/levelbuilder/ExportModalView',
     'app'
-], function ($, _, Backbone, Template, TapObjectRowView, ExportModalView, app) {
-    var GameObjectEditorPanelView = Backbone.View.extend({
+], function ($, _, Framework, Template, TapObjectRowView, ExportModalView, app) {
+    var GameObjectEditorPanelView = Framework.View.extend({
 
         template: _.template(Template, {}),
 
@@ -16,8 +16,6 @@ define([
 
         render: function (model) {
             this.model = model;
-            console.log(this.model.get('gameObjects'));
-            //this.model.get('gameObjects').add({"type": "Tap", "x": 800, "y": 1020, "tapTime": 80.59733333333334, "shape": {"type": "circle", "size": "medium"}});
             this.$el.html(this.template);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
@@ -40,7 +38,6 @@ define([
 
 
         recordGameObjects: function recordgameobjects() {
-            console.log('click');
             app.setFullScreenContent(app.router.views.levelbuilderview.getContent('gameobjectrecorder'), this.model);
         }
     });

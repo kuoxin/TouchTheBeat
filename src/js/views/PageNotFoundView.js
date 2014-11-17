@@ -1,16 +1,16 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/404.html'
-], function ($, _, Backbone, pagenotfoundtemplate) {
-    var PageNotFoundView = Backbone.View.extend({
+], function ($, _, Framework, pagenotfoundtemplate) {
+    var PageNotFoundView = Framework.View.extend({
         el: '#abovecontent',
         render: function () {
             var template = _.template(pagenotfoundtemplate, {});
             this.$el.html(template);
             $('#alert404').slideDown();
-            Backbone.history.bind("route", this.updateState);
+            Framework.history.bind("route", this.updateState);
         },
         updateState: function (router, route) {
             if (route != 'notfound') {

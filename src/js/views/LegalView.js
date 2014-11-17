@@ -1,11 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/legal.html'
     //'gameclasses/ShapeFactory'
-], function ($, _, Backbone, legalTemplate/*, ShapeFactory*/) {
-    var LegalView = Backbone.View.extend({
+], function ($, _, Framework, legalTemplate/*, ShapeFactory*/) {
+    var LegalView = Framework.View.extend({
         el: '#content',
         render: function () {
             var template = _.template(legalTemplate, {});

@@ -1,70 +1,71 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
-    'util/analytics',
-    'bootstrap'
-], function ($, _, Backbone, analytics) {
-    var app = {
+    'Framework',
+    'util/analytics'
+], function ($, _, Framework, analytics) {
+    var app;
+    var App = Framework.Controller.extend({
         router: null,
 
         baseviewIsRendered: false,
 
         startlevel: function (level) {
-            app.setFullScreenContent(app.router.views.playlevelview, level);
+            this.setFullScreenContent(this.router.views.playlevelview, level);
         },
 
         setFullScreenContent: function () {
-            app.baseviewIsRendered = false;
+            this.baseviewIsRendered = false;
 
-            app.router.views.current = [].shift.call(arguments);
-            app.router.views.current.setElement('#body').render.apply(app.router.views.current, arguments);
-            analytics.trackPageView(app.router.getCurrentAppStatus());
+            this.router.views.current = [].shift.call(arguments);
+            this.router.views.current.setElement('#body').render.apply(this.router.views.current, arguments);
+            analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
         getMainView: function () {
-            console.log(app.router.views.baseview);
-            return app.router.views.baseview;
+            console.log(this.router.views.baseview);
+            return this.router.views.baseview;
         },
 
         setContent: function () {
 
             var newview = [].shift.call(arguments);
 
-            if (app.router.views.current == newview)
+            if (this.router.views.current == newview)
                 return;
 
-            if (!app.baseviewIsRendered) {
-                app.router.views.baseview.render();
-                app.baseviewIsRendered = true;
+            if (!this.baseviewIsRendered) {
+                this.router.views.baseview.render();
+                this.baseviewIsRendered = true;
             }
 
-            if (app.router.views.current !== null) {
-                if (app.router.views.current.onClose)
-                    app.router.views.current.onClose();
+            if (this.router.views.current !== null) {
+                if (this.router.views.current.onClose)
+                    this.router.views.current.onClose();
 
-                //app.router.views.current.dispose();
+                //this.router.views.current.dispose();
             }
 
-            app.router.views.current = newview;
-            app.router.views.current.setElement($('#content')).render.apply(app.router.views.current, arguments);
+            this.router.views.current = newview;
+            this.router.views.current.setElement($('#content')).render.apply(this.router.views.current, arguments);
 
-            analytics.trackPageView(app.router.getCurrentAppStatus());
+            analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
-        initialize: function (data) {
+        init: function (data) {
             try {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                app.audiocontext = new window.AudioContext();
+                this.audiocontext = new window.AudioContext();
             }
             catch (e) {
                 console.error('Web Audio API is not supported in this browser');
             }
-            app = _.extend(app, data);
-            if (app.session.has('hash'))
-                app.session.updateSessionUser();
-            app.router.init();
+            _.extend(app, data);
+            if (this.session.has('hash'))
+                this.session.updateSessionUser();
+            this.router.init();
         }
-    };
+    });
+    app = new App();
     return app;
 });

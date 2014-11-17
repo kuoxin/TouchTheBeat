@@ -54,21 +54,7 @@ define([
             this.getRootRect().click(continue_function);
             this.startaction.click(continue_function);
         }
-        /*
 
-         // This animation is not rendering fluently on the testing device
-
-         animateStartAction: function(time){
-
-         if (this.startaction && this.isstartactionvisible ){
-         this.startaction.attr({
-         opacity: 0.33*Math.sin(time/500) + 0.66
-         });
-
-         requestAnimationFrame(this.animateStartAction.bind(this));
-         }
-         },
-         */
 
     };
 

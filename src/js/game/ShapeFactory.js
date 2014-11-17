@@ -81,7 +81,7 @@ define([
         var outputstring = "";
         for (var prop in ShapeFactory.shapes) {
             var snap = new Snap(dim / scale, dim / scale);
-            var shape = ShapeFactory.createShape(snap, prop, {x: dim / (2 * scale), y: dim / (2 * scale), size: size}).attr({
+            var shape = ShapeFactory.createShape(snap, prop, {x: dim / (2 * scale), y: dim / (2 * scale), size: size}).attr({ // jshint ignore:line
                 fill: '#000000',
                 opacity: 0.75
             });

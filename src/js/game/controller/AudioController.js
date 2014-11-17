@@ -4,10 +4,40 @@ define([
     'backbone',
     'app'
 ], function ($, _, Backbone, app) {
-    var AudioController = function () {
-    };
-    AudioController.prototype = _.extend(AudioController.prototype, {
+    "use strict";
+    /**
+     * to be initialized with the following arguments:
+     * callback_started,
+     * callback_ended,
+     * callback_readytoplay,
+     * callback_error,
+     * renderer - an instance of AudioLoadingRenderer (optional)
+     * @type {*|void}
+     */
+    var AudioController = Backbone.Controller.extend({
+        /**
+         * cross AudioController-instance cache of audio-buffers
+         */
         cache: [],
+
+        initialize: function(options){
+            console.log(options);
+            _.extend(this, _.pick(options, [
+                'callback_started',
+                'callback_ended',
+                'callback_readytoplay',
+                'callback_error',
+                'renderer'
+            ]));
+            console.log(this);
+        },
+
+        // callbacks - defaults
+        callback_started: function(){},
+        callback_ended: function(){},
+        callback_readytoplay: function(){},
+        callback_error: function(){},
+
 
         dispose: function () {
             this.onClose();
@@ -38,7 +68,7 @@ define([
             }
         },
 
-        render: function (stream_url) {
+        load: function (stream_url) {
 
             this.notified_ended = false;
             this.active = true;
@@ -61,10 +91,8 @@ define([
                 request.addEventListener("progress", this.passloadingpercentage.bind(this), false);
 
                 var loader = function () {
-                    if (this.audioloaderview) {
-                        this.audioloaderview.hideLoadingIndicator();
-                        this.audioloaderview.showProcessingInformation();
-                    }
+                    this.renderer.hideLoadingIndicator();
+                    this.renderer.showProcessingInformation();
 
                     if (this.active) {
                         app.audiocontext.decodeAudioData(request.response, this.initsound.bind(this), this.callback_error);
@@ -85,9 +113,7 @@ define([
         passloadingpercentage: function (evt) {
             if (evt.lengthComputable) {
                 var percent = evt.loaded / evt.total;
-                if (this.audioloaderview)
-                    this.audioloaderview.setProgress(percent);
-
+                this.renderer.setProgress(percent);
             }
         },
 
@@ -105,25 +131,16 @@ define([
             source.onended = this.onended.bind(this);
             this.source = source;
 
-            if (this.audioloaderview)
-                this.audioloaderview.hideProcessingInformaion();
+            this.renderer.hideProcessingInformaion();
 
             this.callback_readytoplay();
 
         },
 
-
         start: function () {
             this.source.start(0);
             this.inittime = app.audiocontext.currentTime;
             this.callback_started();
-        },
-
-        setCallbacks: function (callback_started, callback_ended, callback_readytoplay, callback_error) {
-            this.callback_ended = callback_ended;
-            this.callback_started = callback_started;
-            this.callback_readytoplay = callback_readytoplay;
-            this.callback_error = callback_error;
         },
 
         getCurrentTime: function () {

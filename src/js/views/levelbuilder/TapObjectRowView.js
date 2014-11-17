@@ -1,11 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/gameobjecteditor/tapobjectrow.html',
-    'gameclasses/ShapeFactory'
-], function ($, _, Backbone, Template, ShapeFactory) {
-    var TapObjectRowView = Backbone.View.extend({
+    'game/ShapeFactory'
+], function ($, _, Framework, Template, ShapeFactory) {
+    var TapObjectRowView = Framework.View.extend({
         tagName: 'tr',
 
         css_classname_active: 'shape_selected',
@@ -26,7 +26,6 @@ define([
 
 
         render: function (index) {
-            console.log(this.tapobject);
             var data = _.extend(this.tapobject.toJSON(), {
                 index: index,
                 time: (Math.round(this.tapobject.get('tapTime') * 100) / 100).toFixed(2),

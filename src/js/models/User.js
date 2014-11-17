@@ -1,10 +1,10 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'md5'
-], function ($, _, Backbone, md5) {
-    var User = Backbone.Model.extend({
+], function ($, _, Framework, md5) {
+    var User = Framework.Model.extend({
         defaults: {
             username: 'unknown'
         },

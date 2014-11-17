@@ -1,15 +1,15 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/menu.html',
     'views/SignInMenuButtonView',
     'views/UserMenuButtonView',
     'app',
-    'mixins/ExchangeableContent',
+    'framework/ExchangeableContent',
     'bootstrap'
-], function ($, _, Backbone, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
-    var MenuView = Backbone.View.extend(
+], function ($, _, Framework, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
+    var MenuView = Framework.View.extend(
         _.extend(new ExchangeableContent(), {
         el: '#menu',
 
@@ -28,7 +28,7 @@ define([
             });
             var template = _.template(menuTemplate, {});
             this.$el.html(template);
-            Backbone.history.bind("route", this.updateMenuState.bind(this));
+            Framework.history.bind("route", this.updateMenuState.bind(this));
             this.changeLoggedInState(app.session);
         },
 

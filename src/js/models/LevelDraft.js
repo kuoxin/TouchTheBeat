@@ -8,7 +8,7 @@ define([
     'models/User',
     'app'
 ], function ($, _, Framework, Validator, GameObjectCollection, Track, User, app) {
-    var Level = Framework.Model.extend({
+    var LevelDraft = Framework.Model.extend({
         defaults: {
             gameObjects: new GameObjectCollection(),
             tags: [],
@@ -16,16 +16,14 @@ define([
             name: ''
         },
 
-        urlRoot: 'level',
+        urlRoot: function(){
+            return 'user/'+app.session.get('user').id+'/draft';
+        },
 
         initialize: function () {
-            this.on('change', function () {
-                console.log(this.toJSON());
-            }, this);
-
             if (!this.has('owner')) {
-                if (_.isUndefined(app.session)) {
-                    console.warn('A level without owner was created before the session was initialized.');
+                if (typeof app.session === 'undefined') {
+                    console.warn('A level-draft without owner was created before the session was initialized.');
                 }
                 else {
                     this.set('owner', app.session.get('user'));
@@ -42,8 +40,6 @@ define([
                 ms = 1000 * Math.round(ms / 1000); // round to nearest second
                 var seconds = ((ms % 60000) / 1000);
                 return Math.floor(ms / 60000) + ":" + (seconds < 10 ? '0' : '') + seconds;
-                //var d = new Date(ms);
-                //return d.toTimeString();//d.getUTCMinutes() + ':' + d.getUTCSeconds();
             }
             else {
                 return 'unknown';
@@ -73,8 +69,8 @@ define([
     });
 
 
-    Level.createFromSoundCloud = function (soundcloudURL) {
-        var model = new Level();
+    LevelDraft.createFromSoundCloud = function (soundcloudURL) {
+        var model = new LevelDraft();
         var track = new Track();
         track.fetch({
             data: soundcloudURL,
@@ -88,5 +84,5 @@ define([
         return model;
     };
 
-    return Level;
+    return LevelDraft;
 });

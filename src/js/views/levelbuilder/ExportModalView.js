@@ -1,10 +1,10 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/components/levelexportmodal.html'
-], function ($, _, Backbone, plainTemplate) {
-    var ExportModalView = Backbone.View.extend({
+], function ($, _, Framework, plainTemplate) {
+    var ExportModalView = Framework.View.extend({
 
         tagName: 'div',
 

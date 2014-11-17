@@ -2,8 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'gameclasses/ShapeFactory',
-	'BackboneModifications'
+	'../ShapeFactory'
 ], function ($, _, Backbone, ShapeFactory) {
 	"use strict";
 	var TapObjectRenderer = Backbone.Renderer.extend({

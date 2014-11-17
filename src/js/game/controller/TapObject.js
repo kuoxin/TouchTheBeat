@@ -4,8 +4,8 @@ define([
     'backbone',
     'snap',
     'util/analytics',
-    "gameclasses/ShapeFactory",
-    'views/game/TapObjectRenderer',
+    "../ShapeFactory",
+    'game/renderer/TapObjectRenderer',
     "util/scripts"
 ], function ($, _, Backbone, Snap, analytics, ShapeFactory, TapObjectRenderer) {
 

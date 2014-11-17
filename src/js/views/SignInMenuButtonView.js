@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'views/SignInView',
     'app',
     'bootstrap'
-], function ($, _, Backbone, SignInView, app) {
-    var SignInButtonView = Backbone.View.extend({
+], function ($, _, Framework, SignInView, app) {
+    var SignInButtonView = Framework.View.extend({
         tagName: 'li',
 
         render: function () {

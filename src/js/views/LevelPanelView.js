@@ -1,10 +1,10 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/components/levelpanel.html'
-], function ($, _, Backbone, LevelPanelTemplate) {
-    var LevelPanelView = Backbone.View.extend({
+], function ($, _, Framework, LevelPanelTemplate) {
+    var LevelPanelView = Framework.View.extend({
         tagName: "a",
 
         initialize: function (callback) {

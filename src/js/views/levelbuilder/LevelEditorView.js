@@ -4,7 +4,7 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/leveleditor.html',
     'views/levelbuilder/TapObjectRowView',
     'views/levelbuilder/ExportModalView',
@@ -13,7 +13,7 @@ define([
     'views/levelbuilder/panels/MetaDataPanelView',
     'app',
     'models/Level'
-], function ($, _, Backbone, Template, TapObjectRowView, ExportModalView, AudioPanelView, GameObjectEditorPanelView, MetaDataPanelView, app, Level) {
+], function ($, _, Framework, Template, TapObjectRowView, ExportModalView, AudioPanelView, GameObjectEditorPanelView, MetaDataPanelView, app, Level) {
 
     var logmodel = function (model) {
         if (!_.isUndefined(model)) {
@@ -27,7 +27,7 @@ define([
         }
     };
 
-    var LevelEditorView = Backbone.View.extend({
+    var LevelEditorView = Framework.View.extend({
         events: {
             'click #delete': 'deleteDraft',
             'click #export': 'exportDraft',

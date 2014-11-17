@@ -1,7 +1,7 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'app',
     'text!templates/levelbuilder/panels/audio.html',
     'text!templates/components/trackpanel.html',
@@ -9,8 +9,8 @@ define([
     'views/ErrorMessageView',
     'util/scripts',
     'bootstrap'
-], function ($, _, Backbone, app, mainTemplate, trackPanelTemplate, Track, ErrorMessageView) {
-    var MetaDataPanelView = Backbone.View.extend({
+], function ($, _, Framework, app, mainTemplate, trackPanelTemplate, Track, ErrorMessageView) {
+    var MetaDataPanelView = Framework.View.extend({
 
         initialize: function () {
             this.randomtracks = [

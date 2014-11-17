@@ -4,12 +4,11 @@
  */
 define([
     'underscore',
-    'backbone',
+    'Framework',
     'models/User',
     'util/Storage'
-], function (_, Backbone, User, Storage) {
-    console.log(Backbone);
-    var SessionModel = Backbone.Model.extend({
+], function (_, Framework, User, Storage) {
+    var SessionModel = Framework.Model.extend({
 
         defaults: {
             logged_in: false,

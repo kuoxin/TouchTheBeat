@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'app',
     'text!templates/UserMenuButton.html',
     'bootstrap'
-], function ($, _, Backbone, app, template) {
-    var UserMenuButtonView = Backbone.View.extend({
+], function ($, _, Framework, app, template) {
+    var UserMenuButtonView = Framework.View.extend({
         tagName: 'li',
         className: 'dropdown',
 

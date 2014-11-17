@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/openlevel.html',
     'views/LevelTextInputView',
     'app'
-], function ($, _, Backbone, plainTemplate, LevelTextInputView, app) {
-    var OpenLevelView = Backbone.View.extend({
+], function ($, _, Framework, plainTemplate, LevelTextInputView, app) {
+    var OpenLevelView = Framework.View.extend({
 
         template: _.template(plainTemplate, {}),
 
@@ -21,7 +21,6 @@ define([
         },
 
         levelselected: function (level) {
-            console.log(level);
             var levelbuilderview = app.router.views.levelbuilderview;
             levelbuilderview.getContent('leveleditor').setModel(level);
             levelbuilderview.setContent('leveleditor');

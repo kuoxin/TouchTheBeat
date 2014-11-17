@@ -1,7 +1,7 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'app',
     'text!templates/levelbuilder/base.html',
     'views/levelbuilder/GameObjectRecorderView',
@@ -9,11 +9,11 @@ define([
     'views/levelbuilder/OpenLevelView',
     'views/levelbuilder/LevelEditorView',
     'views/levelbuilder/SignInCallView',
-    'mixins/ExchangeableContent'
-], function ($, _, Backbone, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView, SignInCallView, ExchangeableContent) {
+    'framework/ExchangeableContent'
+], function ($, _, Framework, app, plainTemplate, GameObjectRecorderView, StartView, OpenLevelView, LevelEditorView, SignInCallView, ExchangeableContent) {
 
 
-    var BaseView = Backbone.View.extend(
+    var BaseView = Framework.View.extend(
         _.extend(new ExchangeableContent(), {
 
         template: _.template(plainTemplate, {}),

@@ -1,6 +1,6 @@
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'Framework', 'app'], function ($, _, Framework, app) {
     var initialize = function (host) {
-        var ErrorCodeModel = Backbone.Model.extend({
+        var ErrorCodeModel = Framework.Model.extend({
             url: 'system/codes',
             parse: function (data) {
                 return _.invert(data);
@@ -9,8 +9,8 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         var errorCodeModel = new ErrorCodeModel();
 
-        var realajax = Backbone.ajax;
-        Backbone.ajax = function (p) {
+        var realajax = Framework.ajax;
+        Framework.ajax = function (p) {
             var customizedParams = _.clone(p);
             var stringrep = 'API-Request "' + p.type + ' ' + p.url;
 

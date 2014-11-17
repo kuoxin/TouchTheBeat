@@ -1,17 +1,17 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/leveloverview.html',
     'views/LevelPanelView',
     'collections/LevelCollection',
     'app',
     'views/LevelTextInputView'
-], function ($, _, Backbone, LevelOverviewTemplate, LevelPanel, LevelCollection, app, LevelTextInputView) {
-    var ChooseLevelView = Backbone.View.extend({
+], function ($, _, Framework, LevelOverviewTemplate, LevelPanel, LevelCollection, app, LevelTextInputView) {
+    var ChooseLevelView = Framework.View.extend({
 
         render: function () {
-            Backbone.history.navigate('chooselevel', {trigger: false, replace: true});
+            Framework.history.navigate('chooselevel', {trigger: false, replace: true});
             var template = _.template(LevelOverviewTemplate, {});
             this.$el.html(template);
             this.levelpanelviews = [];

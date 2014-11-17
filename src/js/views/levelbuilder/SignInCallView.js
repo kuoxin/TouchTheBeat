@@ -1,11 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/levelbuilder/signincall.html',
     'app'
-], function ($, _, Backbone, plainTemplate, app) {
-    var SignInCallView = Backbone.View.extend({
+], function ($, _, Framework, plainTemplate, app) {
+    var SignInCallView = Framework.View.extend({
 
         template: _.template(plainTemplate, {}),
 
@@ -13,7 +13,7 @@ define([
 
         render: function () {
             this.$el.html(this.template);
-            var originalRoute = Backbone.history.fragment;
+            var originalRoute = Framework.history.fragment;
             if (originalRoute != this.route) {
                 app.router.navigate('levelbuilder/signin', {replace: true});
                 this.listenTo(app.session, 'change:logged_in', function (session) {

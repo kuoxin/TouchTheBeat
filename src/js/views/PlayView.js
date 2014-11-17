@@ -1,17 +1,19 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/play.html',
     'app',
     'models/Track',
-    'models/Game',
+    'game/controller/Game',
     'util/analytics',
-    'util/AudioController',
+    'game/controller/AudioController',
+    'game/renderer/AudioLoadingRenderer',
+    'game/Surface',
     'util/scripts'
 
-], function ($, _, Backbone, playTemplate, app, Track, Game, analytics, AudioController) {
-    var PlayView = Backbone.View.extend({
+], function ($, _, Framework, playTemplate, app, Track, Game, analytics, AudioController, AudioLoadingRenderer, Surface) {
+    var PlayView = Framework.View.extend({
         el: '#body',
 
         onClose: function () {
@@ -45,31 +47,41 @@ define([
 
         render: function (level) {
             //TODO: Stop the game really when navigating away.
-            Backbone.history.navigate('playlevel', false);
+            Framework.history.navigate('playlevel', false);
             this.onClose();
 
             this.level = level;
             var template = _.template(playTemplate, {});
             this.$el.html(template);
 
-            this.audioloaderview = app.router.views.audioloaderview;
-            this.audioloaderview.render();
+            this.surface = new Surface(
+                {bgcolor: '#000000'}
+            );
 
+            this.audioloadingrenderer = new AudioLoadingRenderer({
+                snap: this.surface.getSnap()
+            });
+            this.audioloadingrenderer.render();
 
-            this.audiocontroller = new AudioController();
-            this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
-            this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.stopGame.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(this.level.get('audio').getStreamUrl(), true);
+            this.audiocontroller = new AudioController({
+                renderer: this.audioloadingrenderer,
+                callback_started: this.onAudioStarted.bind(this),
+                callback_ended: this.stopGame.bind(this),
+                callback_readytoplay: this.onAudioReady.bind(this),
+                callback_error: this.onAudioError.bind(this)
+            });
 
-
+            this.audiocontroller.load(this.level.get('audio').getStreamUrl(), true);
         },
 
         onAudioReady: function () {
             console.log('audio is ready');
             this.game = new Game({
                 level: this.level,
-                audiocontroller: this.audiocontroller
+                audiocontroller: this.audiocontroller,
+                surface: this.surface
             });
+            this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
         },
 
         onAudioStarted: function () {

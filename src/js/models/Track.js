@@ -1,16 +1,18 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'Framework'
+], function ($, _, Framework) {
+    /*
     var regex = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/;
     var errorMessages = {
         SOUNDCLOUDERROR: 'Sorry. The track you entered could not be found. Please check if the url is correct, try again and contact me if the error still occurs.',
         NOTSTREAMABLE: 'Sorry. The track you entered is not streamable. Please select a different one.',
         WRONGFORMAT: 'Please make sure the URL has the correct format: https://soundcloud.com/user/title-of-the-track'
     };
+    */
 
-    var Track = Backbone.Model.extend({
+    var Track = Framework.Model.extend({
         url: 'audio/soundcloud',
 
         validate: function (data) {

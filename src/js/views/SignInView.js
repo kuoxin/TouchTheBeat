@@ -1,13 +1,13 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/signin.html',
     'app',
     'models/User',
     'md5'
-], function ($, _, Backbone, plaintemplate, app, User, md5) {
-    var SignInView = Backbone.View.extend({
+], function ($, _, Framework, plaintemplate, app, User, md5) {
+    var SignInView = Framework.View.extend({
         initialize: function () {
 
         },

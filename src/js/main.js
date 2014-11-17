@@ -1,5 +1,6 @@
 require.config({
     paths: {
+        Framework: 'framework/Framework',
         jquery: 'lib/jquery',
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
@@ -14,6 +15,9 @@ require.config({
     },
     shim: {
         'bootstrap': ['jquery'],
+        'jquery' : {
+            exports: '$'
+        },
         'snap': {
             exports: 'Snap'
         },
@@ -35,14 +39,13 @@ require.config({
 require([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'config',
     'app',
     'API',
     'models/Session',
-    'router',
-    'BackboneModifications'
-], function ($, _, Backbone, config, app, API, Session, Router) {
+    'router'
+], function ($, _, Framework, config, app, API, Session, Router) {
 
     if (typeof config.host == 'undefined')
         throw ('Backend host not specified. Open config.js to do so.');
@@ -63,11 +66,10 @@ require([
 
     console.info('Initializing TouchTheBeat.');
     API.initialize(config.host);
-    app.initialize({
+    app.init({
         session: new Session(),
         router: new Router()
-
     });
-    Backbone.history.start();
+    Framework.history.start();
     console.info('Initializing TouchTheBeat has completed.');
 });

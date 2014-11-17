@@ -1,9 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
-    var GameObject = Backbone.Model.extend({
+    'Framework'
+], function ($, _, Framework) {
+    var GameObject = Framework.Model.extend({
         defaults: {
             shape: {
                 type: "circle",
@@ -12,7 +12,7 @@ define([
         },
 
         initialize: function () {
-            Backbone.Select.Me.applyTo(this);
+            Framework.Select.Me.applyTo(this);
         }
     });
 

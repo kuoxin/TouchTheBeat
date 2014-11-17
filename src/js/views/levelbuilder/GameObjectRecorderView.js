@@ -1,17 +1,18 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'snap',
-    'gameclasses/TapObject',
-    'gameclasses/Surface',
-    'util/AudioController',
+    'game/controller/TapObject',
+    'game/Surface',
+    'game/controller/AudioController',
+    'game/renderer/AudioLoadingRenderer',
     'models/Track',
     'text!templates/levelbuilder/gameobjectrecorder.html',
     'app',
     'models/GameObject'
-], function ($, _, Backbone, Snap, TapObject, Surface, AudioController, Track, recordertemplate, app, GameObject) {
-    var GameObjectRecorderView = Backbone.View.extend({
+], function ($, _, Framework, Snap, TapObject, Surface, AudioController, AudioLoadingRenderer, Track, recordertemplate, app, GameObject) {
+    var GameObjectRecorderView = Framework.View.extend({
         el: '#body',
         //TODO: test with latest refactoring
         onClose: function () {
@@ -23,19 +24,29 @@ define([
 
         render: function (model) {
             this.model = model;
+
             if (this.audiocontroller)
                 this.audiocontroller.dispose();
 
             var template = _.template(recordertemplate, {});
             this.$el.html(template);
 
-            this.audioloaderview = app.router.views.audioloaderview;
-            this.audioloaderview.render({bgcolor: '#222222'});
+            this.surface = new Surface({bgcolor: '#222222'});
 
-            this.audiocontroller = new AudioController();
-            this.audiocontroller.attachAudioLoadingView(this.audioloaderview);
-            this.audiocontroller.setCallbacks(this.onAudioStarted.bind(this), this.recordingfinished.bind(this), this.onAudioReady.bind(this), this.onAudioError.bind(this));
-            this.audiocontroller.render(this.model.get('audio').getStreamUrl(), true);
+            this.audioloadingrenderer = new AudioLoadingRenderer({
+                snap: this.surface.getSnap()
+            });
+            this.audioloadingrenderer.render({bgcolor: '#222222'});
+
+            this.audiocontroller = new AudioController({
+                renderer: this.audioloadingrenderer,
+                callback_started: this.onAudioStarted.bind(this),
+                callback_ended: this.recordingfinished.bind(this),
+                callback_readytoplay: this.onAudioReady.bind(this),
+                callback_error: this.onAudioError.bind(this)
+            });
+
+            this.audiocontroller.load(this.model.get('audio').getStreamUrl(), true);
 
         },
 
@@ -52,7 +63,7 @@ define([
         },
 
         onAudioReady: function () {
-            this.surface = new Surface({bgcolor: '#222222'});
+
             this.svgelem = document.getElementById('svg');
             this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
         },

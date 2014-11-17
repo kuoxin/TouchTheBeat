@@ -1,12 +1,12 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'Framework',
     'text!templates/applicationwithmenu.html',
     'views/MenuView',
     'views/SignInView'
-], function ($, _, Backbone, awmtemplate, MenuView, SignInView) {
-    var ApplicationWithMenuView = Backbone.View.extend({
+], function ($, _, Framework, awmtemplate, MenuView, SignInView) {
+    var ApplicationWithMenuView = Framework.View.extend({
         el: 'body',
 
         render: function () {
