@@ -55,7 +55,7 @@ module.exports = function (grunt) {
             grunt.file.copy('src/js/config.sample.js', 'src/js/config.js');
     });
 
-    grunt.registerTask('travis-ci', ['creat-ci-config', 'jshint', 'requirejs']);
+    grunt.registerTask('travis-ci', ['create-ci-config', 'jshint', 'requirejs']);
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
