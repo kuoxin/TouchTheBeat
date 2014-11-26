@@ -54,24 +54,25 @@ define([
             analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
-        init: function (data) {
+        init: function (config) {
 
 
             API.setupBackend({
-                host: data.host,
+                host: config.backend.host,
 
                 onAjaxPrepare: function prepareAjaxRequest(p) {
                     "use strict";
-                    p.string = 'API-Request "' + p.type + ' ' + p.url;
+                    p.string = _.uniqueId('API-Request') + ' "' + p.type + ' ' + p.url;
+                    p.headers = p.headers || {};
+
                     if (typeof app.session !== 'undefined' && app.session !== null && app.session.has('hash')) {
                         p.string += ' with sessionID';
-                        _.extend(p.headers || {},
-                            {
-                                'ttbSession': app.session.get('hash')
-                            }
-                        );
-
+                        p.headers[config.backend.headerNames.session] = app.session.get('hash');
                     }
+
+                    p.headers[config.backend.headerNames.timestamp] = new Date().getTime();
+                    p.headers[config.backend.headerNames.hash] = config.backend.createAccessHash(p);
+
                     return p;
                 }
             });
@@ -84,7 +85,7 @@ define([
             catch (e) {
                 console.error('Web Audio API is not supported in this browser');
             }
-            _.extend(app, data);
+            _.extend(app, config);
             if (this.session.has('hash'))
                 this.session.updateSessionUser();
             this.router.init();

@@ -46,9 +46,6 @@ require([
     'router'
 ], function ($, _, Framework, config, app, Session, Router) {
 
-    if (typeof config.host == 'undefined')
-        throw ('Backend host not specified. Open config.js to do so.');
-
     if (config.debug) {
         window.app = app;
     }
@@ -67,7 +64,7 @@ require([
     app.init({
         session: new Session(),
         router: new Router(),
-        host: config.host
+        backend: config.backend
     });
     Framework.history.start();
     console.info('Initializing TouchTheBeat has completed.');
