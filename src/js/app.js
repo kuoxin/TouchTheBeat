@@ -6,16 +6,39 @@ define([
     'util/analytics'
 ], function ($, _, Framework, API, analytics) {
     var app;
-    console.log(Framework);
+    /**
+     * The main controller and container for the TouchTheBeat client.
+     * @class App
+     * @constructor
+     * @extend Controller
+     */
     var App = Framework.Controller.extend({
+
+        /**
+         * @property {Router} router
+         */
         router: null,
 
+        /**
+         * @property {boolean} baseviewIsRendered
+         */
         baseviewIsRendered: false,
 
+        /**
+         * starts the game with the level passed as parameter
+         * @method startlevel
+         * @param {Level} level
+         */
         startlevel: function (level) {
             this.setFullScreenContent(this.router.views.playlevelview, level);
         },
 
+        /**
+         * @method setFullScreenContent
+         * @param {View} view
+         * @param [...]
+         * all other params will be passed to the views render() function
+         */
         setFullScreenContent: function () {
             this.baseviewIsRendered = false;
 
@@ -24,11 +47,22 @@ define([
             analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
+        /**
+         * @method getMainView
+         * @returns {View}
+         */
         getMainView: function () {
             console.log(this.router.views.baseview);
             return this.router.views.baseview;
         },
 
+
+        /**
+         * This method is used for navigation between contents in the app.
+         * @method setContent
+         * @param {View} view
+         *
+         */
         setContent: function () {
 
             var newview = [].shift.call(arguments);
@@ -54,6 +88,13 @@ define([
             analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
+        /**
+         * - configures backend
+         * - checks compability
+         * - starts session check
+         * @method init
+         * @param {Object} config
+         */
         init: function (config) {
 
 

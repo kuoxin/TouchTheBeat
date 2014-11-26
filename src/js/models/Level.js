@@ -8,6 +8,12 @@ define([
     'models/User',
     'app'
 ], function ($, _, Framework, Validator, GameObjectCollection, Track, User, app) {
+    /**
+     * @module models
+     * @extends Model
+     * @class Level
+     * @type {*|void}
+     */
     var Level = Framework.Model.extend({
         defaults: {
             gameObjects: new GameObjectCollection(),

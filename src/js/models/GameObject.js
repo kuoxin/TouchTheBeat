@@ -3,6 +3,12 @@ define([
     'underscore',
     'Framework'
 ], function ($, _, Framework) {
+    /**
+     * @module models
+     * @class GameObject
+     * @extends Model
+     * @type {*|void}
+     */
     var GameObject = Framework.Model.extend({
         defaults: {
             shape: {

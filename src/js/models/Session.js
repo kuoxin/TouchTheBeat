@@ -1,13 +1,18 @@
-/**
- * using parts from https://github.com/alexanderscott/backbone-login (MIT License)
- * and https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
- */
+
 define([
     'underscore',
     'Framework',
     'models/User',
     'util/Storage'
 ], function (_, Framework, User, Storage) {
+    /**
+     * using parts from https://github.com/alexanderscott/backbone-login (MIT License)
+     * and https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
+     * @module models
+     * @class SessionModel
+     * @extends Model
+     * @type {*|void}
+     */
     var SessionModel = Framework.Model.extend({
 
         defaults: {
