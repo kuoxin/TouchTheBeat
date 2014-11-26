@@ -31,7 +31,11 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            all: ['src/js/*.js'] //['src/js/**/*.js']
+            all: [
+                'Gruntfile.js',
+                'src/js/{,*/}*.js',
+                '!src/js/lib/**'
+            ]
         },
 
         yuidoc: {
