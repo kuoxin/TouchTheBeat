@@ -17,8 +17,7 @@ define([
 
         defaults: {
             logged_in: false,
-            user: {},
-            id: ''
+            stay_logged_in: false
         },
 
         url: 'session',
@@ -48,39 +47,66 @@ define([
                  The changed user will trigger the change:logged_in as normal.
                  * */
             }
-
-            // event binders
-            this.bind("change:hash", this.update);
-            this.bind("error", this.error);
-            this.on("logout", this.logout);
-        },
-
-        parse: function (data) {
-            console.log(data);
-            return _.pick(data, 'hash', 'expireTime');
         },
 
         toJSON: function () {
             return this.parse(this.attributes);
         },
 
-        updateSessionUser: function () {
-            var session = this;
-            (new User()).fetch({
-                success: function (user) {
-                    session.set({
-                        user: user,
-                        logged_in: true
-                    });
+        /**
+         * destroys the session - Source: http://backbonetutorials.com/cross-domain-sessions/
+         */
+        logout: function () {
+            // Do a DELETE to /session and clear the clientside data
+            var self = this;
+            // delete local version
+            this.store.clear("session");
+            // notify remote
+            this.destroy({
+                wait: true,
+                success: function (model) {
+                    model.clear({silent: true});
+                    model.id = null;
+                    // Set auth to false to trigger a change:auth event
+                    // The server also returns a new csrf token so that
+                    // the user can relogin without refreshing the page
+                    self.set({logged_in: false});
                 },
-                error: function () {
-                    console.log('getting current user failed: ');
-                    console.log(arguments);
-                    session.set({
-                        logged_in: false
-                    });
+                error: function (error) {
+                    console.error(error);
                 }
             });
+        },
+
+        restore: function () {
+            "use strict";
+            if (this.has('hash')) {
+                var session = this;
+                (new User()).fetch({
+                    success: function (user) {
+                        session.set({
+                            user: user,
+                            logged_in: true
+                        });
+                    },
+                    error: function () {
+                        console.log('getting current user failed: ');
+                        console.log(arguments);
+                        session.set({
+                            logged_in: false
+                        });
+                    }
+                });
+            }
+        },
+
+        parse: function (data) {
+            "use strict";
+            return _.omit(data, ['logged_in']);
+        },
+
+        updateSessionUser: function () {
+
         },
 
         reset: function () {
@@ -99,38 +125,15 @@ define([
 
         cache: function () {
             // update the local session
-            this.store.set("session", JSON.stringify(this.toJSON()));
-            // check if the object has changed locally
-            //...
-        },
-        // Destroy session - Source: http://backbonetutorials.com/cross-domain-sessions/
-        logout: function (options) {
-            // Do a DELETE to /session and clear the clientside data
-            var self = this;
-            options = options || {};
-            // delete local version
-            this.store.clear("session");
-            // notify remote
-            this.destroy({
-                wait: true,
-                success: function (model, resp) {
-                    model.clear({silent: true});
-                    model.id = null;
-                    // Set auth to false to trigger a change:auth event
-                    // The server also returns a new csrf token so that
-                    // the user can relogin without refreshing the page
-                    self.set({logged_in: false});
-                    if (resp && resp._csrf) self.set({_csrf: resp._csrf});
-                    // reload the page if needed
-                    if (options.reload) {
-                        window.location.reload();
-                    }
+            this.store.set(
+                "session",
+                JSON.stringify(_.pick(
+                    this.toJSON(),
+                    'hash',
+                    'expireTime'
+                ))
+            );
 
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
         }
     });
     return SessionModel;

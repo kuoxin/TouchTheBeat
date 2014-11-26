@@ -55,9 +55,7 @@ define([
                 user.save(_.pick(data, 'username', 'email', 'password', 'homepage'), {
                     success: function () {
                         console.log('signup succeeded');
-                        app.session.fetch({
-                            data: _.pick(data, 'email', 'password')
-                        });
+                        app.session.save(_.pick(data, 'email', 'password'));
                     },
                     error: function (user, e) {
                         console.log('error catched');
@@ -90,10 +88,8 @@ define([
 
             var data = this.getFormData(form);
             data.password = md5.MD5(data.password).toString();
-            console.log(data);
 
-            app.session.fetch({
-                data: data,
+            app.session.save(data, {
                 error: function (session, e) {
                     switch (e) {
                         case 'SIGNIN_USER_NOT_FOUND':

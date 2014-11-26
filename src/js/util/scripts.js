@@ -120,6 +120,13 @@ define([], function () {
 
     })();
 
+    // date.now polyfill
+    if (!Date.now) {
+        Date.now = function now() {
+            return new Date().getTime();
+        };
+    }
+
     var scripts = {};
 
     scripts.pickRandomObject = function (parent) {

@@ -44,12 +44,18 @@ module.exports = function (grunt) {
                     paths: 'src',
                     linkNatives: true,
                     outdir: 'docs/',
-                    "themedir": "node_modules/yuidoc-bootstrap-theme",
-                    "helpers": ["node_modules/yuidoc-bootstrap-theme/helpers/helpers.js"]
+                    "themedir": "node_modules/yuidoc-theme-blue"
                 }
             }
         }
     });
+
+    grunt.registerTask('create-ci-config', function () {
+        if (!grunt.file.exists('src/js/config.js'))
+            grunt.file.copy('src/js/config.sample.js', 'src/js/config.js');
+    });
+
+    grunt.registerTask('travis-ci', ['creat-ci-config', 'jshint', 'requirejs']);
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');

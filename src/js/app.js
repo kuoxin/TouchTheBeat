@@ -2,9 +2,8 @@ define([
     'jquery',
     'underscore',
     'Framework',
-    'framework/API',
     'util/analytics'
-], function ($, _, Framework, API, analytics) {
+], function ($, _, Framework, analytics) {
     var app;
     /**
      * The main controller and container for the TouchTheBeat client.
@@ -98,7 +97,7 @@ define([
         init: function (config) {
 
 
-            API.setupBackend({
+            Framework.API.setupBackend({
                 host: config.backend.host,
 
                 onAjaxPrepare: function prepareAjaxRequest(p) {
@@ -111,7 +110,7 @@ define([
                         p.headers[config.backend.headerNames.session] = app.session.get('hash');
                     }
 
-                    p.headers[config.backend.headerNames.timestamp] = new Date().getTime();
+                    p.headers[config.backend.headerNames.timestamp] = Date.now() / 1000;
                     p.headers[config.backend.headerNames.hash] = config.backend.createAccessHash(p);
 
                     return p;
@@ -127,12 +126,10 @@ define([
                 console.error('Web Audio API is not supported in this browser');
             }
             _.extend(app, config);
-            if (this.session.has('hash'))
-                this.session.updateSessionUser();
+            this.session.restore();
             this.router.init();
         }
     });
     app = new App();
-    console.log(app);
     return app;
 });
