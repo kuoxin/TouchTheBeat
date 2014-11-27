@@ -1,6 +1,19 @@
-/* global module */
+/* global module, process */
 module.exports = function (grunt) {
     'use strict';
+    var CryptoJS = require('crypto-js');
+
+    // configuration
+    var TRAVIS = process.env.TRAVIS === 'true';
+    var TRAVIS_TRUSTED = TRAVIS && process.env.TRAVIS_SECURE_ENV_VARS === 'true' && process.env.TRAVIS_PULL_REQUEST === 'false';
+    var PATHS = {
+        CONFIG_TRAVIS_CI_ENCRYPTED : 'src/js/config.travis-ci.encrypted' ,
+        CONFIG_TRAVIS_CI : 'src/js/config.travis-ci.js',
+        CONFIG_SAMPLE : 'src/js/config.sample.js',
+        CONFIG : 'src/js/config.js'
+    };
+    var VARNAME_ENCRYPTIONKEY = 'encryption_key';
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
@@ -16,7 +29,10 @@ module.exports = function (grunt) {
                     mainConfigFile: 'src/js/main.js',
                     inlineText: true,
                     dir: "dist",
-                    paths: {},
+                    paths: TRAVIS ? {
+                        'config': 'config.travis-ci'
+                    } :
+                    {},
                     fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/,
                     done: function (done, output) {
 
@@ -26,7 +42,6 @@ module.exports = function (grunt) {
                             grunt.log.warn(duplicates);
                             return done(new Error('r.js built duplicate modules, please check the excludes option.'));
                         }
-
                         grunt.log.writeln(output);
                         done();
                     }
@@ -65,12 +80,12 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('checkConfig', function () {
-        if (!grunt.file.exists('src/js/config.js')) {
-            grunt.fail.fatal("config.js in src/js/config.js does not exist. Please create it manually. You can refer to src/js/config.sample.js.");
+        if (!grunt.file.exists(PATHS.CONFIG)) {
+            grunt.fail.warn("config.js in "+PATHS.CONFIG+" does not exist. Please create it manually. You can refer to "+PATHS.CONFIG_SAMPLE+".");
         }
     });
 
-    grunt.registerTask('cleanup-build', function () {
+    grunt.registerTask('cleanupBuild', function () {
         var paths = grunt.file.expand({
             cwd: 'dist'
         }, [
@@ -88,18 +103,50 @@ module.exports = function (grunt) {
                 grunt.log.writeln('deleting "' + path + '"');
                 grunt.file.delete(path);
             }
-
         }
     });
 
-    grunt.registerTask('build', ['checkConfig', 'requirejs', 'cleanup-build']);
+    grunt.registerTask('build', ['checkConfig', 'requirejs', 'cleanupBuild']);
 
-    grunt.registerTask('create-ci-config', function () {
-        if (!grunt.file.exists('src/js/config.js'))
-            grunt.file.copy('src/js/config.sample.js', 'src/js/config.js');
+    grunt.registerTask('checkTravisTrustedEnvironment', function(){
+        // only deploy under these conditions
+        if (!TRAVIS_TRUSTED) {
+            grunt.fail.warn("Travis environment was not trusted. Stopping deploy.");
+        }
     });
 
-    grunt.registerTask('travis-ci', ['create-ci-config', 'jshint', 'check-deploy']);
+    grunt.registerTask('decrypt-travis-ci-config', function () {
+        if (!grunt.file.exists(PATHS.CONFIG))
+            grunt.fail.warn("\"config.js\" does already exist. This task would overwrite it.");
+
+        grunt.task.requires('checkTravisTrustedEnvironment');
+
+        if (typeof process.env[VARNAME_ENCRYPTIONKEY] === 'undefined')
+            grunt.fail.warn("Travis environment variable \"encryption_key\" missing. Stopping deploy.");
+
+        var key = process.env[VARNAME_ENCRYPTIONKEY];
+        var encrypted_config = grunt.file.read(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED);
+        var config = CryptoJS.AES.decrypt(encrypted_config, key).toString(CryptoJS.enc.Utf8);
+        grunt.file.write(PATHS.CONFIG, config);
+
+    });
+
+    grunt.registerTask('create-encrypted-travis-ci-config', function(key){
+        if (typeof key === 'undefined'){
+            grunt.fail.warn("Supply a key to use for encryption as argument.");
+        }
+        var value = grunt.file.read(PATHS.CONFIG_TRAVIS_CI);
+        var encrypted = CryptoJS.AES.encrypt(value, key);
+        grunt.file.write(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED, encrypted);
+    });
+
+
+    grunt.registerTask('travis-ci-build', ['create-ci-config', 'jshint', 'requirejs']);
+    grunt.registerTask('travis-ci-deploy', ['checkTravisTrustedEnvironment', 'cleanupBuild',
+        function(){
+            grunt.log.writeln(getDeployMessage());
+            // deploy
+    }]);
 
 
     /*
@@ -109,7 +156,7 @@ module.exports = function (grunt) {
     // github will turn some of these into clickable links
     function getDeployMessage() {
         var ret = '\n\n';
-        if (process.env.TRAVIS !== 'true') {
+        if (!TRAVIS) {
             ret += 'missing env vars for travis-ci';
             return ret;
         }
@@ -120,17 +167,4 @@ module.exports = function (grunt) {
         ret += 'build number: ' + process.env.TRAVIS_BUILD_NUMBER + '\n';
         return ret;
     }
-
-    grunt.registerTask('check-deploy', function () {
-        // only deploy under these conditions
-        if (process.env.TRAVIS === 'true' && process.env.TRAVIS_SECURE_ENV_VARS === 'true' && process.env.TRAVIS_PULL_REQUEST === 'false') {
-            grunt.log.writeln('would execute deployment now');
-            grunt.log.writeln(getDeployMessage());
-            // deploy
-        }
-        else {
-            grunt.log.writeln(JSON.stringify(process.env));
-            grunt.log.writeln('skipped deployment');
-        }
-    });
 };

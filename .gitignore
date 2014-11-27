@@ -2,3 +2,4 @@
 src/js/config.js
 dist
 node_modules
+src/js/config.travis-ci.js
