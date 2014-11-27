@@ -122,7 +122,7 @@ module.exports = function (grunt) {
         grunt.task.requires('checkTravisTrustedEnvironment');
 
         //for debuggin purposes...
-        grunt.log(VARNAME_ENCRYPTIONKEY);
+        grunt.log.writeln(VARNAME_ENCRYPTIONKEY);
         grunt.log.writeln(process.env[VARNAME_ENCRYPTIONKEY]);
         grunt.log.writeln(typeof process.env[VARNAME_ENCRYPTIONKEY]);
         grunt.log.writeln(process.env.configEncryptionKey);
