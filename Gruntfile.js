@@ -15,7 +15,6 @@ module.exports = function (grunt) {
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey';
 
 
-    grunt.file.defaultEncoding = 'utf8';
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
@@ -127,9 +126,13 @@ module.exports = function (grunt) {
             grunt.fail.warn("Travis environment variable \"" + VARNAME_ENCRYPTIONKEY + "\" missing. Stopping deploy.");
 
         var key = process.env[VARNAME_ENCRYPTIONKEY];
-        var encrypted_config = grunt.file.read(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED);
+        var encrypted_config = grunt.file.read(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED, {
+            encoding: 'utf8'
+        });
         var config = CryptoJS.AES.decrypt(encrypted_config, key).toString(CryptoJS.enc.Utf8);
-        grunt.file.write(PATHS.CONFIG, config);
+        grunt.file.write(PATHS.CONFIG, config, {
+            encoding: 'utf8'
+        });
 
     });
 
@@ -137,9 +140,13 @@ module.exports = function (grunt) {
         if (typeof key === 'undefined'){
             grunt.fail.warn("Supply a key to use for encryption as argument.");
         }
-        var value = grunt.file.read(PATHS.CONFIG_TRAVIS_CI);
+        var value = grunt.file.read(PATHS.CONFIG_TRAVIS_CI, {
+            encoding: 'utf8'
+        });
         var encrypted = CryptoJS.AES.encrypt(value, key);
-        grunt.file.write(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED, encrypted);
+        grunt.file.write(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED, encrypted, {
+            encoding: 'utf8'
+        });
     });
 
 
