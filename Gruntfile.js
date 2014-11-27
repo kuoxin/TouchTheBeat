@@ -141,7 +141,7 @@ module.exports = function (grunt) {
     });
 
 
-    grunt.registerTask('travis-ci-build', ['create-ci-config', 'jshint', 'requirejs']);
+    grunt.registerTask('travis-ci-build', ['checkTravisTrustedEnvironment', 'decrypt-travis-ci-config', 'jshint', 'requirejs']);
     grunt.registerTask('travis-ci-deploy', ['checkTravisTrustedEnvironment', 'cleanupBuild',
         function(){
             grunt.log.writeln(getDeployMessage());
