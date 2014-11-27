@@ -14,7 +14,6 @@ module.exports = function (grunt) {
     };
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey';
 
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
@@ -30,10 +29,6 @@ module.exports = function (grunt) {
                     mainConfigFile: 'src/js/main.js',
                     inlineText: true,
                     dir: "dist",
-                    paths: TRAVIS ? {
-                        'config': 'config.travis-ci'
-                    } :
-                    {},
                     fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/,
                     done: function (done, output) {
 
