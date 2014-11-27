@@ -12,7 +12,7 @@ module.exports = function (grunt) {
         CONFIG_SAMPLE : 'src/js/config.sample.js',
         CONFIG : 'src/js/config.js'
     };
-    var VARNAME_ENCRYPTIONKEY = 'encryption_key';
+    //var VARNAME_ENCRYPTIONKEY = 'encryption_key';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
         //if (!process.env[VARNAME_ENCRYPTIONKEY])
         //    grunt.fail.warn("Travis environment variable \"encryption_key\" missing. Stopping deploy.");
 
-        var key = process.env[VARNAME_ENCRYPTIONKEY];
+        var key = process.env.encryption_key;
         var encrypted_config = grunt.file.read(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED);
         var config = CryptoJS.AES.decrypt(encrypted_config, key).toString(CryptoJS.enc.Utf8);
         grunt.file.write(PATHS.CONFIG, config);
