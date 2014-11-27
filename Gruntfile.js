@@ -129,8 +129,7 @@ module.exports = function (grunt) {
             // deploy
         }
         else {
-            grunt.log.writeln(process.env);
-            grunt.log.writeln(process.env.config);
+            grunt.log.writeln(JSON.stringify(process.env));
             grunt.log.writeln('skipped deployment');
         }
     });
