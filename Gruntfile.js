@@ -150,7 +150,11 @@ module.exports = function (grunt) {
     grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
 
     grunt.registerTask('deploy-to-gh-pages', function () {
-        grunt.log.writeln(shell.ls('./'));
+        shell.mkdir('temp-ghpages');
+        shell.cd('temp-ghpages');
+        shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
+        grunt.log.writeln(shell.find('.'));
+        shell.cd('../');
         grunt.log.writeln(getDeployMessage());
         //TODO: implement deploy
     });
