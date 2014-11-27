@@ -116,7 +116,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('decrypt-travis-ci-config', function () {
-        if (!grunt.file.exists(PATHS.CONFIG))
+        if (grunt.file.exists(PATHS.CONFIG))
             grunt.fail.warn("\"config.js\" does already exist. This task would overwrite it.");
 
         grunt.task.requires('checkTravisTrustedEnvironment');
