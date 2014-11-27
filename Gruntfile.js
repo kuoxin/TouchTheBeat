@@ -2,6 +2,7 @@
 module.exports = function (grunt) {
     'use strict';
     var CryptoJS = require('crypto-js');
+    var shell = require('shelljs');
 
     // configuration
     var TRAVIS = process.env.TRAVIS === 'true';
@@ -149,6 +150,7 @@ module.exports = function (grunt) {
     grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
 
     grunt.registerTask('deploy-to-gh-pages', function () {
+        shell.ls('./');
         grunt.log.writeln(getDeployMessage());
         //TODO: implement deploy
     });
