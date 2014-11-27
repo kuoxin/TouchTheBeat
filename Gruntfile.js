@@ -150,7 +150,7 @@ module.exports = function (grunt) {
     grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
 
     grunt.registerTask('deploy-to-gh-pages', function () {
-        shell.ls('./');
+        grunt.log.writeln(shell.ls('./'));
         grunt.log.writeln(getDeployMessage());
         //TODO: implement deploy
     });
