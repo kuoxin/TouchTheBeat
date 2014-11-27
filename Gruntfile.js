@@ -14,6 +14,8 @@ module.exports = function (grunt) {
     };
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey';
 
+
+    grunt.file.defaultEncoding = 'utf8';
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
