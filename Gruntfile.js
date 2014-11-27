@@ -75,13 +75,13 @@ module.exports = function (grunt) {
     grunt.registerTask('default', 'jshint');
 
 
-    grunt.registerTask('checkConfig', function () {
+    grunt.registerTask('check-config', function () {
         if (!grunt.file.exists(PATHS.CONFIG)) {
             grunt.fail.warn("config.js in "+PATHS.CONFIG+" does not exist. Please create it manually. You can refer to "+PATHS.CONFIG_SAMPLE+".");
         }
     });
 
-    grunt.registerTask('cleanupBuild', function () {
+    grunt.registerTask('cleanup-build', function () {
         var paths = grunt.file.expand({
             cwd: 'dist'
         }, [
@@ -102,9 +102,9 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build', ['checkConfig', 'requirejs', 'cleanupBuild']);
+    grunt.registerTask('build', ['check-config', 'requirejs', 'cleanup-build']);
 
-    grunt.registerTask('checkTravisTrustedEnvironment', function(){
+    grunt.registerTask('check-travis-trusted-environment', function () {
         // only deploy under these conditions
         if (!TRAVIS_TRUSTED) {
             grunt.fail.warn("Travis environment was not trusted. Stopping deploy.");
@@ -115,7 +115,7 @@ module.exports = function (grunt) {
         if (grunt.file.exists(PATHS.CONFIG))
             grunt.fail.warn("\"config.js\" does already exist. This task would overwrite it.");
 
-        grunt.task.requires('checkTravisTrustedEnvironment');
+        grunt.task.requires('check-travis-trusted-environment');
 
         if (typeof process.env[VARNAME_ENCRYPTIONKEY] === 'undefined')
             grunt.fail.warn("Travis environment variable \"" + VARNAME_ENCRYPTIONKEY + "\" missing. Stopping deploy.");
@@ -145,12 +145,13 @@ module.exports = function (grunt) {
     });
 
 
-    grunt.registerTask('travis-ci-build', ['checkTravisTrustedEnvironment', 'decrypt-travis-ci-config', 'jshint', 'requirejs']);
-    grunt.registerTask('travis-ci-deploy', ['checkTravisTrustedEnvironment', 'cleanupBuild',
-        function(){
-            grunt.log.writeln(getDeployMessage());
-            // deploy
-    }]);
+    grunt.registerTask('travis-ci-build', ['check-travis-trusted-environment', 'decrypt-travis-ci-config', 'jshint', 'requirejs']);
+    grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
+
+    grunt.registerTask('deploy-to-gh-pages', function () {
+        grunt.log.writeln(getDeployMessage());
+        //TODO: implement deploy
+    });
 
 
     /*
