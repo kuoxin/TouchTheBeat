@@ -3,4 +3,5 @@ before_install:
 - npm install -g npm
 - npm install -g grunt-cli
 install: npm install
-script: grunt travis-ci
+script: grunt travis-ci-build
+after_success: grunt travis-ci-deploy
