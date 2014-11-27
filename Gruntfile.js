@@ -121,8 +121,8 @@ module.exports = function (grunt) {
 
         grunt.task.requires('checkTravisTrustedEnvironment');
 
-        if (!process.env[VARNAME_ENCRYPTIONKEY])
-            grunt.fail.warn("Travis environment variable \"encryption_key\" missing. Stopping deploy.");
+        //if (!process.env[VARNAME_ENCRYPTIONKEY])
+        //    grunt.fail.warn("Travis environment variable \"encryption_key\" missing. Stopping deploy.");
 
         var key = process.env[VARNAME_ENCRYPTIONKEY];
         var encrypted_config = grunt.file.read(PATHS.CONFIG_TRAVIS_CI_ENCRYPTED);
