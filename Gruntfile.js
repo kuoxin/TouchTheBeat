@@ -181,7 +181,7 @@ module.exports = function (grunt) {
         shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
         grunt.task.run('clean:deploy');
         grunt.task.run('copy:deploy');
-        grunt.log('copied build into "' + PATHS.DEPLOY_COPY_TARGET + '"');
+        grunt.log.writeln('copied build into "' + PATHS.DEPLOY_COPY_TARGET + '"');
 
         //shell.exec('git commit -am  "'+getDeployMessage()+'" --quiet');
         //grunt.log.writeln('git: commited the build');
