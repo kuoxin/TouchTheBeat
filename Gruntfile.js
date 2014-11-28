@@ -167,35 +167,35 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('travis-ci-build', ['check-travis-trusted-environment', 'decrypt-travis-ci-config', 'jshint', 'requirejs']);
-    grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
+    grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'fetch-deploy-branch', 'clean:deploy', 'copy:deploy', 'push-build']);
 
-    grunt.registerTask('deploy-to-gh-pages', function () {
+    grunt.registerTask('fetch-deploy-branch', function () {
         shell.mkdir(PATHS.DEPLOY_GHPAGES_GIT);
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
-
         shell.exec('git init');
         shell.exec('git pull ' + REPOSITORY_URL + ' "gh-pages" --depth 1 --quiet');
         grunt.log.writeln('git: pulled gh-pages');
-
         shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
-        grunt.task.run('clean:deploy');
-        grunt.task.run('copy:deploy');
-        grunt.log.writeln('copied build into "' + PATHS.DEPLOY_COPY_TARGET + '"');
+        shell.cd('../');
+
+    });
+
+    grunt.registerTask('push-build', function () {
+        shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
+        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
 
         //shell.exec('git commit -am  "'+getDeployMessage()+'" --quiet');
         //grunt.log.writeln('git: commited the build');
 
         //shell.exec('git push --repo '+REPOSITORY_URL+' --quiet');
         //grunt.log.writeln('git: pushed build to repository');
-
         grunt.log.writeln(JSON.stringify(shell.exec('find . -type d')));
 
-        shell.cd('../../');
+        shell.cd('../');
 
         grunt.log.writeln(getDeployMessage());
     });
-
 
     /*
      partly taken from https://github.com/Bartvds/demo-travis-gh-pages, Copyright (c) 2013 Bart van der Schoor MIT License
