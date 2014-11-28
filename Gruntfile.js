@@ -158,7 +158,7 @@ module.exports = function (grunt) {
         shell.cd('temp-ghpages/TouchTheBeat');
         shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
         shell.exec('git remote rm origin');
-        shell.exec('git remote add origin https://scuzzlebuzzle:<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
+        shell.exec('git remote add origin https://<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
         shell.exec('shellmkdir -p edge/' + branch);
         grunt.log.writeln(shell.find('. -type d'));
         shell.cd('../../');
