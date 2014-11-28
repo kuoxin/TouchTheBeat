@@ -159,9 +159,11 @@ module.exports = function (grunt) {
         shell.cd(PATHS.DEPLOY_GHPAGES_TEMP);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
         shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
+        grunt.log.writeln('git: cloned gh-pages');
         shell.exec('git remote rm origin');
+        grunt.log.writeln('git: removed default origin');
         shell.exec('git remote add origin https://<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
-
+        grunt.log.writeln('git: added origin with write authentification');
         shell.cd('TouchTheBeat');
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
         shell.exec('mkdir -p edge/' + branch);
