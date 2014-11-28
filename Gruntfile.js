@@ -154,21 +154,29 @@ module.exports = function (grunt) {
 
     grunt.registerTask('deploy-to-gh-pages', function () {
         var branch = process.env.TRAVIS_BRANCH;
-        var REPOSITORY_URL = '//<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git';
+        var REPOSITORY_URL = '"https//' + process.env[VARNAME_GITHUBAUTHKEY] + ':x-oauth-basic@github.com/TouchTheBeat/TouchTheBeat.git"';
 
         shell.mkdir(PATHS.DEPLOY_GHPAGES_TEMP);
         shell.cd(PATHS.DEPLOY_GHPAGES_TEMP);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
 
-        shell.exec('git clone -b "gh-pages" --depth 1 "https:' + REPOSITORY_URL + '"');
+        shell.exec('git clone -b "gh-pages" --depth 1 ' + REPOSITORY_URL);
         grunt.log.writeln('git: cloned gh-pages');
         shell.cd('TouchTheBeat');
 
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
         shell.exec('mkdir -p edge/' + branch);
 
-        //copy and deploy
-        //grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
+        var copyDestinationPath = PATHS.DEPLOY_GHPAGES_TEMP + 'TouchTheBeat/edge/' + branch;
+
+        grunt.file.copy('dist', copyDestinationPath);
+        grunt.log('copied build into "' + copyDestinationPath + '"');
+
+        //shell.exec('git commit -am  "'+getDeployMessage()+'"');
+        //grunt.log.writeln('git: commited the build');
+
+        //shell.exec('git push --repo '+REPOSITORY_URL);
+        //grunt.log.writeln('git: pushed build to repository');
 
         grunt.log.writeln(shell.exec('find . -type d'));
 
