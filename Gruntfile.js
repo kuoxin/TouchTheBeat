@@ -19,7 +19,7 @@ module.exports = function (grunt) {
 
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey',
         VARNAME_GITHUBAUTHKEY = 'GitHubAuthenticationKey';
-    var REPOSITORY_URL = '"https//' + process.env[VARNAME_GITHUBAUTHKEY] + '@github.com/TouchTheBeat/TouchTheBeat.git"';
+    var REPOSITORY_URL = '"https://' + process.env[VARNAME_GITHUBAUTHKEY] + '@github.com/TouchTheBeat/TouchTheBeat.git"';
 
 
     grunt.initConfig({
