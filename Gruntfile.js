@@ -189,8 +189,7 @@ module.exports = function (grunt) {
         //shell.exec('git push --repo '+REPOSITORY_URL+' --quiet');
         //grunt.log.writeln('git: pushed build to repository');
 
-        grunt.log.writeln(shell.exec('find . -type d'));
-
+        grunt.log.writeln(JSON.stringify(shell.exec('find . -type d')));
 
         shell.cd('../../');
 
