@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         DEPLOY_GHPAGES_TEMP: 'temp-ghpages'
     };
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey',
-        VARNAME_GITHUBAUTHKEY = 'GitHubAuthentificationKey';
+        VARNAME_GITHUBAUTHKEY = 'GitHubAuthenticationKey';
 
 
     grunt.initConfig({
