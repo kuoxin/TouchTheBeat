@@ -155,7 +155,7 @@ module.exports = function (grunt) {
         var branch = process.env.TRAVIS_BRANCH;
 
         shell.mkdir('temp-ghpages');
-        grunt.log.writeln(shell.find('. -type d'));
+        grunt.log.writeln(shell.exec('find . -type d'));
         shell.cd('temp-ghpages/TouchTheBeat');
         shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
         shell.exec('git remote rm origin');
@@ -163,7 +163,7 @@ module.exports = function (grunt) {
         shell.exec('shellmkdir -p edge/' + branch);
         //copy and deploy
         shell.cd('../../');
-        grunt.log.writeln(shell.find('. -type d'));
+        grunt.log.writeln(shell.exec('find . -type d'));
         grunt.log.writeln(getDeployMessage());
     });
 
