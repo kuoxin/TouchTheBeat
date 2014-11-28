@@ -13,7 +13,9 @@ module.exports = function (grunt) {
         CONFIG_SAMPLE : 'src/js/config.sample.js',
         CONFIG : 'src/js/config.js'
     };
-    var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey';
+    var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey',
+        VARNAME_GITHUBAUTHKEY = 'GitHubAuthentificationKey';
+
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -150,13 +152,17 @@ module.exports = function (grunt) {
     grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
 
     grunt.registerTask('deploy-to-gh-pages', function () {
+        var branch = process.env.TRAVIS_BRANCH;
+
         shell.mkdir('temp-ghpages');
-        shell.cd('temp-ghpages');
+        shell.cd('temp-ghpages/TouchTheBeat');
         shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
-        grunt.log.writeln(shell.find('.'));
-        shell.cd('../');
+        shell.exec('git remote rm origin');
+        shell.exec('git remote add origin https://scuzzlebuzzle:<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
+        shell.exec('shellmkdir -p edge/' + branch);
+        grunt.log.writeln(shell.find('. -type d'));
+        shell.cd('../../');
         grunt.log.writeln(getDeployMessage());
-        //TODO: implement deploy
     });
 
 
