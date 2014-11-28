@@ -11,7 +11,8 @@ module.exports = function (grunt) {
         CONFIG_TRAVIS_CI_ENCRYPTED : 'src/js/config.travis-ci.encrypted' ,
         CONFIG_TRAVIS_CI : 'src/js/config.travis-ci.js',
         CONFIG_SAMPLE : 'src/js/config.sample.js',
-        CONFIG : 'src/js/config.js'
+        CONFIG: 'src/js/config.js',
+        DEPLOY_GHPAGES_TEMP: 'temp-ghpages'
     };
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey',
         VARNAME_GITHUBAUTHKEY = 'GitHubAuthentificationKey';
@@ -154,17 +155,21 @@ module.exports = function (grunt) {
     grunt.registerTask('deploy-to-gh-pages', function () {
         var branch = process.env.TRAVIS_BRANCH;
 
-        shell.mkdir('temp-ghpages');
-        shell.cd('temp-ghpages');
+        shell.mkdir(PATHS.DEPLOY_GHPAGES_TEMP);
+        shell.cd(PATHS.DEPLOY_GHPAGES_TEMP);
+        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
         shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
         shell.exec('git remote rm origin');
         shell.exec('git remote add origin https://<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
+
         shell.cd('TouchTheBeat');
+        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
         shell.exec('mkdir -p edge/' + branch);
+
         //copy and deploy
 
-        //current working directory: temp-ghpages
         shell.cd('../');
+        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
 
         grunt.log.writeln(shell.exec('find . -type d'));
         grunt.log.writeln(getDeployMessage());
