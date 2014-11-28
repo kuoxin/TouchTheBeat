@@ -4,7 +4,6 @@ module.exports = function (grunt) {
     var CryptoJS = require('crypto-js');
     var shell = require('shelljs');
 
-    // configuration
     var TRAVIS = process.env.TRAVIS === 'true';
     var TRAVIS_TRUSTED = TRAVIS && process.env.TRAVIS_SECURE_ENV_VARS === 'true' && process.env.TRAVIS_PULL_REQUEST === 'false';
     var PATHS = {
@@ -12,10 +11,15 @@ module.exports = function (grunt) {
         CONFIG_TRAVIS_CI : 'src/js/config.travis-ci.js',
         CONFIG_SAMPLE : 'src/js/config.sample.js',
         CONFIG: 'src/js/config.js',
-        DEPLOY_GHPAGES_TEMP: 'temp-ghpages'
+        DEPLOY_GHPAGES_GIT: 'temp-ghpages'
     };
+
+    PATHS.DEPLOY_RELATIVE = 'edge/' + process.env.TRAVIS_BRANCH;
+    PATHS.DEPLOY_COPY_TARGET = PATHS.DEPLOY_GHPAGES_GIT + '/' + PATHS.DEPLOY_RELATIVE;
+
     var VARNAME_ENCRYPTIONKEY = 'configEncryptionKey',
         VARNAME_GITHUBAUTHKEY = 'GitHubAuthenticationKey';
+    var REPOSITORY_URL = '"https//' + process.env[VARNAME_GITHUBAUTHKEY] + ':x-oauth-basic@github.com/TouchTheBeat/TouchTheBeat.git"';
 
 
     grunt.initConfig({
@@ -68,6 +72,17 @@ module.exports = function (grunt) {
                     outdir: 'docs/',
                     "themedir": "node_modules/yuidoc-theme-blue"
                 }
+            }
+        },
+        copy: {
+            deploy: {
+                src: 'dist/**',
+                dest: PATHS.DEPLOY_COPY_TARGET
+            }
+        },
+        clean: {
+            deploy: {
+                src: [PATHS.DEPLOY_COPY_TARGET]
             }
         }
     });
@@ -153,24 +168,18 @@ module.exports = function (grunt) {
     grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'deploy-to-gh-pages']);
 
     grunt.registerTask('deploy-to-gh-pages', function () {
-        var branch = process.env.TRAVIS_BRANCH;
-        var REPOSITORY_URL = '"https//' + process.env[VARNAME_GITHUBAUTHKEY] + ':x-oauth-basic@github.com/TouchTheBeat/TouchTheBeat.git"';
+        shell.mkdir(PATHS.DEPLOY_GHPAGES_GIT);
+        shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
+        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
 
-        shell.mkdir(PATHS.DEPLOY_GHPAGES_TEMP);
-        shell.cd(PATHS.DEPLOY_GHPAGES_TEMP);
-        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
+        shell.exec('git init');
+        shell.exec('git pull ' + REPOSITORY_URL + ' "gh-pages" --depth 1');
+        grunt.log.writeln('git: pulled gh-pages');
 
-        shell.exec('git clone -b "gh-pages" --depth 1 ' + REPOSITORY_URL);
-        grunt.log.writeln('git: cloned gh-pages');
-        shell.cd('TouchTheBeat');
-
-        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
-        shell.exec('mkdir -p edge/' + branch);
-
-        var copyDestinationPath = PATHS.DEPLOY_GHPAGES_TEMP + 'TouchTheBeat/edge/' + branch;
-
-        grunt.file.copy('dist', copyDestinationPath);
-        grunt.log('copied build into "' + copyDestinationPath + '"');
+        shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
+        grunt.task.run('clean:deploy');
+        grunt.task.run('copy:deploy');
+        grunt.log('copied build into "' + PATHS.DEPLOY_COPY_TARGET + '"');
 
         //shell.exec('git commit -am  "'+getDeployMessage()+'"');
         //grunt.log.writeln('git: commited the build');
