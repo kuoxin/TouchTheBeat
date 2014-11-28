@@ -76,7 +76,9 @@ module.exports = function (grunt) {
         },
         copy: {
             deploy: {
-                src: 'dist/**',
+                expand: true,
+                cwd: 'dist/',
+                src: '**',
                 dest: PATHS.DEPLOY_COPY_TARGET
             }
         },
@@ -185,11 +187,11 @@ module.exports = function (grunt) {
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
 
-        //shell.exec('git commit -am  "'+getDeployMessage()+'" --quiet');
-        //grunt.log.writeln('git: commited the build');
+        shell.exec('git commit -am  "' + getDeployMessage() + '" --quiet');
+        grunt.log.writeln('git: commited the build');
 
-        //shell.exec('git push --repo '+REPOSITORY_URL+' --quiet');
-        //grunt.log.writeln('git: pushed build to repository');
+        shell.exec('git push --repo ' + REPOSITORY_URL + ' --quiet');
+        grunt.log.writeln('git: pushed build to repository');
         grunt.log.writeln(JSON.stringify(shell.exec('find . -type d')));
 
         shell.cd('../');
