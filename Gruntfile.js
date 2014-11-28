@@ -154,27 +154,26 @@ module.exports = function (grunt) {
 
     grunt.registerTask('deploy-to-gh-pages', function () {
         var branch = process.env.TRAVIS_BRANCH;
+        var REPOSITORY_URL = '//<' + process.env[VARNAME_GITHUBAUTHKEY] + '>:x-oauth-basic@github.com/TouchTheBeat/TouchTheBeat.git';
 
         shell.mkdir(PATHS.DEPLOY_GHPAGES_TEMP);
         shell.cd(PATHS.DEPLOY_GHPAGES_TEMP);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
-        shell.exec('git clone -b gh-pages --single-branch git://github.com/TouchTheBeat/TouchTheBeat.git');
-        grunt.log.writeln('git: cloned gh-pages');
-        shell.exec('git remote rm origin');
-        grunt.log.writeln('git: removed default origin');
-        shell.exec('git remote add origin https://<' + process.env[VARNAME_GITHUBAUTHKEY] + '>@github.com/TouchTheBeat/TouchTheBeat.git');
-        grunt.log.writeln('git: added origin with write authentification');
-        shell.cd('TouchTheBeat');
-        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
-        shell.exec('mkdir -p edge/' + branch);
+        shell.exec('git init');
+        shell.exec('git pull -b gh-pages --single-branch git:' + REPOSITORY_URL);
+        grunt.log.writeln('git: retrieved gh-pages');
+        grunt.log.writeln(shell.exec('find . -type d'));
+        //shell.cd('TouchTheBeat');
+        //grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP + '/TouchTheBeat');
+        //shell.exec('mkdir -p edge/' + branch);
 
         //copy and deploy
+        //grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
 
-        shell.cd('../');
-        grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_TEMP);
+        //grunt.log.writeln(shell.exec('find . -type d'));
 
-        grunt.log.writeln(shell.exec('find . -type d'));
         grunt.log.writeln(getDeployMessage());
+        shell.cd('../');
     });
 
 
