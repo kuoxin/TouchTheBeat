@@ -90,6 +90,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('default', 'jshint');
 
@@ -173,7 +175,7 @@ module.exports = function (grunt) {
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
 
         shell.exec('git init');
-        shell.exec('git pull ' + REPOSITORY_URL + ' "gh-pages" --depth 1');
+        shell.exec('git pull ' + REPOSITORY_URL + ' "gh-pages" --depth 1 --quiet');
         grunt.log.writeln('git: pulled gh-pages');
 
         shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
@@ -181,10 +183,10 @@ module.exports = function (grunt) {
         grunt.task.run('copy:deploy');
         grunt.log('copied build into "' + PATHS.DEPLOY_COPY_TARGET + '"');
 
-        //shell.exec('git commit -am  "'+getDeployMessage()+'"');
+        //shell.exec('git commit -am  "'+getDeployMessage()+'" --quiet');
         //grunt.log.writeln('git: commited the build');
 
-        //shell.exec('git push --repo '+REPOSITORY_URL);
+        //shell.exec('git push --repo '+REPOSITORY_URL+' --quiet');
         //grunt.log.writeln('git: pushed build to repository');
 
         grunt.log.writeln(shell.exec('find . -type d'));
