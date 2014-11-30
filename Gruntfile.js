@@ -195,7 +195,7 @@ module.exports = function (grunt) {
         grunt.log.writeln('Set git user information');
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
-        shell.exec('git commit -m "auto-deploy via travis ci"'); //' + deploymessage + '
+        shell.exec('git commit -m $\'' + deploymessage + '\'');
         grunt.log.writeln('git: commited the build:' + deploymessage);
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
