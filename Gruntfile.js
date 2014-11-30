@@ -187,7 +187,7 @@ module.exports = function (grunt) {
     grunt.registerTask('push-build', function () {
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
-        shell.exec('git add -A --quiet');
+        shell.exec('git add -A');
         shell.exec('git commit -m "' + getDeployMessage() + '" --quiet');
         grunt.log.writeln('git: commited the build');
 
