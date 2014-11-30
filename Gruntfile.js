@@ -176,7 +176,7 @@ module.exports = function (grunt) {
         shell.mkdir(PATHS.DEPLOY_GHPAGES_GIT);
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
-        shell.exec('git clone -b "gh-pages --quiet --single-branch --depth 1 ' + REPOSITORY_URL + ' .');
+        shell.exec('git clone -b "gh-pages" --quiet --single-branch --depth 1 ' + REPOSITORY_URL + ' .');
         grunt.log.writeln('git: cloned gh-pages branch');
         shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
         shell.cd('../');
