@@ -192,9 +192,10 @@ module.exports = function (grunt) {
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
         shell.exec('git config user.name "' + GIT_USER.name + '"');
         shell.exec('git config user.email "' + GIT_USER.email + '"');
+        grunt.log.writeln('Set git user information');
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
-        shell.exec('git commit -m "' + deploymessage + '"');
+        shell.exec('git commit -m "auto-deploy via travis ci"'); //' + deploymessage + '
         grunt.log.writeln('git: commited the build:' + deploymessage);
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
