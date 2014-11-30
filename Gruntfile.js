@@ -176,9 +176,8 @@ module.exports = function (grunt) {
         shell.mkdir(PATHS.DEPLOY_GHPAGES_GIT);
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
-        shell.exec('git init');
-        shell.exec('git pull ' + REPOSITORY_URL + ' "gh-pages" --depth 1 --quiet');
-        grunt.log.writeln('git: pulled gh-pages');
+        shell.exec('git clone -b "gh-pages --quiet --single-branch --depth 1 ' + REPOSITORY_URL + ' .');
+        grunt.log.writeln('git: cloned gh-pages branch');
         shell.exec('mkdir -p ' + PATHS.DEPLOY_RELATIVE);
         shell.cd('../');
 
@@ -188,16 +187,14 @@ module.exports = function (grunt) {
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
         shell.exec('git add -A');
-        shell.exec('git commit -m "' + getDeployMessage() + '" --quiet');
-        grunt.log.writeln('git: commited the build');
+        var deploymessage = getDeployMessage();
+        shell.exec('git commit -m "' + deploymessage + '" --quiet');
+        grunt.log.writeln('git: commited the build:' + deploymessage);
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
-        grunt.log.writeln('git: pushed build to repository');
-        grunt.log.writeln(JSON.stringify(shell.exec('find . -type d')));
-
+        grunt.log.writeln('git: pushed the build to repository');
+        grunt.log.writeln('Deploying finished.');
         shell.cd('../');
-
-        grunt.log.writeln(getDeployMessage());
     });
 
     /*
