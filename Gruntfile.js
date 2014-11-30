@@ -13,6 +13,10 @@ module.exports = function (grunt) {
         CONFIG: 'src/js/config.js',
         DEPLOY_GHPAGES_GIT: 'temp-ghpages'
     };
+    var GIT_USER = {
+        name: "Travis CI Continuous Deployment Script",
+        email: "touchthebeatdev@gmail.com"
+    };
 
     PATHS.DEPLOY_RELATIVE = 'edge/' + process.env.TRAVIS_BRANCH;
     PATHS.DEPLOY_COPY_TARGET = PATHS.DEPLOY_GHPAGES_GIT + '/' + PATHS.DEPLOY_RELATIVE;
@@ -186,9 +190,11 @@ module.exports = function (grunt) {
     grunt.registerTask('push-build', function () {
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
+        shell.exec('git config user.name "' + GIT_USER.name + '"');
+        shell.exec('git config user.email "' + GIT_USER.email + '"');
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
-        shell.exec('git commit -m "auto-deploy-test"'); //' + deploymessage + '
+        shell.exec('git commit -m "' + deploymessage + '"');
         grunt.log.writeln('git: commited the build:' + deploymessage);
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
