@@ -188,7 +188,7 @@ module.exports = function (grunt) {
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
-        shell.exec('git commit -m "' + deploymessage + '" --quiet');
+        shell.exec('git commit -m "auto-deploy-test"'); //' + deploymessage + '
         grunt.log.writeln('git: commited the build:' + deploymessage);
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
