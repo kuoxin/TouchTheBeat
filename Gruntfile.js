@@ -22,6 +22,7 @@ module.exports = function (grunt) {
     var REPOSITORY_URL = '"https://' + process.env[VARNAME_GITHUBAUTHKEY] + '@github.com/TouchTheBeat/TouchTheBeat.git"';
 
 
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
@@ -186,11 +187,11 @@ module.exports = function (grunt) {
     grunt.registerTask('push-build', function () {
         shell.cd(PATHS.DEPLOY_GHPAGES_GIT);
         grunt.log.writeln('Changed working directory to ' + PATHS.DEPLOY_GHPAGES_GIT);
-
-        shell.exec('git commit -am  "' + getDeployMessage() + '" --quiet');
+        shell.exec('git add -A --quiet');
+        shell.exec('git commit -m "' + getDeployMessage() + '" --quiet');
         grunt.log.writeln('git: commited the build');
 
-        shell.exec('git push --repo ' + REPOSITORY_URL + ' --quiet');
+        shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
         grunt.log.writeln('git: pushed build to repository');
         grunt.log.writeln(JSON.stringify(shell.exec('find . -type d')));
 
