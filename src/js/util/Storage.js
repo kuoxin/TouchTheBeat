@@ -13,7 +13,7 @@ define([], function () {
                 return sessionStorage.setItem(name, val);
             },
             check: function (name) {
-                return ( sessionStorage.getItem(name) === null );
+                return ( sessionStorage.getItem(name) !== null );
             },
             clear: function (name) {
                 // actually just removing the session...
@@ -30,7 +30,7 @@ define([], function () {
                 return localStorage.setItem(name, val);
             },
             check: function (name) {
-                return ( localStorage.getItem(name) === null );
+                return ( localStorage.getItem(name) !== null );
             },
             clear: function (name) {
                 // actually just removing the session...

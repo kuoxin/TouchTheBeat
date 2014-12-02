@@ -8,15 +8,11 @@ define([
     'md5'
 ], function ($, _, Framework, plaintemplate, app, User, md5) {
     var SignInView = Framework.View.extend({
-        initialize: function () {
-
-        },
-
         default_texts: {
-            'signin_password': 'This email/password combination does not exist.',
-            'signup_email': 'This e-mail address is invalid.',
-            'signup_username': 'This username is already taken.',
-            'signup_password_repeat': 'These passwords do not match.'
+            signin_password: 'This email/password combination does not exist.',
+            signup_email: 'This e-mail address is invalid.',
+            signup_username: 'This username is already taken.',
+            signup_password_repeat: 'These passwords do not match.'
         },
 
         render: function () {
@@ -39,7 +35,8 @@ define([
             'click #closebutton': 'closeModal'
         },
 
-        onSignUpBtnClick: function () {
+        onSignUpBtnClick: function (evt) {
+            evt.preventDefault();
             var self = this;
             var form = $('#form_signup');
             if (this.validateForm(form)) {
@@ -55,7 +52,7 @@ define([
                 user.save(_.pick(data, 'username', 'email', 'password', 'homepage'), {
                     success: function () {
                         console.log('signup succeeded');
-                        app.session.save(_.pick(data, 'email', 'password'));
+                        app.session.login(_.pick(data, 'email', 'password'));
                     },
                     error: function (user, e) {
                         console.log('error catched');
@@ -79,7 +76,8 @@ define([
             return false;
         },
 
-        onSignInBtnClick: function () {
+        onSignInBtnClick: function (evt) {
+            evt.preventDefault();
             var self = this;
             var form = $('#form_signin');
 
@@ -89,22 +87,17 @@ define([
             var data = this.getFormData(form);
             data.password = md5.MD5(data.password).toString();
 
-            app.session.save(data, {
+            app.session.login(data, {
                 error: function (session, e) {
                     switch (e) {
                         case 'SIGNIN_USER_NOT_FOUND':
                         case 'SIGNIN_CREDENTIALS_INCORRECT':
                             self.markValid(false, 'signin_email');
                             self.markValid(false, 'signin_password');
-
                             break;
                         default:
                             console.error('unhandled error from backend: ' + e);
                     }
-                },
-                success: function (session, response) {
-                    console.log('sign in call successfull');
-                    console.log(response);
                 }
             });
             return false;

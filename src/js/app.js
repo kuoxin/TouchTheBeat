@@ -51,7 +51,6 @@ define([
          * @returns {View}
          */
         getMainView: function () {
-            console.log(this.router.views.baseview);
             return this.router.views.baseview;
         },
 

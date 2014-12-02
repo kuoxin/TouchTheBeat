@@ -9,15 +9,31 @@ define([
      * using parts from https://github.com/alexanderscott/backbone-login (MIT License)
      * and https://github.com/makesites/backbone-session © Makesites.org Initiated by Makis Tracend (@tracend) Distributed through [Makesites.org](http://makesites.org) Released under the [MIT license](http://makesites.org/licenses/MIT)
      * @module models
-     * @class SessionModel
+     * @class Session
      * @extends Model
      * @type {*|void}
      */
     var SessionModel = Framework.Model.extend({
 
         defaults: {
-            logged_in: false,
-            stay_logged_in: false
+            /**
+             * Triggered when the login state changes.
+             * @event change:logged_in
+             */
+            /**
+             * @attribute {boolean} logged_in
+             * @default false
+             */
+            logged_in: false
+            /**
+             * @attribute {string} hash
+             */
+            /**
+             * @attribute {Number} expireTime
+             */
+            /**
+             * @attribute {User} user
+             */
         },
 
         url: 'session',
@@ -26,8 +42,15 @@ define([
             persist: false
         },
 
+        /**
+         * picks a persistance solution
+         * @method initialize
+         */
         initialize: function () {
-            // pick a persistance solution
+            /**
+             * a automatically chosen implementation of a Storage Provider Interface (sessionStorage, localStorage or cookie)
+             * @property store
+             */
             if (!this.options.persist && typeof sessionStorage != "undefined" && sessionStorage !== null) {
                 this.store = Storage.sessionStorage;
             } else if (this.options.persist && typeof localStorage != "undefined" && localStorage !== null) {
@@ -35,26 +58,35 @@ define([
             } else {
                 this.store = Storage.cookie;
             }
-
-            // try loading the session
-            var localSession = this.store.get("session");
-            //
-            if (!_.isNull(localSession)) {
-                console.info('Restored local session.');
-                this.set(JSON.parse(localSession), {silent: true});
-                /*
-                 The user updateSessionUser method must be called from main module so that the hash can be already accessed by the API.
-                 The changed user will trigger the change:logged_in as normal.
-                 * */
-            }
-        },
-
-        toJSON: function () {
-            return this.parse(this.attributes);
         },
 
         /**
-         * destroys the session - Source: http://backbonetutorials.com/cross-domain-sessions/
+         * Logs the user in by sending POST Session to the server and triggering cache() on success
+         * @method login
+         * @param {Object} data contains the data sent to the backend
+         * @param {object} [options] contains optional callbacks
+         */
+        login: function (data, options) {
+            "use strict";
+            options = options || {};
+            var originalOptions = _.clone(options);
+            var session = this;
+            _.extend(options, {
+                success: function (model, response, options) {
+                    if (originalOptions.success) {
+                        originalOptions.success(model, response, options);
+                    }
+                    session.set('logged_in', true);
+                    session.cache();
+                }
+            });
+            this.save(data, options);
+
+        },
+
+        /**
+         * Logs the user out (destroys the session - Source: http://backbonetutorials.com/cross-domain-sessions/ )
+         * @method logout
          */
         logout: function () {
             // Do a DELETE to /session and clear the clientside data
@@ -67,9 +99,6 @@ define([
                 success: function (model) {
                     model.clear({silent: true});
                     model.id = null;
-                    // Set auth to false to trigger a change:auth event
-                    // The server also returns a new csrf token so that
-                    // the user can relogin without refreshing the page
                     self.set({logged_in: false});
                 },
                 error: function (error) {
@@ -78,51 +107,70 @@ define([
             });
         },
 
+        /**
+         * This method tries to restore a locally cached session by fetching it from the server.
+         * If it succeeds, the local cache will be updated and if it fails it will be deleted.
+         * @method restore
+         */
         restore: function () {
             "use strict";
-            if (this.has('hash')) {
+            if (this.store.check('session')) {
                 var session = this;
-                (new User()).fetch({
-                    success: function (user) {
+
+                var errorCallback = function () {
+                    // restoring of local session failed, removing local session
+                    session.store.clear("session");
+                };
+
+                try {
+                    this.set(JSON.parse(this.store.get('session')));
+                }
+                catch (e) {
+                    errorCallback();
+                }
+
+                this.fetch({
+                    success: function () {
+                        // successfully restored local session
                         session.set({
-                            user: user,
                             logged_in: true
                         });
+                        session.cache();
                     },
-                    error: function () {
-                        console.log('getting current user failed: ');
-                        console.log(arguments);
-                        session.set({
-                            logged_in: false
-                        });
-                    }
+                    error: errorCallback
                 });
             }
         },
 
-        parse: function (data) {
+        /**
+         * removes attributes that should not be sent to the server by whitelist
+         */
+        sync: function (method, model, options) {
+            options.attrs = _.pick(model.attributes, ['email', 'password', 'stay_logged_in']);
+            return Framework.sync.call(this, method, model, options);
+        },
+
+        parse: function (data, options) {
             "use strict";
-            return _.omit(data, ['logged_in']);
+            this.clear({silent: true});
+            var obj = {};
+            for (var k in data) {
+                switch (k) {
+                    case 'user':
+                        obj.user = new User(data[k], {parse: true});
+                        break;
+                    default:
+                        obj[k] = data[k];
+                }
+            }
+            return obj;
+
         },
 
-        updateSessionUser: function () {
-
-        },
-
-        reset: function () {
-            this.store.clear("session");
-            this.clear();
-            this.set({logged_in: false});
-
-        },
-
-        update: function () {
-            console.log('updated session');
-            this.updateSessionUser();
-            // caching is triggered after every model update (fetch/set)
-            this.cache();
-        },
-
+        /**
+         * Caches a minimal version of the session to a local storage provider as chosen in the method initialize().
+         * @method cache
+         */
         cache: function () {
             // update the local session
             this.store.set(
