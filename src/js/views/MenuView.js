@@ -7,7 +7,7 @@ define([
     'views/UserMenuButtonView',
     'app',
     'framework/ExchangeableContent',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
     var MenuView = Framework.View.extend(
         _.extend(new ExchangeableContent(), {

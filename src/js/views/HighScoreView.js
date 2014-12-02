@@ -5,7 +5,7 @@ define([
     'text!templates/highscore.html',
     'app',
     'util/analytics',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, highscoreTemplate, app, analytics) {
     var HighScoreView = Framework.View.extend({
         el: '#content',

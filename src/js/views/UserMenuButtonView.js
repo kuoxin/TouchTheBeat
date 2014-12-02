@@ -4,7 +4,7 @@ define([
     'Framework',
     'app',
     'text!templates/UserMenuButton.html',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, app, template) {
     var UserMenuButtonView = Framework.View.extend({
         tagName: 'li',

@@ -8,7 +8,7 @@ define([
     'models/Track',
     'views/ErrorMessageView',
     'util/scripts',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, app, mainTemplate, trackPanelTemplate, Track, ErrorMessageView) {
     var MetaDataPanelView = Framework.View.extend({
 

@@ -4,7 +4,7 @@ define([
     'Framework',
     'views/SignInView',
     'app',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, SignInView, app) {
     var SignInButtonView = Framework.View.extend({
         tagName: 'li',

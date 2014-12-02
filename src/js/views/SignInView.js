@@ -18,14 +18,37 @@ define([
         render: function () {
             var self = this;
             this.$el.html(_.template(plaintemplate, {}));
-            this.$('#user_modal').modal('show');
+
+
+            this.$('#user_modal').on('shown.bs.modal', function () {
+                "use strict";
+                // show signin form as default tab
+                self.$('#link_signin').tab('show');
+
+                // focus manually to avoid a fade in animation when the modal has ended fading in
+                self.$('#signin_email').focus();
+
+            });
+
             this.listenTo(app.session, 'change:logged_in', function () {
-                console.log('log-in state changed');
+                // close modal when the user was signed in successfully
                 $('#user_modal').modal('hide');
             });
             this.$('#user_modal').on('hidden.bs.modal', function () {
+                //delete the view when the modal was closed
                 self.remove();
             });
+
+            // auto focus first input on tab change
+            this.$('#link_signin').on('shown.bs.tab', function (el) {
+                "use strict";
+                // substr(5): remove 'link_' from id
+                self.$('#form_' + el.target.id.substr(5)).find('input:first').focus();
+            });
+
+            // show modal
+            this.$('#user_modal').modal('show');
+
 
         },
 

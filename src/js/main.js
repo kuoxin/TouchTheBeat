@@ -6,7 +6,6 @@ require.config({
         backbone: 'lib/backbone',
         text: 'lib/text',
         templates: '../templates',
-        bootstrap: 'lib/bootstrap',
         snap: 'lib/snap.svg',
         'google-analytics': 'lib/analytics',
         tv4: 'lib/tv4',

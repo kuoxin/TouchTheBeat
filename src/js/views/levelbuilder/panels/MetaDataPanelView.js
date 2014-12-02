@@ -5,7 +5,7 @@ define([
     'app',
     'text!templates/levelbuilder/panels/metadata.html',
     'util/scripts',
-    'bootstrap'
+    'lib/bootstrap'
 ], function ($, _, Framework, app, mainTemplate) {
     var MetaDataPanelView = Framework.View.extend({
 
