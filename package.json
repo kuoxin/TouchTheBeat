@@ -17,6 +17,9 @@
     "rjs-build-analysis": "0.0.3",
     "grunt-contrib-yuidoc": "~0.5.2",
     "yuidoc-theme-blue": "~0.1.8",
-    "crypto-js": "~3.1.2-5"
+    "crypto-js": "~3.1.2-5",
+    "shelljs": "~0.3.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "~0.7.0"
   }
 }

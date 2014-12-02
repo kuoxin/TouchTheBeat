@@ -5,3 +5,9 @@ before_install:
 install: npm install
 script: grunt travis-ci-build
 after_success: grunt travis-ci-deploy
+notifications:
+  email:
+    recipients:
+      - touchthebeatdev@gmail.com
+    on_success: change
+    on_failure: always
