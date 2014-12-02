@@ -196,7 +196,7 @@ module.exports = function (grunt) {
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
         shell.exec('git commit ' + deploymessage);
-        grunt.log.writeln('git: commited the build:' + deploymessage.replace("-m", "\n"));
+        grunt.log.writeln('git: commited the build:' + deploymessage.replace(new RegExp("-m", 'g'), "\n"));
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
         grunt.log.writeln('git: pushed the build to repository');
