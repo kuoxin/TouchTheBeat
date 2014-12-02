@@ -195,8 +195,8 @@ module.exports = function (grunt) {
         grunt.log.writeln('Set git user information');
         shell.exec('git add -A');
         var deploymessage = getDeployMessage();
-        shell.exec('git commit -m $\'' + deploymessage + '\'');
-        grunt.log.writeln('git: commited the build:' + deploymessage);
+        shell.exec('git commit ' + deploymessage);
+        grunt.log.writeln('git: commited the build:' + deploymessage.replace("-m", "\n"));
 
         shell.exec('git push ' + REPOSITORY_URL + ' "gh-pages" --quiet');
         grunt.log.writeln('git: pushed the build to repository');
@@ -205,21 +205,21 @@ module.exports = function (grunt) {
     });
 
     /*
-     partly taken from https://github.com/Bartvds/demo-travis-gh-pages, Copyright (c) 2013 Bart van der Schoor MIT License
+     customized from https://github.com/Bartvds/demo-travis-gh-pages, Copyright (c) 2013 Bart van der Schoor MIT License
      */
     // get a formatted commit message to review changes from the commit log
     // github will turn some of these into clickable links
     function getDeployMessage() {
-        var ret = '\n\n';
+        var ret = '';
         if (!TRAVIS) {
-            ret += 'missing env vars for travis-ci';
+            ret += '-m "missing env vars for travis-ci"';
             return ret;
         }
-        ret += 'branch:       ' + process.env.TRAVIS_BRANCH + '\n';
-        ret += 'SHA:          ' + process.env.TRAVIS_COMMIT + '\n';
-        ret += 'range SHA:    ' + process.env.TRAVIS_COMMIT_RANGE + '\n';
-        ret += 'build id:     ' + process.env.TRAVIS_BUILD_ID + '\n';
-        ret += 'build number: ' + process.env.TRAVIS_BUILD_NUMBER + '\n';
+        ret += ' -m "branch:       ' + process.env.TRAVIS_BRANCH + '"';
+        ret += ' -m "SHA:          ' + process.env.TRAVIS_COMMIT + '"';
+        ret += ' -m "range SHA:    ' + process.env.TRAVIS_COMMIT_RANGE + '"';
+        ret += ' -m "build id:     ' + process.env.TRAVIS_BUILD_ID + '"';
+        ret += ' -m "build number: ' + process.env.TRAVIS_BUILD_NUMBER + '"';
         return ret;
     }
 };
