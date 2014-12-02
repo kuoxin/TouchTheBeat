@@ -210,11 +210,12 @@ module.exports = function (grunt) {
     // get a formatted commit message to review changes from the commit log
     // github will turn some of these into clickable links
     function getDeployMessage() {
-        var ret = '';
+        var ret = ' -m "auto-deploy via travis ci"';
         if (!TRAVIS) {
-            ret += '-m "missing env vars for travis-ci"';
+            ret += ' -m "missing env vars for travis-ci"';
             return ret;
         }
+
         ret += ' -m "branch:       ' + process.env.TRAVIS_BRANCH + '"';
         ret += ' -m "SHA:          ' + process.env.TRAVIS_COMMIT + '"';
         ret += ' -m "range SHA:    ' + process.env.TRAVIS_COMMIT_RANGE + '"';
