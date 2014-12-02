@@ -1,5 +1,5 @@
 /** vim: et:ts=4:sw=4:sts=4
- * @license RequireJS 2.1.13 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved.
+ * @license RequireJS 2.1.15 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/requirejs for details
  */
@@ -12,7 +12,7 @@ var requirejs, require, define;
 (function (global) {
     var req, s, head, baseElement, dataMain, src,
         interactiveScript, currentlyAddingScript, mainScript, subPath,
-        version = '2.1.13',
+        version = '2.1.15',
         commentRegExp = /(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg,
         cjsRequireRegExp = /[^.]\s*require\s*\(\s*["']([^'"\s]+)["']\s*\)/g,
         jsSuffixRegExp = /\.js$/,
@@ -108,7 +108,9 @@ var requirejs, require, define;
         if (source) {
             eachProp(source, function (value, prop) {
                 if (force || !hasProp(target, prop)) {
-                    if (deepStringMixin && typeof value === 'object' && value && !isArray(value) && !isFunction(value) && !(value instanceof RegExp)) {
+                    if (deepStringMixin && typeof value === 'object' && value &&
+                        !isArray(value) && !isFunction(value) &&
+                        !(value instanceof RegExp)) {
 
                         if (!target[prop]) {
                             target[prop] = {};
@@ -442,7 +444,16 @@ var requirejs, require, define;
                             return normalize(name, parentName, applyMap);
                         });
                     } else {
-                        normalizedName = normalize(name, parentName, applyMap);
+                        // If nested plugin references, then do not try to
+                        // normalize, as it will not normalize correctly. This
+                        // places a restriction on resourceIds, and the longer
+                        // term solution is not to normalize until plugins are
+                        // loaded and all normalizations to allow for async
+                        // loading of a loader plugin. But for now, fixes the
+                        // common uses. Details in #1131
+                        normalizedName = name.indexOf('!') === -1 ?
+                            normalize(name, parentName, applyMap) :
+                            name;
                     }
                 } else {
                     //A regular module.
@@ -464,7 +475,7 @@ var requirejs, require, define;
             //normalization, stamp it with a unique ID so two matching relative
             //ids that may conflict can be separate.
             suffix = prefix && !pluginModule && !isNormalized ?
-                '_unnormalized' + (unnormalizedCounter += 1) :
+            '_unnormalized' + (unnormalizedCounter += 1) :
                 '';
 
             return {
@@ -476,7 +487,7 @@ var requirejs, require, define;
                 originalName: originalName,
                 isDefine: isDefine,
                 id: (prefix ?
-                    prefix + '!' + normalizedName :
+                prefix + '!' + normalizedName :
                     normalizedName) + suffix
             };
         }
@@ -953,9 +964,7 @@ var requirejs, require, define;
                             this.map.parentMap);
                         on(normalizedMap,
                             'defined', bind(this, function (value) {
-                                this.init([], function () {
-                                    return value;
-                                }, null, {
+                                this.init([], function () { return value; }, null, {
                                     enabled: true,
                                     ignore: true
                                 });
@@ -987,9 +996,7 @@ var requirejs, require, define;
                     }
 
                     load = bind(this, function (value) {
-                        this.init([], function () {
-                            return value;
-                        }, null, {
+                        this.init([], function () { return value; }, null, {
                             enabled: true
                         });
                     });
@@ -1045,8 +1052,8 @@ var requirejs, require, define;
                             req.exec(text);
                         } catch (e) {
                             return onError(makeError('fromtexteval',
-                                    'fromText eval for ' + id +
-                                    ' failed: ' + e,
+                                'fromText eval for ' + id +
+                                ' failed: ' + e,
                                 e,
                                 [id]));
                         }
@@ -1353,7 +1360,6 @@ var requirejs, require, define;
                     }
                     return ret || (value.exports && getGlobal(value.exports));
                 }
-
                 return fn;
             },
 
@@ -1392,10 +1398,10 @@ var requirejs, require, define;
 
                         if (!hasProp(defined, id)) {
                             return onError(makeError('notloaded', 'Module name "' +
-                                id +
-                                '" has not been loaded yet for context: ' +
-                                contextName +
-                                (relMap ? '' : '. Use require([])')));
+                            id +
+                            '" has not been loaded yet for context: ' +
+                            contextName +
+                            (relMap ? '' : '. Use require([])')));
                         }
                         return defined[id];
                     }
@@ -1447,7 +1453,7 @@ var requirejs, require, define;
                         }
 
                         return context.nameToUrl(normalize(moduleNamePlusExt,
-                                relMap && relMap.id, true), ext, true);
+                            relMap && relMap.id, true), ext,  true);
                     },
 
                     defined: function (id) {
@@ -1479,8 +1485,8 @@ var requirejs, require, define;
                         //Clean queued defines too. Go backwards
                         //in array so that the splices do not
                         //mess up the iteration.
-                        eachReverse(defQueue, function (args, i) {
-                            if (args[0] === id) {
+                        eachReverse(defQueue, function(args, i) {
+                            if(args[0] === id) {
                                 defQueue.splice(i, 1);
                             }
                         });
@@ -1556,7 +1562,7 @@ var requirejs, require, define;
                             return;
                         } else {
                             return onError(makeError('nodefine',
-                                    'No define call for ' + moduleName,
+                                'No define call for ' + moduleName,
                                 null,
                                 [moduleName]));
                         }
@@ -1631,8 +1637,8 @@ var requirejs, require, define;
                 }
 
                 return config.urlArgs ? url +
-                    ((url.indexOf('?') === -1 ? '?' : '&') +
-                        config.urlArgs) : url;
+                ((url.indexOf('?') === -1 ? '?' : '&') +
+                config.urlArgs) : url;
             },
 
             //Delegates to req.load. Broken out as a separate function to
@@ -1755,9 +1761,7 @@ var requirejs, require, define;
      */
     req.nextTick = typeof setTimeout !== 'undefined' ? function (fn) {
         setTimeout(fn, 4);
-    } : function (fn) {
-        fn();
-    };
+    } : function (fn) { fn(); };
 
     /**
      * Export require as a global, but only if it does not already exist.
@@ -1854,14 +1858,15 @@ var requirejs, require, define;
             //UNFORTUNATELY Opera implements attachEvent but does not follow the script
             //script execution mode.
             if (node.attachEvent &&
-                //Check if node.attachEvent is artificially added by custom script or
-                //natively supported by browser
-                //read https://github.com/jrburke/requirejs/issues/187
-                //if we can NOT find [native code] then it must NOT natively supported.
-                //in IE8, node.attachEvent does not have toString()
-                //Note the test for "[native code" with no closing brace, see:
-                //https://github.com/jrburke/requirejs/issues/273
-                !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) && !isOpera) {
+                    //Check if node.attachEvent is artificially added by custom script or
+                    //natively supported by browser
+                    //read https://github.com/jrburke/requirejs/issues/187
+                    //if we can NOT find [native code] then it must NOT natively supported.
+                    //in IE8, node.attachEvent does not have toString()
+                    //Note the test for "[native code" with no closing brace, see:
+                    //https://github.com/jrburke/requirejs/issues/273
+                !(node.attachEvent.toString && node.attachEvent.toString().indexOf('[native code') < 0) &&
+                !isOpera) {
                 //Probably IE. IE (at least 6-8) do not fire
                 //script onload right after executing the script, so
                 //we cannot tie the anonymous define call to a name.
@@ -1914,8 +1919,8 @@ var requirejs, require, define;
                 context.completeLoad(moduleName);
             } catch (e) {
                 context.onError(makeError('importscripts',
-                        'importScripts failed for ' +
-                        moduleName + ' at ' + url,
+                    'importScripts failed for ' +
+                    moduleName + ' at ' + url,
                     e,
                     [moduleName]));
             }
@@ -1959,7 +1964,7 @@ var requirejs, require, define;
                     //baseUrl.
                     src = mainScript.split('/');
                     mainScript = src.pop();
-                    subPath = src.length ? src.join('/') + '/' : './';
+                    subPath = src.length ? src.join('/')  + '/' : './';
 
                     cfg.baseUrl = subPath;
                 }

@@ -53,6 +53,14 @@ module.exports = function (grunt) {
                         }
                         grunt.log.writeln(output);
                         done();
+                    },
+                    optimize: "uglify2",
+                    uglify2: {
+                        warnings: true,
+                        mangle: {
+                            toplevel: true
+                        },
+                        compress: {}
                     }
                 }
             }
@@ -90,6 +98,9 @@ module.exports = function (grunt) {
         clean: {
             deploy: {
                 src: [PATHS.DEPLOY_COPY_TARGET]
+            },
+            dist: {
+                src: 'dist'
             }
         }
     });
@@ -130,7 +141,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build', ['check-config', 'requirejs', 'cleanup-build']);
+    grunt.registerTask('build', ['clean:dist', 'check-config', 'requirejs', 'cleanup-build']);
 
     grunt.registerTask('check-travis-trusted-environment', function () {
         // only deploy under these conditions
