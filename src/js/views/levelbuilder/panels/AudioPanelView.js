@@ -27,18 +27,18 @@ define([
 
         render: function (model) {
             this.model = model;
+            this.track = new Track(this.model.get('audio').attributes);
             var template = _.template(mainTemplate, {});
             this.$el.html(template);
-            var audio = this.model.get('audio');
-            if (audio.get('title')) {
+            if (this.track.get('title')) {
                 this.$("#input_entertrack").val(audio.permalinkUrl);
                 this.updateTrackPanel();
             }
-
             this.listenTo(this.model, 'change:audio', this.updateTrackPanel.bind(this));
         },
 
         onClose: function () {
+            "use strict";
         },
 
         events: {
@@ -48,26 +48,43 @@ define([
             'input #input_entertrack': 'enteredTrack'
         },
 
-        enteredTrack: function () {
-            if (this.$("#input_entertrack").val() === '') {
-                this.loading_error();
-                return;
+        enteredTrack: _.debounce(function () {
+            var self = this;
+            this.track.clear({silent: true});
+
+            // validating the url string locally
+            var valid = this.track.set({
+                url: this.$("#input_entertrack").val()
+            }, {
+                validate: true
+            });
+            if (valid) {
+                // client validation succeeded
+
+                //fetching server resource
+                this.track.fetch({
+                    data: this.track.toJSON(),
+                    success: function (track) {
+                        "use strict";
+                        // the attribute url will be removed from the model if the response is a streamable track
+                        if (!track.has('url')) {
+                            self.model.set('audio', new Track(track.attributes));
+                        }
+                    },
+                    error: function (track, errormessage) {
+                        "use strict";
+                        if (errormessage == 'AUDIOPROVIDER_ERROR')
+                            errormessage = Track.errorMessages.SOUNDCLOUDERROR;
+                        self.showError(errormessage);
+                    }
+                });
+            }
+            else {
+                // client validation failed
+                this.showError(this.track.validationError);
             }
 
-            var track = new Track();
-            track.fetch({
-                data: {
-                    url: this.$("#input_entertrack").val()
-                },
-                success: this.loading_success.bind(this),
-                error: this.loading_error.bind(this)
-            });
-        },
-
-        loading_success: function (track) {
-            this.model.set('audio', track);
-        },
-
+        }, 300),
 
         selectedRandomTrack: function () {
             var random = this.randomtracks[Math.floor(Math.random() * (this.randomtracks.length))];
@@ -75,18 +92,12 @@ define([
             this.enteredTrack();
         },
 
-
-        loading_error: function (errorMessage) {
-            console.error(errorMessage);
+        showError: function (errorMessage) {
             this.$('#audio_inputgroup').removeClass('has-success').addClass('has-error');
             this.$('#trackcontainer').html('');
             var errorview = new ErrorMessageView();
             errorview.render(errorMessage);
             this.$('#alert_tracknotfound_container').html(errorview.$el);
-
-            //this.$("#alert_tracknotfound_text").html(errorMessage);
-            //this.$("#alert_tracknotfound").slideDown();
-
         },
 
         updateTrackPanel: function updateTrackPanel() {
