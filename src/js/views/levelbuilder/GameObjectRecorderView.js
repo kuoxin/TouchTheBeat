@@ -32,11 +32,14 @@ define([
             var template = _.template(recordertemplate, {});
             this.$el.html(template);
 
-            this.surface = new Surface({bgcolor: '#222222'});
-
+            this.surface = new Surface({
+                bgcolor: '#222222',
+                el: this.$('#svg').el
+            });
             this.audioloadingrenderer = new AudioLoadingRenderer({
                 snap: this.surface.getSnap()
             });
+
             this.audioloadingrenderer.render({bgcolor: '#222222'});
 
             this.audiocontroller = new AudioController({
@@ -48,14 +51,7 @@ define([
             });
 
             this.audiocontroller.load(this.model.get('audio').getStreamUrl(), true);
-
         },
-
-        /* addTapObjectAtRandomPosition: function (timestamp) {
-         var x = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.width - TapObject.prototype.radius);
-         var y = Game.prototype.getRandomInteger(TapObject.prototype.radius, Game.prototype.height - TapObject.prototype.radius);
-         this.gameobjects.push({"type": "Tap", "x": x, "y": y, "taptime": timestamp});
-         }, */
 
         addTapObject: function (timestamp, x, y) {
             this.model.get('gameObjects').add(
@@ -64,14 +60,15 @@ define([
         },
 
         onAudioReady: function () {
-
             this.svgelem = document.getElementById('svg');
+
             this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
         },
 
         onAudioStarted: function () {
             this.isrecording = true;
             this.surface.getRootRect().touchstart(function (e) {
+
                 if (this.isrecording) {
                     var touch = e.changedTouches[0];
 

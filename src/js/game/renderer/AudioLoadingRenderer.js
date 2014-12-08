@@ -25,11 +25,6 @@ define([
 
         render: function (options) {
             this.options = options ? options : {};
-            this.r = this.snap.rect(0, 0, "100%", "100%", 0);
-            this.r.attr({
-                fill: (this.options.bgcolor || '#000000')
-            });
-
             this.loadingindicatorbackground = this.snap.rect(this.width / 2 - this.loadingindicatorwidth / 2,
                     0.6 * this.height - this.loadingindicatorheight / 2,
                 this.loadingindicatorwidth,
