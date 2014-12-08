@@ -25,7 +25,8 @@ define([], function () {
             headerNames: {
                 timestamp: 'ttb-timestamp',
                 hash: 'ttb-hash',
-                session: 'ttb-session'
+                session: 'ttb-session',
+                token: 'ttb-token'
             },
 
             /**

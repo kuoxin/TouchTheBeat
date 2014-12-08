@@ -98,6 +98,20 @@ define([
          */
         init: function (config) {
 
+            // taken from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+            app.id = (function () {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                }
+
+                return function () {
+                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4();
+                };
+            })()();
+
 
             Framework.API.setupBackend({
                 host: config.backend.host,
@@ -112,7 +126,9 @@ define([
                     }
 
                     p.headers[config.backend.headerNames.timestamp] = Date.now() / 1000;
+                    p.headers[config.backend.headerNames.token] = app.id;
                     p.headers[config.backend.headerNames.hash] = config.backend.createAccessHash(p);
+
                     return p;
                 }
             });
