@@ -56,11 +56,11 @@ module.exports = function (grunt) {
                     },
                     optimize: "uglify2",
                     uglify2: {
-                        warnings: true,
+                        //warnings: true,
                         /*mangle: {
                             toplevel: false
                          },*/
-                        compress: {}
+                        //compress: {}
                     }
                 }
             }
