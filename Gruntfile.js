@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                     uglify2: {
                         warnings: true,
                         mangle: {
-                            toplevel: true
+                            toplevel: false
                         },
                         compress: {}
                     }
