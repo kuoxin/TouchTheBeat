@@ -39,11 +39,7 @@ define(['underscore'], function (_) {
 				}
 
 				if (currentContent !== null) {
-					if (currentContent.onClose)
-						currentContent.onClose();
-
-					if (!contentsareinstances)
-						currentContent.remove();
+					currentContent.close();
 				}
 
 				currentContent = contentsareinstances ? new this.getContent(key) : this.getContent(key);
@@ -67,9 +63,7 @@ define(['underscore'], function (_) {
 			deleteContent: function deleteContent(key) {
 				var content = this.getContent(key);
 				if (typeof content != 'undefined') {
-					if (content.onClose)
-						content.onClose();
-					content.remove();
+					content.close();
 					contents[key] = undefined;
 				}
 			},

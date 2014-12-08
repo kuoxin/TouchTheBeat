@@ -8,7 +8,6 @@ define([
     'lib/bootstrap'
 ], function ($, _, Framework, highscoreTemplate, app, analytics) {
     var HighScoreView = Framework.View.extend({
-        el: '#content',
         events: {
             'click #btn_gotoChooseLevelView': 'gotoChooseLevelView',
             'click #btn_playagain': 'playagain'

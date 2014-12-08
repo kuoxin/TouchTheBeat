@@ -26,7 +26,8 @@ define([
 				}
 				else {
 					// console.log('copied leaf ' + k);
-					obj[k] = copyof[k];
+					if (copyof[k] !== null)
+						obj[k] = copyof[k];
 				}
 			}
 			return obj;

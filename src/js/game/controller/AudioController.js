@@ -38,25 +38,22 @@ define([
         callback_readytoplay: function(){},
         callback_error: function(){},
 
-
-        dispose: function () {
-            this.onClose();
-        },
-
         onClose: function () {
-            this.active = false;
-            console.log('closing audio');
-            if (this.request) {
-                this.request.abort();
-                this.request = null;
-            }
-            try {
-                if (this.source) {
-                    this.source.disconnect();
-                    this.source.stop();
-                    this.source = null;
+            if (this.active) {
+                this.active = false;
+                console.log('closing audio');
+                if (this.request) {
+                    this.request.abort();
+                    this.request = null;
                 }
-            } catch (e) {
+                try {
+                    if (this.source) {
+                        this.source.disconnect();
+                        this.source.stop();
+                        this.source = null;
+                    }
+                } catch (e) {
+                }
             }
         },
 

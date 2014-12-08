@@ -21,7 +21,7 @@ define([
             'chooselevel': 'chooselevel',
             'levelbuilder': 'buildlevel',
             'levelbuilder/create(/:soundcloudurl)': 'createlevel',
-            'levelbuilder/edit': 'editlevel',
+            'levelbuilder/import': 'importlevel',
             'levelbuilder/signin': 'levelbuildersignin',
             'legal': 'legal',
             'playlevel': 'chooselevel',
@@ -84,8 +84,8 @@ define([
                 app.setContent(this.views.legalview);
             });
 
-            this.on('route:editlevel', function () {
-                this.openLevelBuilder('openlevel');
+            this.on('route:importlevel', function () {
+                this.openLevelBuilder('importlevel');
             });
 
             this.on('route:signin', function () {

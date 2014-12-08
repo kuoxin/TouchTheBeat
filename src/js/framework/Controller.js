@@ -13,6 +13,11 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
 	_.extend(Controller.prototype, Backbone.Events, {
 		initialize: function () {
+		},
+		close: function () {
+			"use strict";
+			if (typeof this.onClose === 'function')
+				this.onClose();
 		}
 	});
 	return Controller;

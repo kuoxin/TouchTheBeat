@@ -31,7 +31,7 @@ define([
             var template = _.template(mainTemplate, {});
             this.$el.html(template);
             if (this.track.get('title')) {
-                this.$("#input_entertrack").val(audio.permalinkUrl);
+                this.$("#input_entertrack").val(this.track.get('permalinkUrl'));
                 this.updateTrackPanel();
             }
             this.listenTo(this.model, 'change:audio', this.updateTrackPanel.bind(this));

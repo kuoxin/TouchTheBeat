@@ -7,8 +7,9 @@ define([
     var LevelPanelView = Framework.View.extend({
         tagName: "a",
 
-        initialize: function (callback) {
-            this.callback = callback;
+        initialize: function (options) {
+            this.model = options.model;
+            this.callback = options.callback;
         },
 
         attributes: {
@@ -16,20 +17,23 @@ define([
             href: '#'
         },
 
-        render: function (level) {
-            var template = _.template(LevelPanelTemplate, _.extend(level.toJSON(), {
-                duration: level.getDurationString()
+        render: function () {
+            var template = _.template(LevelPanelTemplate, _.extend(this.model.toJSON(), {
+                duration: this.model.getDurationString()
             }));
             this.$el.html(template);
-            this.level = level;
+            return this;
         },
         events: {
-            'click': 'triggercallback'
+            'click': 'triggerCallback'
         },
 
-        triggercallback: function (event) {
+        triggerCallback: function (event) {
+
+            this.callback(this.model);
             event.preventDefault();
-            this.callback(this.level);
+            event.returnValue = false;
+            return false;
         }
     });
     return LevelPanelView;

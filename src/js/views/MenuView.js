@@ -11,13 +11,8 @@ define([
 ], function ($, _, Framework, menuTemplate, SignInMenuButtonView, UserMenuButtonView, app, ExchangeableContent) {
     var MenuView = Framework.View.extend(
         _.extend(new ExchangeableContent(), {
-        el: '#menu',
-
-        initialize: function () {
-            this.listenTo(app.session, 'change:logged_in', this.changeLoggedInState.bind(this));
-        },
-
-        render: function () {
+            initialize: function () {
+                "use strict";
             this.configureExchangableContents({
                 className: 'usermenucontainer',
                 contentsareinstances: true
@@ -26,10 +21,15 @@ define([
                 nosession: new SignInMenuButtonView(),
                 session: new UserMenuButtonView()
             });
+            },
+
+            render: function () {
             var template = _.template(menuTemplate, {});
             this.$el.html(template);
-            Framework.history.bind("route", this.updateMenuState.bind(this));
             this.changeLoggedInState(app.session);
+                this.listenTo(Framework.history, 'route', this.updateMenuState.bind(this));
+                this.listenTo(app.session, 'change:logged_in', this.changeLoggedInState.bind(this));
+                return this;
         },
 
         menustates: {

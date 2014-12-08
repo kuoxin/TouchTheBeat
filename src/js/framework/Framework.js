@@ -12,8 +12,9 @@ define([
 	'framework/GameObject',
 	'framework/Renderer',
 	'framework/API',
+	'framework/CollectionView',
 	'lib/backbone.select'
-], function (_, Backbone, Controller, Model, View, GameObject, Renderer, API) {
+], function (_, Backbone, Controller, Model, View, GameObject, Renderer, API, CollectionView) {
 
 	var Framework = Backbone;
 
@@ -32,6 +33,11 @@ define([
 	 * @property {Renderer} Renderer
 	 */
 	Framework.Renderer = Renderer;
+
+	/**
+	 * @property {CollectionView} CollectionView
+	 */
+	Framework.CollectionView = CollectionView;
 
 	Framework.API = API;
 

@@ -25,10 +25,10 @@ define([
 
         /**
          * starts the game with the level passed as parameter
-         * @method startlevel
+         * @method startLevel
          * @param {Level} level
          */
-        startlevel: function (level) {
+        startLevel: function (level) {
             this.setFullScreenContent(this.router.views.playlevelview, level);
         },
 
@@ -40,9 +40,12 @@ define([
          */
         setFullScreenContent: function () {
             this.baseviewIsRendered = false;
+            var views = this.router.views;
+            views.current.close();
+            views.baseview.onClose();
 
-            this.router.views.current = [].shift.call(arguments);
-            this.router.views.current.setElement('#body').render.apply(this.router.views.current, arguments);
+            views.current = [].shift.call(arguments);
+            views.current.setElement('body').render.apply(views.current, arguments);
             analytics.trackPageView(this.router.getCurrentAppStatus());
         },
 
@@ -59,29 +62,29 @@ define([
          * This method is used for navigation between contents in the app.
          * @method setContent
          * @param {View} view
-         *
+         * @param [...]
+         * all other params will be passed to the views render() function
          */
         setContent: function () {
 
             var newview = [].shift.call(arguments);
+            var views = this.router.views;
 
-            if (this.router.views.current == newview)
+            if (views.current == newview)
                 return;
 
+            if (views.current !== null) {
+                views.current.close();
+            }
+
             if (!this.baseviewIsRendered) {
-                this.router.views.baseview.render();
+                views.baseview.render();
                 this.baseviewIsRendered = true;
             }
 
-            if (this.router.views.current !== null) {
-                if (this.router.views.current.onClose)
-                    this.router.views.current.onClose();
-
-                //this.router.views.current.dispose();
-            }
-
-            this.router.views.current = newview;
-            this.router.views.current.setElement($('#content')).render.apply(this.router.views.current, arguments);
+            views.current = newview;
+            views.current.render.apply(views.current, arguments);
+            views.baseview.setContent(views.current.el);
 
             analytics.trackPageView(this.router.getCurrentAppStatus());
         },
@@ -102,7 +105,6 @@ define([
                 onAjaxPrepare: function prepareAjaxRequest(p) {
                     "use strict";
                     p.string = _.uniqueId('API-Request') + ' "' + p.type + ' ' + p.url;
-                    p.headers = p.headers || {};
 
                     if (typeof app.session !== 'undefined' && app.session !== null && app.session.has('hash')) {
                         p.string += ' with sessionID';
@@ -111,7 +113,6 @@ define([
 
                     p.headers[config.backend.headerNames.timestamp] = Date.now() / 1000;
                     p.headers[config.backend.headerNames.hash] = config.backend.createAccessHash(p);
-
                     return p;
                 }
             });

@@ -9,7 +9,7 @@ define([
             username: 'unknown'
         },
 
-        url: 'user',
+        urlRoot: 'user',
 
         initialize: function () {
             this.on('change', function () {

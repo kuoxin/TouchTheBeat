@@ -1,15 +1,31 @@
 define([
 	'underscore',
-	'backbone'
-], function (_, Backbone) {
+	'backbone',
+	'jquery'
+], function (_, Backbone, $) {
 	_.extend(Backbone.View.prototype, {
-		dispose: function () {
+		fullscreen: false,
+		close: function () {
+			"use strict";
 			if (typeof this.onClose === 'function')
 				this.onClose();
 
-			this.remove();
-			// Uses the default Backbone.View.remove() method which
-			// removes this.el from the DOM and removes DOM events.
+			if (!this.fullscreen) {
+				/**
+				 * Uses the default Backbone.View.remove() method which
+				 * removes this.el from the DOM, removes DOM events and calls Backbones stopListening.
+				 * http://backbonejs.org/#View-remove
+				 */
+				this.remove();
+			}
+			else {
+				$('body').empty();
+				this.stopListening();
+			}
+
+			if (typeof this.onClosed === 'function')
+				this.onClosed();
+
 		}
 	});
 

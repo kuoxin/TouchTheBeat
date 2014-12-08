@@ -51,8 +51,11 @@ define([
                         this.$(".alert_invalidlevel").slideUp();
                     }
 
-                    var view = new LevelPanel(this.callback);
-                    view.render(new Level(JSON.parse(value), {parse: true}));
+                    var view = new LevelPanel({
+                        callback: this.callback,
+                        model: new Level(JSON.parse(value), {parse: true})
+                    });
+                    view.render();
                     this.containerelement_custom.html(view.el);
 
                     if (!this.containerelement_custom.is(":visible")) {

@@ -14,11 +14,12 @@ define([
 ], function ($, _, Framework, Snap, TapObject, Surface, AudioController, AudioLoadingRenderer, Track, recordertemplate, app, GameObject) {
     var GameObjectRecorderView = Framework.View.extend({
         el: '#body',
-        //TODO: test with latest refactoring
+
+        fullscreen: true,
+
         onClose: function () {
             if (this.audiocontroller) {
-                this.audiocontroller.onClose();
-                this.audiocontroller.dispose();
+                this.audiocontroller.close();
             }
         },
 
@@ -26,7 +27,7 @@ define([
             this.model = model;
 
             if (this.audiocontroller)
-                this.audiocontroller.dispose();
+                this.audiocontroller.close();
 
             var template = _.template(recordertemplate, {});
             this.$el.html(template);
@@ -94,7 +95,7 @@ define([
         onAudioError: function () {
             this.isrecording = false;
             console.error('Audio error!!!!!');
-            this.audiocontroller.dispose();
+            this.audiocontroller.close();
             alert("There was an error loading the audio file.");
         },
 

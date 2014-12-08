@@ -13,7 +13,10 @@ require.config({
         md5: 'lib/md5'
     },
     shim: {
-        'bootstrap': ['jquery'],
+        'lib/bootstrap': {
+            deps: ['jquery'],
+            exports: "$.fn.popover"
+        },
         'jquery' : {
             exports: '$'
         },
@@ -30,12 +33,12 @@ require.config({
             exports: 'CryptoJS'
         },
         'lib/jasny-bootstrap': ['jquery']
-    }
-
+    },
+    enforceDefine: true
 });
 
 
-require([
+define([
     'jquery',
     'underscore',
     'Framework',

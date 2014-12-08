@@ -12,9 +12,6 @@ define([
 
         initialize: function (tapobject) {
             this.tapobject = tapobject;
-            this.tapobject.on('change:shape', this.changeShape, this);
-            this.listenTo(this.tapobject, 'selected', this.setSelected, this);
-            this.listenTo(this.tapobject, 'deselected', this.setDeselected, this);
         },
 
         events: {
@@ -25,9 +22,8 @@ define([
         },
 
 
-        render: function (index) {
+        render: function () {
             var data = _.extend(this.tapobject.toJSON(), {
-                index: index,
                 time: (Math.round(this.tapobject.get('tapTime') * 100) / 100).toFixed(2),
                 shapes: Object.keys(ShapeFactory.shapes),
                 cid: this.tapobject.cid
@@ -36,6 +32,11 @@ define([
             var template = _.template(Template, data);
             this.$el.html(template);
             this.getShapeElem(this.currentShape()).addClass(this.css_classname_active);
+
+            this.listenTo(this.tapobject, 'change:shape', this.changeShape, this);
+            this.listenTo(this.tapobject, 'selected', this.setSelected, this);
+            this.listenTo(this.tapobject, 'deselected', this.setDeselected, this);
+            return this;
         },
 
         clickRow: function (e) {

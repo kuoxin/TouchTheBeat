@@ -14,6 +14,10 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 			var realajax = Backbone.ajax;
 			Backbone.ajax = function (p) {
 				var customizedParams = _.clone(p);
+				customizedParams.headers = _.extend(customizedParams.headers || {}, {
+					"Accept": "application/json;charset=UTF-8",
+					"Content-Type": "application/json;charset=UTF-8"
+				});
 				customizedParams.url = options.host + customizedParams.url;
 				customizedParams = options.onAjaxPrepare(customizedParams);
 

@@ -16,7 +16,7 @@ define([
 ], function ($, _, Framework, Template, TapObjectRowView, ExportModalView, AudioPanelView, GameObjectEditorPanelView, MetaDataPanelView, app, Level) {
 
     var logmodel = function (model) {
-        if (!_.isUndefined(model)) {
+        if (!_.isUndefined(model) && !_.isNull(model)) {
             console.warn('The current LevelEditor-draft will be overwritten. Trying to log the level-text as backup:');
             try {
                 console.log(JSON.stringify(model.toJSON()));
@@ -29,11 +29,10 @@ define([
 
     var LevelEditorView = Framework.View.extend({
         events: {
-            'click #delete': 'deleteDraft',
-            'click #export': 'exportDraft',
-            'click #save': 'saveDraft',
-            'click #play': 'playLevel',
-            'click #publish': 'publishLevel'
+            'click #delete': 'delete',
+            'click #export': 'export',
+            'click #play': 'play',
+            'click #publish': 'saveAndPublish'
         },
 
         getModel: function () {
@@ -45,49 +44,40 @@ define([
             this.model = model;
         },
 
-
         createModel: function (soundcloudURL) {
             this.setModel(soundcloudURL ? Level.createFromSoundCloud(soundcloudURL) : new Level());
             return this.getModel();
         },
 
-        deleteDraft: function () {
-            this.setModel(undefined);
+        delete: function () {
+            this.setModel(null);
             var levelbuilderview = app.router.views.levelbuilderview;
             levelbuilderview.setContent('start');
         },
 
-        exportDraft: function () {
+        export: function () {
             console.log(this.getModel().toJSON());
             this.exportmodalview.render(this.getModel().toJSON());
         },
 
-        saveDraft: function () {
-        },
 
-        publishLevel: function () {
-
-            var level = new Level();
-            level.save({
-                success: function(){
-                    console.log(arguments);
+        saveAndPublish: function () {
+            this.getModel().save({}, {
+                success: function (level) {
+                    console.log(level);
                 },
-                error: function(){
-                    console.log(arguments);
+                error: function (level, error) {
+                    console.log('error callback');
+                    console.error(error);
                 }
             });
-
         },
 
         playLevel: function () {
-            app.startlevel(this.getModel());
+            app.startLevel(this.getModel());
         },
 
         render: function () {
-            if (_.isUndefined(this.getModel())) {
-                this.createModel();
-            }
-
             var template = _.template(Template, {
                 levelname: this.getModel().get('name') || 'New Level',
                 username: this.getModel().get('owner').get('username')
@@ -112,14 +102,12 @@ define([
             this.listenTo(this.getModel(), 'change:name', function () {
                 this.$('#levelname').html(this.getModel().escape('name'));
             }.bind(this));
-
-
         },
 
         onClose: function () {
-            this.exportmodalview.dispose();
+            this.exportmodalview.close();
             for (var k in this.panels) {
-                this.panels[k].dispose();
+                this.panels[k].close();
             }
         }
     });

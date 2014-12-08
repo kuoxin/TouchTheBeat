@@ -14,27 +14,20 @@ define([
 
 ], function ($, _, Framework, playTemplate, app, Track, Game, analytics, AudioController, AudioLoadingRenderer, Surface) {
     var PlayView = Framework.View.extend({
-        el: '#body',
+
+        fullscreen: true,
 
         onClose: function () {
-            if (typeof this.game !== 'undefined')
+            if (this.game)
                 this.game.stop();
 
             this.result = null;
-
-            try {
-                this.audiocontroller.dispose();
-            }
-            catch (e) {
-            }
-
-
+            this.audiocontroller.close();
             this.game = null;
         },
 
         stopGame: function () {
             this.game.stop();
-
 
             $('#svg').fadeTo(1500, 0, this.exitview.bind(this));
 
@@ -42,15 +35,31 @@ define([
             this.result.highscore = this.game.calculateHighScore();
             this.result.level = this.level;
 
-            this.audiocontroller.dispose();
+            this.audiocontroller.close();
         },
 
         render: function (level) {
             //TODO: Stop the game really when navigating away.
             Framework.history.navigate('playlevel', false);
-            this.onClose();
+
+            var that = this;
 
             this.level = level;
+            console.log(this.level);
+            this.levelloaded = this.level.get('gameObjects').length > 0;
+            this.audioready = false;
+            if (!this.levelloaded) {
+                this.level.fetch({
+                    success: function () {
+                        "use strict";
+                        console.log('level loaded');
+                        if (that.audioready)
+                            that.start();
+                        else
+                            that.levelloaded = true;
+                    }
+                });
+            }
             var template = _.template(playTemplate, {});
             this.$el.html(template);
 
@@ -74,14 +83,22 @@ define([
             this.audiocontroller.load(this.level.get('audio').getStreamUrl(), true);
         },
 
-        onAudioReady: function () {
-            console.log('audio is ready');
+        start: function () {
+            "use strict";
             this.game = new Game({
                 level: this.level,
                 audiocontroller: this.audiocontroller,
                 surface: this.surface
             });
             this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
+        },
+
+        onAudioReady: function () {
+            console.log('audio is ready');
+            if (this.levelloaded)
+                this.start();
+            else
+                this.audioready = true;
         },
 
         onAudioStarted: function () {
@@ -91,8 +108,7 @@ define([
         onAudioError: function (error) {
             console.error(error);
             alert(error);
-            this.audiocontroller.onClose();
-            this.audiocontroller.dispose();
+            this.audiocontroller.close();
         },
 
         exitview: function () {

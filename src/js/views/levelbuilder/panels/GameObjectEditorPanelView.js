@@ -11,26 +11,25 @@ define([
 
         template: _.template(Template, {}),
 
-        initialize: function () {
-        },
-
         render: function (model) {
             this.model = model;
             this.$el.html(this.template);
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
-            var i = 1;
-            var gameobjects = this.model.get('gameObjects');
-            gameobjects.forEach(function (gameobject) {
-                if (gameobject.get('type') == 'Tap') {
-                    var view = new TapObjectRowView(gameobject);
-                    view.render(i++);
-                    this.table.append(view.el);
-                }
+            this.gameobjects = this.model.get('gameObjects');
 
-            }.bind(this));
-
+            this.collectionview = new Framework.CollectionView({
+                el: this.table,
+                childView: TapObjectRowView,
+                collection: this.gameobjects,
+                getViewParams: function (gameobject) {
+                    return gameobject;
+                }.bind(this)
+            });
+            this.collectionview.render();
+            this.listenTo(this.model, 'change:gameObjects', this.render, this);
         },
+
 
         events: {
             'click #record_gameobjects': 'recordGameObjects'

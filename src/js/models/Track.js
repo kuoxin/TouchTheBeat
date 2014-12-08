@@ -5,7 +5,7 @@ define([
 ], function ($, _, Framework) {
 
     var Track = Framework.Model.extend({
-        url: 'audio/soundcloud',
+        urlRoot: 'audio/soundcloud',
 
         validate: function (data) {
             if ('url' in data) {

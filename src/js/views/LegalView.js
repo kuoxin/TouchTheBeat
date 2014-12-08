@@ -6,7 +6,6 @@ define([
     //'gameclasses/ShapeFactory'
 ], function ($, _, Framework, legalTemplate/*, ShapeFactory*/) {
     var LegalView = Framework.View.extend({
-        el: '#content',
         render: function () {
             var template = _.template(legalTemplate, {});
             this.$el.html(template);

@@ -11,9 +11,9 @@ define([
         url: 'levels',
 
         initialize: function () {
-            for (var key in levelcontainer) {
-                this.add(levelcontainer[key], {parse: true});
-            }
+            //for (var key in levelcontainer) {
+            //    this.add(levelcontainer[key], {parse: true});
+            //}
         }
     });
     return LevelCollection;

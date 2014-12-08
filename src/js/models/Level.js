@@ -25,10 +25,6 @@ define([
         urlRoot: 'level',
 
         initialize: function () {
-            this.on('change', function () {
-                console.log(this.toJSON());
-            }, this);
-
             if (!this.has('owner')) {
                 if (_.isUndefined(app.session)) {
                     console.warn('A level without owner was created before the session was initialized.');
