@@ -4,8 +4,8 @@ TouchTheBeat [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.sv
 TouchTheBeat is a HTML5 multi-touch rhythm game currently in development. 
 
 ###Quick Links
-- **current alpha version**: http://touchthebeat.github.io/TouchTheBeat/latest/
-- **latest development build**: http://touchthebeat.github.io/TouchTheBeat/edge/master/
+- **current alpha version**: https://touchthebeat.github.io/TouchTheBeat/latest/
+- **latest development build**: https://touchthebeat.github.io/TouchTheBeat/edge/master/
 
 ###The Game
 TouchTheBeat is **level-based**. Each level consists of a song and a composition of interactive objects. The objects can be either tapped ~~, hold, dragged or slided~~ _(soon)_. The more **rhythmically accurate** you interact with the objects, the more points you get in the end.
