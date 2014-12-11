@@ -17,6 +17,9 @@ require.config({
             deps: ['jquery'],
             exports: "$.fn.popover"
         },
+        'lib/sweet-alert': {
+            exports: "window.swal"
+        },
         'jquery' : {
             exports: '$'
         },
@@ -45,13 +48,16 @@ define([
     'config',
     'app',
     'models/Session',
-    'router'
-], function ($, _, Framework, config, app, Session, Router) {
+    'router',
+    'views/MainView'
+], function ($, _, Framework, config, app, Session, Router, MainView) {
 
     if (config.debug) {
+        // make app a global object if debug == true
         window.app = app;
     }
     else {
+        // disable console input/output on debug == false
         try {
             console.log = function () {
             };
@@ -63,11 +69,16 @@ define([
     }
 
     console.info('Initializing TouchTheBeat.');
+
     app.init({
         session: new Session(),
         router: new Router(),
         backend: config.backend
     });
+
+    app.mainView = new MainView();
+
     Framework.history.start();
+
     console.info('Initializing TouchTheBeat has completed.');
 });

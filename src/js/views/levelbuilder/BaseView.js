@@ -53,9 +53,7 @@ define([
             },
 
             onClose: function () {
-                var currentContent = this.getCurrentContent();
-                if (currentContent)
-                    currentContent.close();
+                this.closeCurrentContent();
             },
 
             updateContent: function (session) {

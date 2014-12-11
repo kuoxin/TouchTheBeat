@@ -6,7 +6,7 @@ define([
     'views/MenuView',
     'views/SignInView'
 ], function ($, _, Framework, awmtemplate, MenuView, SignInView) {
-    var ApplicationWithMenuView = Framework.View.extend({
+    var AppView = Framework.View.extend({
         el: 'body',
 
         fullscreen: true,
@@ -34,5 +34,5 @@ define([
             this.menu.close();
         }
     });
-    return ApplicationWithMenuView;
+    return AppView;
 });

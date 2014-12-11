@@ -2,16 +2,10 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 	return {
 		setupBackend: function (options) {
 			"use strict";
-			var ErrorCodeModel = Backbone.Model.extend({
-				url: 'system/codes',
-				parse: function (data) {
-					return _.invert(data);
-				}
-			});
-
-			var errorCodeModel = new ErrorCodeModel();
+			var errorCodeModel = options.errorCodeModel;
 
 			var realajax = Backbone.ajax;
+
 			Backbone.ajax = function (p) {
 				var customizedParams = _.clone(p);
 				customizedParams.headers = _.extend(customizedParams.headers || {}, {
@@ -26,23 +20,32 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 						console.info(customizedParams.string + ' was successfull.');
 						p.success(response.data, p2, p3);
 					} else {
-						console.warn(customizedParams.string + ' returned an error: "' + errorCodeModel.get(response.error) + '"');
-						p.error(errorCodeModel.get(response.error) || response.error);
+						var errorCode = errorCodeModel.get(response.error) || response.error;
+						var errorMessage = response.error_message;
+						console.warn(customizedParams.string + ' returned an error: ' + errorCode + ' ( ' + errorMessage + ' )');
+						console.log(response);
+						p.error({
+							errorCode: errorCode,
+							errorMessage: errorMessage,
+							isServerError: true
+						});
 					}
 				};
 
 				customizedParams.error = function (jqXHR) {
-					console.error(customizedParams.string + ' failed. (' + jqXHR.status + ')');
-					p.error(jqXHR.status);
+					var errorCode = jqXHR.status
+					var errorMessage = jqXHR.statusText;
+					console.error(customizedParams.string + ' failed: ' + errorCode + ' (' + errorMessage + ')');
+					p.error({
+						errorCode: errorCode,
+						errorMessage: errorMessage,
+						isServerError: false
+					});
 				};
 
 				realajax(customizedParams.url, customizedParams);
 				console.info(customizedParams.string + ' raised');
 			};
-
-			errorCodeModel.fetch({
-				parse: true
-			});
 		}
 	};
 

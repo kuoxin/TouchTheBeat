@@ -37,7 +37,7 @@ define([
 
 
         recordGameObjects: function recordgameobjects() {
-            app.setFullScreenContent(app.router.views.levelbuilderview.getContent('gameobjectrecorder'), this.model);
+            app.getMainView().setFullScreenContent(app.getMainView().views.levelbuilderview.getContent('gameobjectrecorder'), this.model);
         }
     });
 

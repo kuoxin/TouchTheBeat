@@ -115,7 +115,7 @@ define([
 
             analytics.trackAction('game', 'ending regularly', 'highscore:' + this.result.highscore);
 
-            app.setContent(app.router.views.highscoreview, this.result);
+            app.showAppContent('highscore', this.result);
         }
 
 

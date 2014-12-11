@@ -33,14 +33,14 @@ define([
 
         levelSelectedCallback: function (level) {
             "use strict";
-            var levelbuilderview = app.router.views.levelbuilderview;
+            var levelbuilderview = app.getMainView().views.levelbuilderview;
             levelbuilderview.getContent('leveleditor').setModel(level);
             levelbuilderview.setContent('leveleditor');
             level.fetch();
         },
 
         create: function () {
-            var levelbuilderview = app.router.views.levelbuilderview;
+            var levelbuilderview = app.getMainView().views.levelbuilderview;
             levelbuilderview.getContent('leveleditor').createModel();
             levelbuilderview.setContent('leveleditor');
         },

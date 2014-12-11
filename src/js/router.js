@@ -3,18 +3,14 @@ define([
     'underscore',
     'backbone',
     'app',
-    'util/analytics',
-    'views/MenuView',
-    'views/HomeView',
-    'views/ChooseLevelView',
-    'views/ApplicationWithMenuView',
-    'views/PageNotFoundView',
-    'views/LegalView',
-    'views/PlayView',
-    'views/HighScoreView',
-    'views/levelbuilder/BaseView',
-    'views/SignInView'
-], function ($, _, Backbone, app, analytics, MenuView, HomeView, ChooseLevelView, ApplicationWithMenuView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView, AudioLoaderView, SignInView) {
+    'util/analytics'
+], function ($, _, Backbone, app) {
+    /**
+     * defines the app's routes
+     * @module src
+     * @class Router
+     * @extends Backbone.Router
+     */
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
@@ -33,33 +29,17 @@ define([
         },
 
         openLevelBuilder: function () {
-            var levelbuilderview = app.router.views.levelbuilderview;
             var subroute = [].shift.call(arguments);
-            app.setContent(levelbuilderview);
-            if (typeof subroute !== 'undefined')
-                levelbuilderview.setContent(subroute);
+            app.showAppContent('levelbuilder', subroute);
         },
 
         init: function () {
-            this.views = {
-                current: null,
-                baseview: new ApplicationWithMenuView(),
-                homeview: new HomeView(),
-                chooselevelview: new ChooseLevelView(),
-                pagenotfoundview: new PageNotFoundView(),
-                legalview: new LegalView(),
-                playlevelview: new PlayView(),
-                highscoreview: new HighScoreView(),
-                levelbuilderview: new LevelBuilderBaseView()
-            };
-
-
             this.on('route:home', function () {
-                app.setContent(this.views.homeview);
+                app.showAppContent('home');
             });
 
             this.on('route:chooselevel', function () {
-                app.setContent(this.views.chooselevelview);
+                app.showAppContent('chooselevel');
             });
 
             this.on('route:buildlevel', function () {
@@ -76,12 +56,11 @@ define([
 
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
-                app.setContent(this.views.homeview);
-                this.views.pagenotfoundview.render();
+                app.showAppContent('404');
             });
 
             this.on('route:legal', function () {
-                app.setContent(this.views.legalview);
+                app.showAppContent('legal');
             });
 
             this.on('route:importlevel', function () {
@@ -89,13 +68,16 @@ define([
             });
 
             this.on('route:signin', function () {
-                var signinview = new SignInView();
-                app.setContent(signinview);
+                app.showAppContent('signin');
             });
         },
 
 
-        // taken from http://stackoverflow.com/a/16191880/2618345
+        /**
+         * taken from http://stackoverflow.com/a/16191880/2618345
+         * @method getCurrentAppStatus
+         * @returns {{route: String, fragment: String, params: *}}
+         */
         getCurrentAppStatus: function () {
             var Router = this,
                 fragment = Backbone.history.fragment,

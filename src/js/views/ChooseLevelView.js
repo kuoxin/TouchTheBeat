@@ -10,7 +10,6 @@ define([
 ], function ($, _, Framework, LevelOverviewTemplate, LevelPanel, LevelCollection, app, LevelTextInputView) {
     var ChooseLevelView = Framework.View.extend({
 
-
         initialize: function () {
             "use strict";
             this.levelcollection = new LevelCollection();

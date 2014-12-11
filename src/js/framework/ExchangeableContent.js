@@ -69,6 +69,12 @@ define(['underscore'], function (_) {
 			},
 			getCurrentContent: function getCurrentContent() {
 				return currentContent;
+			},
+
+			closeCurrentContent: function () {
+				"use strict";
+				currentContent.close();
+				currentContent = null;
 			}
 		});
 	};

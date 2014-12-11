@@ -20,7 +20,7 @@ define([
         clickedSignInButton: function () {
             console.log('clicked signinbutton');
             if (!app.session.get('logged_in')) {
-                app.getMainView().openSignInModal();
+                app.getMainView().getAppView().openSignInModal();
             }
         }
 

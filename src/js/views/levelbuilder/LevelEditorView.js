@@ -51,7 +51,7 @@ define([
 
         delete: function () {
             this.setModel(null);
-            var levelbuilderview = app.router.views.levelbuilderview;
+            var levelbuilderview = app.getMainView().views.levelbuilderview;
             levelbuilderview.setContent('start');
         },
 

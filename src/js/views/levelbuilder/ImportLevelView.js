@@ -22,7 +22,7 @@ define([
 		},
 
 		levelselected: function (level) {
-			var levelbuilderview = app.router.views.levelbuilderview;
+			var levelbuilderview = app.getMainView().views.levelbuilderview;
 			level.set('owner', app.session.get('user'));
 			level.unset('id');
 			console.log(level);

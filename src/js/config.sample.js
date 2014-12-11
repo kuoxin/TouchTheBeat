@@ -2,6 +2,7 @@ define([], function () {
     /**
      * This is a sample container for pre-deployment configuration of TouchTheBeat client. The file should be renamed to config.js after you entered your configuration.
      * @class Config.Sample
+     * @module src
      */
     return {
         /**
