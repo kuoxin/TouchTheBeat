@@ -4,8 +4,8 @@ TouchTheBeat [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.sv
 TouchTheBeat is a HTML5 multi-touch rhythm game currently in development. 
 
 ###Quick Links
-- **current stable version**: http://touchthebeat.github.io/TouchTheBeat/latest/
-- **latest development version**: http://touchthebeat.github.io/TouchTheBeat/indev/
+- **current alpha version**: https://touchthebeat.github.io/TouchTheBeat/latest/
+- **latest development build**: https://touchthebeat.github.io/TouchTheBeat/edge/master/
 
 ###The Game
 TouchTheBeat is **level-based**. Each level consists of a song and a composition of interactive objects. The objects can be either tapped ~~, hold, dragged or slided~~ _(soon)_. The more **rhythmically accurate** you interact with the objects, the more points you get in the end.
@@ -23,12 +23,12 @@ TouchTheBeat uses the following **third party services**:
 
 We may not be associated with any of these third party services or content provided by them.
 
-TouchTheBeat uses and contains the following **software components** under their respective licenses:
+TouchTheBeat uses and/or contains the following **software components** under their respective licenses:
 
 - **jQuery** JavaScript Library v2.1.1, http://jquery.com/, Includes Sizzle.js http://sizzlejs.com/ Copyright 2005, 2014 jQuery Foundation, Inc. and other contributors Released under the MIT license
 - **Underscore.js** 1.6.0 http://underscorejs.org (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors MIT license.
 - **Backbone.js** 1.1.2 http://backbonejs.org (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors MIT license
-- **RequireJS** 2.1.13 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved. Available via the MIT or new BSD license. see: http://github.com/jrburke/requirejs for details
+- **RequireJS** 2.1.15 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved. Available via the MIT or new BSD license. see: http://github.com/jrburke/requirejs for details
 - **RequireJS text** 2.0.12 Copyright (c) 2010-2014, The Dojo Foundation All Rights Reserved. Available via the MIT or new BSD license. see: http://github.com/requirejs/text for details
 - **Bootstrap** v3.2.0 (http://getbootstrap.com) Copyright 2011-2014 Twitter, Inc. Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
 - **Snap.svg** 0.3.0 Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved. Licensed under the Apache License, Version 2.0 ; http://www.apache.org/licenses/LICENSE-2.0
@@ -38,11 +38,11 @@ TouchTheBeat uses and contains the following **software components** under their
 - **backbone.paginator** 2.0.0 http://github.com/backbone-paginator/backbone.paginator Copyright (c) 2013 Jimmy Yuen Ho Wong and contributors Licensed under the MIT @license.
 - **bootstrap-sweetalert** https://github.com/hstolte/bootstrap-sweetalert Copyright (c) 2014 Tristan Edwards Licensed under MIT License
 
-###Build
+###Build/Contribute
 
 To build a compressed version of TouchTheBeat perform the following steps.
 
-- Ensure you have installed [Node.js](https://nodejs.org/) and [Grunt](http://gruntjs.com/).
+- Ensure you have installed [Node.js](https://nodejs.org/) and [Grunt](http://gruntjs.com/) (along with grunt-cli).
 - Run `` npm install ``.
 - Create the file ``config.js`` in ``src/js``. You can refer to ``config.sample.js`` (in the same directory).
 
@@ -50,5 +50,9 @@ Now you can run the following grunt tasks:
 
 | command | description |
 |---------|-------------|
+|``grunt``|runs jshint code analysis and logs the results to the console|
 |``grunt build``|creates a minified build in the ``dist/`` directory|
-||*soon: docs generation*|
+|``grunt yuidoc``|generates the docs from the code's comments to the ``docs/`` directory|
+
+There also exist several sub-tasks and a set of tasks used for continuous integration and deployment in Travis Ci.
+
