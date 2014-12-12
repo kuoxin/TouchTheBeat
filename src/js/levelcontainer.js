@@ -520,5 +520,4 @@ define([], function () {
             {"type": "Tap", "x": 800, "y": 180, "tapTime": 86.61333333333333, "shape": {"type": "circle", "size": "medium"}}
         ], "name": "Demolevel 2", "owner": {"username": "coloreddrums", "id": "undefined"}, "id": "undefined_2"}
     ];
-    c
 });

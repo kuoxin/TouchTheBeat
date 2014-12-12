@@ -33,7 +33,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 				};
 
 				customizedParams.error = function (jqXHR) {
-					var errorCode = jqXHR.status
+					var errorCode = jqXHR.status;
 					var errorMessage = jqXHR.statusText;
 					console.error(customizedParams.string + ' failed: ' + errorCode + ' (' + errorMessage + ')');
 					p.error({
