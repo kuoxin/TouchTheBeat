@@ -74,7 +74,6 @@ define([
 
             this.audiocontroller = new AudioController({
                 renderer: this.audioloadingrenderer,
-                callback_started: this.onAudioStarted.bind(this),
                 callback_ended: this.stopGame.bind(this),
                 callback_readytoplay: this.onAudioReady.bind(this),
                 callback_error: this.onAudioError.bind(this)
@@ -83,26 +82,22 @@ define([
             this.audiocontroller.load(this.level.get('audio').getStreamUrl(), true);
         },
 
-        start: function () {
+        requestStart: function () {
             "use strict";
             this.game = new Game({
                 level: this.level,
                 audiocontroller: this.audiocontroller,
                 surface: this.surface
             });
-            this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
+            this.surface.requestStartFromUser(this.game.start.bind(this.game));
         },
 
         onAudioReady: function () {
             console.log('audio is ready');
             if (this.levelloaded)
-                this.start();
+                this.requestStart();
             else
                 this.audioready = true;
-        },
-
-        onAudioStarted: function () {
-            this.game.start();
         },
 
         onAudioError: function (error) {

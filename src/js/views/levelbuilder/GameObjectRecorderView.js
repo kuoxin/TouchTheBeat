@@ -44,7 +44,6 @@ define([
 
             this.audiocontroller = new AudioController({
                 renderer: this.audioloadingrenderer,
-                callback_started: this.onAudioStarted.bind(this),
                 callback_ended: this.recordingfinished.bind(this),
                 callback_readytoplay: this.onAudioReady.bind(this),
                 callback_error: this.onAudioError.bind(this)
@@ -62,10 +61,11 @@ define([
         onAudioReady: function () {
             this.svgelem = document.getElementById('svg');
 
-            this.surface.requestStartFromUser(this.audiocontroller.start.bind(this.audiocontroller));
+            this.surface.requestStartFromUser(this.start.bind(this));
         },
 
-        onAudioStarted: function () {
+        start: function () {
+            this.audiocontroller.play();
             this.isrecording = true;
             this.surface.getRootRect().touchstart(function (e) {
 

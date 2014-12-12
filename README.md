@@ -23,7 +23,7 @@ TouchTheBeat uses the following **third party services**:
 
 We may not be associated with any of these third party services or content provided by them.
 
-TouchTheBeat uses and/or contains the following **software components** under their respective licenses:
+TouchTheBeat uses and/or contains the following **software components** and **resources** under their respective licenses:
 
 - **jQuery** JavaScript Library v2.1.1, http://jquery.com/, Includes Sizzle.js http://sizzlejs.com/ Copyright 2005, 2014 jQuery Foundation, Inc. and other contributors Released under the MIT license
 - **Underscore.js** 1.6.0 http://underscorejs.org (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors MIT license.
@@ -37,6 +37,7 @@ TouchTheBeat uses and/or contains the following **software components** under th
 - **Backbone.Select** v1.2.8 http://github.com/hashchange/backbone.select Copyright (c) 2014 Michael Heim (c) 2013 Derick Bailey, Muted Solutions, LLC. Distributed under MIT license
 - **backbone.paginator** 2.0.0 http://github.com/backbone-paginator/backbone.paginator Copyright (c) 2013 Jimmy Yuen Ho Wong and contributors Licensed under the MIT @license.
 - **bootstrap-sweetalert** https://github.com/hstolte/bootstrap-sweetalert Copyright (c) 2014 Tristan Edwards Licensed under MIT License
+- **Material Design Icons** https://github.com/google/material-design-icons/ released under an [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license.
 
 ###Build/Contribute
 

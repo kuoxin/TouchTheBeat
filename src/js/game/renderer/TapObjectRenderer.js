@@ -67,9 +67,8 @@ define([
 				opacity: 0
 			});
 
-			//TODO: replace with Backbone.Events
-			this.snapobject.touchend(this.controller.handleTap.bind(this.controller));
-			this.snapobject.click(this.controller.handleTap.bind(this.controller));
+			this.snapobject.touchend(this.actions.TAP);
+			this.snapobject.click(this.actions.TAP);
 		},
 
 

@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'Framework',
-    'game/controller/TapObject'
-], function ($, _, Framework, TapObject) {
+    'game/controller/TapObject',
+    'game/controller/HUD'
+], function ($, _, Framework, TapObject, HUD) {
     "use strict";
 
     /**
@@ -23,6 +24,8 @@ define([
             this.audiocontroller = data.audiocontroller;
             this.surface = data.surface;
             var level = data.level.toJSON();
+
+            this.hud = new HUD(this);
 
             for (var i = 0; i < level.gameObjects.length; i++) {
                 var gameObject = level.gameObjects[i];
@@ -52,6 +55,7 @@ define([
 
         updateView: function () {
             if (!this.stopped) {
+                this.hud.render(this.getTime());
                 for (var i = 0; i < this.gameObjects.length; i++) {
                     this.gameObjects[i].render(this.getTime());
                 }
@@ -61,15 +65,19 @@ define([
 
         start: function () {
             this.stopped = false;
-            console.log('startet game');
+            this.audiocontroller.play();
             this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
             this.updateView(this.getTime());
+        },
+
+        pause: function () {
+            this.audiocontroller.pause();
+            this.stop();
         },
 
         stop: function () {
             clearInterval(this.updateinterval);
             this.stopped = true;
-            console.log("stopped game");
         },
 
         calculateHighScore: function () {

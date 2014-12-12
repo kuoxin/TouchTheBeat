@@ -17,6 +17,9 @@ define([
             this.setRenderer(new TapObjectRenderer({
                 snap: game.surface.getSnap(),
                 controller: this,
+                actions: {
+                    TAP: this.handleTap.bind(this)
+                },
                 x: x,
                 y: y,
                 timestamp: timestamp,

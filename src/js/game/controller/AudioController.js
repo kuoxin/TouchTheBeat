@@ -29,7 +29,7 @@ define([
                 'callback_error',
                 'renderer'
             ]));
-            console.log(this);
+            this.startOffset = 0;
         },
 
         // callbacks - defaults
@@ -58,10 +58,16 @@ define([
         },
 
         onended: function () {
-            console.info('The audio has stopped');
-            if (!this.notified_ended) {
-                this.callback_ended();
-                this.notified_ended = true;
+            if (this.isPaused()) {
+                console.info('The audio was paused at ' + this.getCurrentTime());
+                console.log(this);
+            }
+            else {
+                console.info('The audio has stopped');
+                if (!this.notified_ended) {
+                    this.callback_ended();
+                    this.notified_ended = true;
+                }
             }
         },
 
@@ -122,26 +128,42 @@ define([
             if (typeof this.cache[this.stream_url] === 'undefined')
                 this.cache[this.stream_url] = buffer;
 
-            var source = app.audiocontext.createBufferSource();
-            source.buffer = buffer;
-            source.connect(app.audiocontext.destination);
-            source.onended = this.onended.bind(this);
-            this.source = source;
+            this.buffer = buffer;
 
             this.renderer.hideProcessingInformaion();
 
             this.callback_readytoplay();
 
         },
-
-        start: function () {
-            this.source.start(0);
+        // thanks to http://chimera.labs.oreilly.com/books/1234000001552/ch02.html#s02_2 for the tutorial on how to pause and resume
+        play: function () {
             this.inittime = app.audiocontext.currentTime;
+            this.paused = false;
+
+            var source = app.audiocontext.createBufferSource();
+            source.buffer = this.buffer;
+            source.connect(app.audiocontext.destination);
+            source.onended = this.onended.bind(this);
+
+            this.source = source;
+
+            this.source.start(0, this.startOffset % this.buffer.duration);
+            console.info('The audio started at ' + this.getCurrentTime());
             this.callback_started();
         },
 
+        pause: function () {
+            this.source.stop();
+            this.startOffset = this.getCurrentTime();
+            this.paused = true;
+        },
+
         getCurrentTime: function () {
-            return app.audiocontext.currentTime - this.inittime;
+            return this.paused ? ( this.startOffset % this.buffer.duration) : (app.audiocontext.currentTime - this.inittime + this.startOffset);
+        },
+
+        isPaused: function () {
+            return this.getCurrentTime() < this.getDuration();
         },
 
         getPercentage: function () {
@@ -149,7 +171,7 @@ define([
         },
 
         getDuration: function () {
-            return this.source.buffer.duration;
+            return this.buffer.duration;
         },
 
         attachAudioLoadingView: function (audioloaderview) {

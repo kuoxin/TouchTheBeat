@@ -10,11 +10,12 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 		this.cid = _.uniqueId('renderer');
 		this.snap = options.snap;
 		this.controller = options.controller;
+		this.actions = options.actions;
 
 		if (typeof this.snap === 'undefined')
 			throw('The snap object is missing as parameter in a Renderer\'s constructor.');
 
-		options = _.omit(options, ['snap', 'controller']);
+		options = _.omit(options, ['snap', 'controller', 'actions']);
 		this.initialize.apply(this, [options]);
 	};
 
