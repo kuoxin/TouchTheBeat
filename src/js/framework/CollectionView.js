@@ -64,7 +64,8 @@ define([
 			$(this.el).empty();
 
 			_(this._childViews).each(function (view) {
-				$(that.el).append(view.render().el);
+				that.$el.append(view.render().el);
+				view.delegateEvents();
 			});
 
 			this.rendered = true;
