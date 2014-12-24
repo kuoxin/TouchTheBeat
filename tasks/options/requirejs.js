@@ -14,7 +14,6 @@ module.exports = function (grunt) {
 				dir: "dist",
 				fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/,
 				done: function (done, output) {
-					console.log(arguments);
 					var duplicates = require('rjs-build-analysis').duplicates(output);
 					if (duplicates.length > 0) {
 						grunt.log.subhead('Duplicates found in requirejs build:');
