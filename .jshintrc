@@ -1,15 +1,49 @@
 {
+  // reference: http://jshint.com/docs/options/
+  // used parts of the .jshintrc file from the phaser project as reference: https://github.com/photonstorm/phaser/blob/master/.jshintrc licensed under "The MIT License" (MIT) Copyright (c) 2014 Richard Davey, Photon Storm Ltd.
+
   "undef": true,
+  // Require all non-global variables be declared before they are used.
   "unused": true,
+  // This option warns when you define and never use your variables.
   "globals": {
     "define": false,
-    "require": false
+    "require": false,
+    "module": false
   },
+  "notypeof": false,
+  // This option suppresses warnings about invalid typeof operator values.
   "browser": true,
-  "devel": true
+  // Standard browser globals
+  "devel": true,
+  // Allow developments statements
+  "bitwise": false,
+  // Prohibit bitwise operators (&, |, ^, etc.).
+  "curly": true,
+  // Require {} for every new block or scope.
+  "freeze": true,
+  // Prohibits overwriting prototypes of native objects such as Array and Date.
+  "noarg": true,
+  // Prohibit use of `arguments.caller` and `arguments.callee`.
 
-  //codestyle
-  //"camelcase"   : true,
-  //"newcap"      : true
+
+  // Code Style
+
+  "camelcase": false,
+  // camelCase: Is favored, but currently not practiced everywhere and therefore disabled
+  //TODO: Refactor everything to camelCase
+
+  "indent": 4,
+  // Specify indentation spacing
+  "noempty": true,
+  // Prohibit use of empty blocks.
+  "nonew": true,
+  // Prohibit use of constructors for side-effects.
+  "newcap": true,
+  // Require capitalization of all constructor functions e.g. `new F()`.
+  "sub": true,
+  // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
+  "trailing": true
+  // Prohibit trailing whitespaces.
 
 }

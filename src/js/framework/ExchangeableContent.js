@@ -19,8 +19,9 @@ define(['underscore'], function (_) {
 				callback_after = opts.callback_after;
 				callback_before = opts.callback_before;
 				className = opts.className;
-				if (typeof opts.contentsareinstances != 'undefined')
+				if (typeof opts.contentsareinstances != 'undefined') {
 					contentsareinstances = opts.contentsareinstances;
+				}
 			},
 
 			addContent: function addContent(key, view) {
@@ -34,8 +35,9 @@ define(['underscore'], function (_) {
 			setContent: function setContent(key, args) {
 				if (callback_before) {
 					var return_value = callback_before(key, args);
-					if (return_value)
+					if (return_value) {
 						key = return_value;
+					}
 				}
 
 				if (currentContent !== null) {
@@ -48,11 +50,13 @@ define(['underscore'], function (_) {
 
 				container.html(currentContent.el);
 
-				if (contentsareinstances)
+				if (contentsareinstances) {
 					currentContent.delegateEvents();
+				}
 
-				if (callback_after)
+				if (callback_after) {
 					callback_after();
+				}
 
 			},
 

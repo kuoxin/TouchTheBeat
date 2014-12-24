@@ -41,8 +41,10 @@ define([], function () {
              *
              * @method createAccessHash
              * @param {Object} options
+             * the object that will be passed to the jquery ajax() function as settings parameter. It contains many attributes.
+             * See http://api.jquery.com/jquery.ajax/#jQuery-ajax-settings for details
              */
-            createAccessHash: function (options) {
+            createAccessHash: function () {
                 "use strict";
                 throw 'createAccessHash method not implemented. Open config.js to do so.';
             }

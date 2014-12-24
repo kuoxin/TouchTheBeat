@@ -50,18 +50,21 @@ define([
 				if (session.get('logged_in')) {
 					this.setContent('session');
 				}
-				else
+				else {
 					this.setContent('nosession', ['navbar-btn']);
+				}
 			},
 
 			updateMenuState: function (router, route) {
 				var activeitem_old = $('.active');
-				if (activeitem_old !== null)
+				if (activeitem_old !== null) {
 					activeitem_old.removeClass('active');
+				}
 
 				var activeitem_new = $('#' + (this.menustates[route] || route));
-				if (activeitem_new !== null)
+				if (activeitem_new !== null) {
 					activeitem_new.addClass('active');
+				}
 			}
 		}));
 	return MenuView;

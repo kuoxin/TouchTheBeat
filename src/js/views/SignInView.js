@@ -8,11 +8,11 @@ define([
     'md5'
 ], function ($, _, Framework, plaintemplate, app, User, md5) {
     var SignInView = Framework.View.extend({
-        default_texts: {
-            signin_password: 'This email/password combination does not exist.',
-            signup_email: 'This e-mail address is invalid.',
-            signup_username: 'This username is already taken.',
-            signup_password_repeat: 'These passwords do not match.'
+        defaultTexts: {
+            SIGNIN_PASSWORD: 'This email/password combination does not exist.',
+            SIGNUP_EMAIL: 'This e-mail address is invalid.',
+            SIGNUP_USERNAME: 'This username is already taken.',
+            SIGNUP_PASSWORD_REPEAT: 'These passwords do not match.'
         },
 
         render: function () {
@@ -104,8 +104,10 @@ define([
             var self = this;
             var form = $('#form_signin');
 
-            if (!this.validateForm(form))
+            if (!this.validateForm(form)) {
                 return;
+            }
+
 
             var data = this.getFormData(form);
             data.password = md5.MD5(data.password).toString();
@@ -132,12 +134,13 @@ define([
             var elem = this.$('input#' + name);
             var formgroup = elem.closest('.form-group');
             formgroup.removeClass(valid ? 'has-error' : 'has-success');
-            if (!valid)
+            if (!valid) {
                 formgroup.addClass('has-error');
-            var help_block = elem.siblings('.help-block').first();
-            if (help_block) {
-                help_block[!valid ? 'show' : 'hide']();
-                help_block.html(text || this.default_texts[name]);
+            }
+            var helpBlock = elem.siblings('.help-block').first();
+            if (helpBlock) {
+                helpBlock[!valid ? 'show' : 'hide']();
+                helpBlock.html(text || this.defaultTexts[name]);
             }
         },
 
@@ -146,9 +149,9 @@ define([
             var valid = true;
             var self = this;
             form.find("input").each(function () {
-                var elem_valid = this.checkValidity();
-                self.markValid(elem_valid, $(this).attr('id'));
-                valid = valid && elem_valid;
+                var elemValid = this.checkValidity();
+                self.markValid(elemValid, $(this).attr('id'));
+                valid = valid && elemValid;
             });
             return valid;
         },

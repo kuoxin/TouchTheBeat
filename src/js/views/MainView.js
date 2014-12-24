@@ -16,9 +16,8 @@ define([
 	'views/LegalView',
 	'views/PlayView',
 	'views/HighScoreView',
-	'views/levelbuilder/BaseView',
-	'views/SignInView'
-], function ($, _, Framework, MenuView, HomeView, ChooseLevelView, AppView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView, SignInView) {
+	'views/levelbuilder/BaseView'
+], function ($, _, Framework, MenuView, HomeView, ChooseLevelView, AppView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView) {
 	var MainView = Framework.View.extend({
 		el: 'html',
 
@@ -87,9 +86,10 @@ define([
 			if (window.swal) {
 				window.swal(_.clone(arguments[0]));
 			}
-			else
-			//save the alert call and run it when the alerting-functionality has loaded.
+			else {
+				//save the alert call and run it when the alerting-functionality has loaded.
 				this.alertQueue.push(arguments[0]);
+			}
 		},
 
 		/**
@@ -111,8 +111,9 @@ define([
 		setContent: function (newview, args) {
 			var views = this.views;
 
-			if (this.currentView == newview)
+			if (this.currentView == newview) {
 				return;
+			}
 
 			if (this.currentView !== null) {
 				this.currentView.close();

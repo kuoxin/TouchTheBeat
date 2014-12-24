@@ -16,8 +16,9 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 		},
 		close: function () {
 			"use strict";
-			if (typeof this.onClose === 'function')
+			if (typeof this.onClose === 'function') {
 				this.onClose();
+			}
 		}
 	});
 	return Controller;

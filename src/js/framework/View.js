@@ -7,8 +7,9 @@ define([
 		fullscreen: false,
 		close: function () {
 			"use strict";
-			if (typeof this.onClose === 'function')
+			if (typeof this.onClose === 'function') {
 				this.onClose();
+			}
 
 			if (!this.fullscreen) {
 				/**
@@ -23,8 +24,9 @@ define([
 				this.stopListening();
 			}
 
-			if (typeof this.onClosed === 'function')
+			if (typeof this.onClosed === 'function') {
 				this.onClosed();
+			}
 
 		}
 	});

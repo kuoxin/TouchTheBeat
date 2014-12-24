@@ -51,7 +51,7 @@ Now you can run the following grunt tasks:
 
 | command | description |
 |---------|-------------|
-|``grunt``|runs jshint code analysis and logs the results to the console|
+|``grunt lint``|runs jshint code analysis and logs the results to the console|
 |``grunt build``|creates a minified build in the ``dist/`` directory|
 |``grunt yuidoc``|generates the docs from the code's comments to the ``docs/`` directory|
 

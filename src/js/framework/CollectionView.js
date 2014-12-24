@@ -13,9 +13,15 @@ define([
 			this.collection = options.collection;
 			this.getViewParams = options.getViewParams;
 
-			if (!this.childView) throw "no child view class provided";
-			if (!this.collection) throw "no collection provided";
-			if (!this.getViewParams) throw "no getViewParams method provided";
+			if (!this.childView) {
+				throw "no child view class provided";
+			}
+			if (!this.collection) {
+				throw "no collection provided";
+			}
+			if (!this.getViewParams) {
+				throw "no getViewParams method provided";
+			}
 
 			this._childViews = [];
 
@@ -35,8 +41,9 @@ define([
 
 			this._childViews.push(view);
 
-			if (this.rendered)
+			if (this.rendered) {
 				this.$el.append(view.render().el);
+			}
 
 		},
 
@@ -46,8 +53,9 @@ define([
 			})[0];
 			this._childViews = _(this._childViews).without(viewToRemove);
 
-			if (this.rendered)
+			if (this.rendered) {
 				viewToRemove.close();
+			}
 		},
 
 		render: function () {

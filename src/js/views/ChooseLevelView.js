@@ -5,9 +5,8 @@ define([
     'text!templates/leveloverview.html',
     'views/LevelPanelView',
     'collections/LevelCollection',
-    'app',
-    'views/LevelTextInputView'
-], function ($, _, Framework, LevelOverviewTemplate, LevelPanel, LevelCollection, app, LevelTextInputView) {
+    'app'
+], function ($, _, Framework, LevelOverviewTemplate, LevelPanel, LevelCollection, app) {
     var ChooseLevelView = Framework.View.extend({
 
         initialize: function () {

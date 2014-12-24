@@ -18,8 +18,9 @@ define([
         fullscreen: true,
 
         onClose: function () {
-            if (this.game)
+            if (this.game) {
                 this.game.stop();
+            }
 
             this.result = null;
             this.audiocontroller.close();
@@ -53,10 +54,12 @@ define([
                     success: function () {
                         "use strict";
                         console.log('level loaded');
-                        if (that.audioready)
+                        if (that.audioready) {
                             that.start();
-                        else
+                        }
+                        else {
                             that.levelloaded = true;
+                        }
                     }
                 });
             }
@@ -94,10 +97,12 @@ define([
 
         onAudioReady: function () {
             console.log('audio is ready');
-            if (this.levelloaded)
+            if (this.levelloaded) {
                 this.requestStart();
-            else
+            }
+            else {
                 this.audioready = true;
+            }
         },
 
         onAudioError: function (error) {
@@ -112,10 +117,6 @@ define([
 
             app.showAppContent('highscore', this.result);
         }
-
-
-
-
     });
     return PlayView;
 });

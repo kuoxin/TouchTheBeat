@@ -94,9 +94,13 @@ define([], function () {
     // https://gist.github.com/roshambo/4218861
     (function () {
 
-        if (window.performance && window.performance.now) return;
+        if (window.performance && window.performance.now) {
+            return;
+        }
 
-        if (!window.performance) window.performance = {};
+        if (!window.performance) {
+            window.performance = {};
+        }
 
         var methods = ['webkitNow', 'msNow', 'mozNow'];
 
@@ -131,9 +135,11 @@ define([], function () {
 
     scripts.pickRandomObject = function (parent) {
         var result, count = 0;
-        for (var prop in parent)
-            if (Math.random() < 1 / ++count)
+        for (var prop in parent) {
+            if (Math.random() < 1 / ++count) {
                 result = prop;
+            }
+        }
         return result;
     };
 

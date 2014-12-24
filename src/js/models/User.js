@@ -24,10 +24,12 @@ define([
         },
 
         parse: function (data) {
-            if (data === true)
+            if (data === true) {
                 return {};
-            else
+            }
+            else {
                 return data;
+            }
         }
     });
 

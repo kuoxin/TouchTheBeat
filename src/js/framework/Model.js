@@ -5,8 +5,9 @@ define([
 	_.extend(Backbone.Model.prototype, {
 		toJSON: function () {
 			var obj = this.deepcopy(this.attributes);
-			if (typeof this.id !== 'undefined' && this.id !== null)
+			if (typeof this.id !== 'undefined' && this.id !== null) {
 				obj.id = this.id;
+			}
 			return obj;
 		},
 
@@ -26,8 +27,9 @@ define([
 				}
 				else {
 					// console.log('copied leaf ' + k);
-					if (copyof[k] !== null)
+					if (copyof[k] !== null) {
 						obj[k] = copyof[k];
+					}
 				}
 			}
 			return obj;

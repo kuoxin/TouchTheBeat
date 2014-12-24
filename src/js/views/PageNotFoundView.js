@@ -15,8 +15,9 @@ define([
             if (route != 'notfound') {
                 console.log(route);
                 var possiblealert = $('#alert404');
-                if (possiblealert !== null)
+                if (possiblealert !== null) {
                     possiblealert.slideUp();
+                }
             }
         }
     });

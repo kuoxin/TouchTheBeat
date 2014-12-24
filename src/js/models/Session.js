@@ -150,7 +150,7 @@ define([
             return Framework.sync.call(this, method, model, options);
         },
 
-        parse: function (data, options) {
+        parse: function (data) {
             "use strict";
             this.clear({silent: true});
             var obj = {};
