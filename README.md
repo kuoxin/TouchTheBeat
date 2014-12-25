@@ -1,4 +1,4 @@
-TouchTheBeat [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.svg?branch=master)](https://travis-ci.org/TouchTheBeat/TouchTheBeat)
+TouchTheBeat [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.svg?branch=master)](https://travis-ci.org/TouchTheBeat/TouchTheBeat) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 ============
 
 TouchTheBeat is a HTML5 multi-touch rhythm game currently in development. 
