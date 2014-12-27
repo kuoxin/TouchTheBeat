@@ -2,7 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'Framework',
-	'models/Level',
+	'models/Level'
 ], function ($, _, Framework, Level) {
 	var LevelCollection = Framework.PageableCollection.extend({
 		model: Level,

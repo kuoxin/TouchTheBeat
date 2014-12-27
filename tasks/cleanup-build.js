@@ -8,11 +8,17 @@ module.exports = function (grunt) {
 		}, [
 			'templates',
 			'build.txt',
+
 			'js/**',
 			'!js',
 			'!js/main.js',
-			'!js/lib',
-			'!js/lib/require.js'
+
+			'vendor/*',
+			'vendor/requirejs/**',
+			'vendor/requirejs/.bower.json',
+			'!vendor/requirejs',
+			'!vendor/requirejs/require.js'
+
 		]);
 		for (var i = 0; i < paths.length; i++) {
 			var path = 'dist/' + paths[i];

@@ -14,9 +14,9 @@ module.exports = function (grunt) {
                 email: "touchthebeatdev@gmail.com"
             },
             PATHS: {
-                CONFIG_TRAVIS_CI_ENCRYPTED: 'src/js/config.travis-ci.encrypted',
-                CONFIG_TRAVIS_CI: 'src/js/config.travis-ci.js',
-                CONFIG: 'src/js/config.js',
+				CONFIG_TRAVIS_CI_ENCRYPTED: 'app/js/config.travis-ci.encrypted',
+				CONFIG_TRAVIS_CI: 'app/js/config.travis-ci.js',
+				CONFIG: 'app/js/config.js',
                 DEPLOY_GHPAGES_GIT: 'temp-ghpages',
                 DEPLOY_RELATIVE: 'edge/' + process.env.TRAVIS_BRANCH,
                 DEPLOY_COPY_TARGET: 'temp-ghpages/edge/' + process.env.TRAVIS_BRANCH
@@ -28,10 +28,36 @@ module.exports = function (grunt) {
 
     grunt.loadTasks('tasks');
 
-    grunt.registerTask('lint', 'jshint:src');
-    grunt.registerTask('build', ['clean:dist', 'check-config', 'requirejs', 'cleanup-build']);
-    grunt.registerTask('buildDocs', ['yuidoc']);
-    grunt.registerTask('travis-ci-build', ['check-travis-trusted-environment', 'decrypt-travis-ci-config', 'lint', 'requirejs']);
-    grunt.registerTask('travis-ci-deploy', ['check-travis-trusted-environment', 'cleanup-build', 'fetch-deploy-branch', 'clean:deploy', 'copy:deploy', 'push-build']);
+	grunt.registerTask('update', [
+		'bower-install-simple:bower-update',
+		'bower:bower-update-requirejs-paths'
+	]);
+
+	grunt.registerTask('lint',
+		'jshint:src'
+	);
+	grunt.registerTask('build', [
+		'clean:dist',
+		'check-config',
+		'requirejs',
+		'cleanup-build',
+		'uglify'
+	]);
+	grunt.registerTask('buildDocs', [
+		'yuidoc'
+	]);
+	grunt.registerTask('travis-ci-build', [
+		'check-travis-trusted-environment',
+		'decrypt-travis-ci-config',
+		'lint',
+		'build'
+	]);
+	grunt.registerTask('travis-ci-deploy', [
+		'check-travis-trusted-environment',
+		'fetch-deploy-branch',
+		'clean:deploy',
+		'copy:deploy',
+		'push-build'
+	]);
 
 };

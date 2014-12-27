@@ -1,5 +1,5 @@
 .idea/
-src/js/config.js
+app/js/config.js
 dist
 node_modules
-src/js/config.travis-ci.js
+app/js/config.travis-ci.js

@@ -8,6 +8,7 @@ define([
 	'jquery',
 	'underscore',
 	'Framework',
+	'bootstrap-sweetalert',
 	'views/MenuView',
 	'views/HomeView',
 	'views/ChooseLevelView',
@@ -17,7 +18,7 @@ define([
 	'views/PlayView',
 	'views/HighScoreView',
 	'views/levelbuilder/BaseView'
-], function ($, _, Framework, MenuView, HomeView, ChooseLevelView, AppView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView) {
+], function ($, _, Framework, SweetAlert, MenuView, HomeView, ChooseLevelView, AppView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView) {
 	var MainView = Framework.View.extend({
 		el: 'html',
 
@@ -41,13 +42,10 @@ define([
 			// load the bootstrap-sweet-alert library on document ready and then show the alerts that were triggered already
 			var that = this;
 			$(function () {
-				require(['lib/sweet-alert'], function () {
 					for (var i = 0; i < that.alertQueue.length; i++) {
 						that.alert(that.alertQueue[i]);
 					}
 					that.alertQueue = [];
-				});
-
 			});
 		},
 

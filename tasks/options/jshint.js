@@ -2,8 +2,8 @@ module.exports = {
 	src: {
 		src: [
 			'Gruntfile.js',
-			'src/js/{,*/}*.js',
-			'!src/js/lib/**'
+			'app/js/{,*/}*.js',
+			'!app/vendor/**'
 		],
 		options: {jshintrc: '.jshintrc'}
 	}

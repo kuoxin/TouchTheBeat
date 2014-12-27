@@ -18,6 +18,9 @@ define([
         },
 
         render: function () {
+			console.log(_.extend(this.model.toJSON(), {
+				duration: this.model.getDurationString()
+			}));
             var template = _.template(LevelPanelTemplate, _.extend(this.model.toJSON(), {
                 duration: this.model.getDurationString()
             }));
@@ -29,7 +32,6 @@ define([
         },
 
         triggerCallback: function (event) {
-
             this.callback(this.model);
             event.preventDefault();
             event.returnValue = false;

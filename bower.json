@@ -1,0 +1,45 @@
+{
+	"name": "TouchTheBeat",
+	"version": "v0.2.0-alpha-indev",
+	"homepage": "https://github.com/TouchTheBeat/TouchTheBeat",
+	"authors": [
+		"Hermann Stolte (http://www.coloreddrums.de)"
+	],
+	"keywords": [
+		"html5",
+		"game",
+		"svg",
+		"SoundCloud",
+		"rhythm",
+		"music",
+		"multi-touch",
+		"touch"
+	],
+	"license": "GNU General Public License version 3",
+	"private": true,
+	"ignore": [
+		"node_modules",
+		"app/vendor",
+		"test",
+		"tests",
+		"Gruntfile.js"
+	],
+	"dependencies": {
+		"requirejs": "~2.1.15",
+		"jquery": "~2.1.3",
+		"underscore": "~1.7.0",
+		"backbone": "~1.1.2",
+		"bootstrap": "3.0.0",
+		"snap.svg": "~0.3.0",
+		"backbone.paginator": "~2.0.2",
+		"bootstrap-sweetalert": "https://github.com/hstolte/bootstrap-sweetalert.git#~0.4.3",
+		"requirejs-text": "~2.0.12",
+		"md5": "http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js",
+		"analytics": "https://www.google-analytics.com/analytics.js",
+		"backbone.select": "~1.2.8",
+		"tv4": "~1.1.4"
+	},
+	"resolutions": {
+		"underscore": "^1.5.0 <1.7.0"
+	}
+}

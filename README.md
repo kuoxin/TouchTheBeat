@@ -39,11 +39,11 @@ TouchTheBeat uses and/or contains the following **software components** and **re
 - **bootstrap-sweetalert** https://github.com/hstolte/bootstrap-sweetalert Copyright (c) 2014 Tristan Edwards Licensed under MIT License
 - **Material Design Icons** https://github.com/google/material-design-icons/ released under an [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license.
 
-###Build/Contribute
+###Build
 
 To build a compressed version of TouchTheBeat perform the following steps.
 
-- Ensure you have installed [Node.js](https://nodejs.org/) and [Grunt](http://gruntjs.com/) (along with grunt-cli).
+- Ensure you have installed [Node.js](https://nodejs.org/), [Grunt](http://gruntjs.com/) (along with grunt-cli!) and [Bower](http://bower.io/).
 - Run `` npm install ``.
 - Create the file ``config.js`` in ``src/js``. You can refer to ``config.sample.js`` (in the same directory).
 
@@ -53,7 +53,10 @@ Now you can run the following grunt tasks:
 |---------|-------------|
 |``grunt lint``|runs jshint code analysis and logs the results to the console|
 |``grunt build``|creates a minified build in the ``dist/`` directory|
-|``grunt yuidoc``|generates the docs from the code's comments to the ``docs/`` directory|
+|``grunt buildDocs``|generates the docs from the code's comments to the ``docs/`` directory|
+|``grunt update``|updates the bower dependencies and also automatically adjusts the requirejs paths configurtaion in ``app/main.js``|
 
-There also exist several sub-tasks and a set of tasks used for continuous integration and deployment in Travis Ci.
+There also exist several grunt-sub-tasks and a set of tasks used for continuous integration and deployment in Travis Ci.
 
+##Contributing
+We are happy if you want to help us developing TouchTheBeat. Feel free to open (or comment on) an [issue](https://github.com/TouchTheBeat/TouchTheBeat/issues) and make pull-requests.

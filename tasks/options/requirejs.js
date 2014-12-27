@@ -3,13 +3,13 @@ module.exports = function (grunt) {
 		compile: {
 			options: {
 				baseUrl: "js",
-				appDir: "src",
+				appDir: "app",
 				modules: [{
 					name: "main"
 				}],
 				preserveLicenseComments: false,
 				removeCombined: true,
-				mainConfigFile: 'src/js/main.js',
+				mainConfigFile: 'app/js/main.js',
 				inlineText: true,
 				dir: "dist",
 				fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/,
@@ -23,14 +23,7 @@ module.exports = function (grunt) {
 					grunt.log.writeln(output);
 					done();
 				},
-				optimize: "uglify2",
-				uglify2: {
-					//warnings: true,
-					/*mangle: {
-					 toplevel: false
-					 },*/
-					//compress: {}
-				}
+				optimize: "none"
 			}
 		}
 	};
