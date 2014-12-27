@@ -1,0 +1,53 @@
+{
+	"name": "backbone.select",
+	"version": "1.2.8",
+	"homepage": "https://github.com/hashchange/backbone.select",
+	"authors": [
+		"Michael Heim <heim@zeilenwechsel.de>",
+		"Derick Bailey <derickbailey@gmail.com>"
+	],
+	"description": "Selecting Backbone models; handling selections in Backbone collections.",
+	"main": "dist/backbone.select.js",
+	"keywords": [
+		"backbone",
+		"picky",
+		"selection",
+		"select",
+		"models",
+		"collections"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests",
+		"public",
+		"reports",
+		"demo",
+		"lib-other",
+		"web-mocha",
+		"spec",
+		"src",
+		"Gruntfile.js",
+		"karma.conf.js",
+		"package.json"
+	],
+	"devDependencies": {
+		"jasmine": "~1.3.1"
+	},
+	"dependencies": {
+		"underscore": "^1.5.0 <1.7.0",
+		"backbone": "^1.0.0 <1.2.0"
+	},
+	"_release": "1.2.8",
+	"_resolution": {
+		"type": "version",
+		"tag": "1.2.8",
+		"commit": "2823afda7b371dc44dbde9e647bfde49bd903a6f"
+	},
+	"_source": "git://github.com/hashchange/backbone.select.git",
+	"_target": "~1.2.8",
+	"_originalSource": "backbone.select"
+}
