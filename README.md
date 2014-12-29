@@ -16,6 +16,29 @@ You can easily create your own levels by using any **SoundCloud track** as music
 ###Development
 TouchTheBeat is currently in active development. We are using GitHub Issues to organize feature-ideas and development progress. You can influence the further development by opening or commenting on an issue. 
 
+####Activity
+
+<p align="center">
+  <a href="https://waffle.io/touchthebeat/touchthebeat" target="_blank">
+    <img src="https://graphs.waffle.io/TouchTheBeat/TouchTheBeat/throughput.svg" alt="Throughput Graph">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://waffle.io/touchthebeat/touchthebeat" target="_blank">
+    <img src="https://badge.waffle.io/touchthebeat/touchthebeat.svg?label=planned&title=Planned">
+  </a>
+  <a href="https://waffle.io/touchthebeat/touchthebeat" target="_blank">
+    <img src="https://badge.waffle.io/touchthebeat/touchthebeat.svg?label=in%20progress&title=In%20Progress">
+  </a>
+</p>
+<p align="center">
+  <a href="https://waffle.io/touchthebeat/touchthebeat" target="_blank">
+    open the project backlog
+  </a>
+</p>
+
+
 ###Dependencies:
 
 TouchTheBeat uses the following **third party services**:
