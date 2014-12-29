@@ -28,6 +28,7 @@ define([
                 return {};
             }
             else {
+				this.clear({silent: true});
                 return data;
             }
         }

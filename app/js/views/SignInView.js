@@ -61,18 +61,30 @@ define([
         onSignUpBtnClick: function (evt) {
             evt.preventDefault();
             var self = this;
-            var form = $('#form_signup');
+			var valid = true;
+
+			var captchaIsValid = this.$('#g-recaptcha-response').val() !== '';
+			self.markValid(captchaIsValid, 'signup_recaptcha', 'Please confirm that you are no robot.');
+
+			valid = valid && captchaIsValid;
+
+			var form = $('#form_signup');
             if (this.validateForm(form)) {
                 var data = this.getFormData(form);
+
                 if (data.password != data.password_repeat) {
                     self.markValid(false, 'signup_password');
                     self.markValid(false, 'signup_password_repeat');
-                    return false;
+					valid = false;
                 }
+
+				if (!valid) {
+					return false;
+				}
 
                 var user = new User();
                 data.password = md5.MD5(data.password).toString();
-                user.save(_.pick(data, 'username', 'email', 'password', 'homepage'), {
+				user.save(_.pick(data, 'username', 'email', 'password', 'homepage', 'g-recaptcha-response'), {
                     success: function () {
                         console.log('signup succeeded');
                         app.session.login(_.pick(data, 'email', 'password'));
@@ -131,7 +143,7 @@ define([
 
         // could be extracted
         markValid: function (valid, name, text) {
-            var elem = this.$('input#' + name);
+			var elem = this.$('#' + name);
             var formgroup = elem.closest('.form-group');
             formgroup.removeClass(valid ? 'has-error' : 'has-success');
             if (!valid) {

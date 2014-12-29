@@ -16,7 +16,7 @@ require.config({
 		analytics: '../vendor/analytics/index',
 		'backbone.select': '../vendor/backbone.select/dist/amd/backbone.select',
 		backbone: '../vendor/backbone/backbone'
-	},
+    },
 	map: {
 		'*': {
 			text: 'requirejs-text',
@@ -29,7 +29,7 @@ require.config({
 			'lib/backbone.paginator': 'backbone.paginator',
 			Backbone: 'backbone'
 		}
-    },
+	},
     shim: {
 		bootstrap: {
 			deps: [
