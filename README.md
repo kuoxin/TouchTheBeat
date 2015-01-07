@@ -1,6 +1,8 @@
 TouchTheBeat
 ============
-[![License](https://img.shields.io/badge/License-GPLv3-lightgrey.svg?style=flat)]() [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.svg?branch=master)](https://travis-ci.org/TouchTheBeat/TouchTheBeat) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/) 
+[![License](https://img.shields.io/badge/License-GPLv3-lightgrey.svg?style=flat)]() [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.svg?branch=master)](https://travis-ci.org/TouchTheBeat/TouchTheBeat) [![Code Climate](https://codeclimate.com/github/TouchTheBeat/TouchTheBeat/badges/gpa.svg)](https://codeclimate.com/github/TouchTheBeat/TouchTheBeat)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/) 
+
 
 TouchTheBeat is a HTML5 multi-touch rhythm game currently in development. 
 ###Quick Links
