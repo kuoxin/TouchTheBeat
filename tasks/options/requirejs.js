@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 				removeCombined: true,
 				mainConfigFile: 'app/js/main.js',
 				inlineText: true,
-				dir: "dist",
+				dir: "dist/web",
 				fileExclusionRegExp: /(^\.git$|^\.idea$|^\.gitignore$|^LICENSE$|^README\.md$|boilerplate\.js)/,
 				done: function (done, output) {
 					var duplicates = require('rjs-build-analysis').duplicates(output);

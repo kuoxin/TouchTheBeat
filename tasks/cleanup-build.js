@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('cleanup-build', function () {
 		var paths = grunt.file.expand({
-			cwd: 'dist'
+			cwd: 'dist/web'
 		}, [
 			'templates',
 			'build.txt',
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 
 		]);
 		for (var i = 0; i < paths.length; i++) {
-			var path = 'dist/' + paths[i];
+			var path = 'dist/web/' + paths[i];
 			if (grunt.file.exists(path)) {
 				grunt.log.writeln('deleting "' + path + '"');
 				grunt.file.delete(path);

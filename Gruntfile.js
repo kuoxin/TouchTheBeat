@@ -3,7 +3,7 @@ module.exports = function (grunt) {
     'use strict';
 
     var loadConfig = require('load-grunt-config');
-
+	grunt.pkg = require('./package.json');
     loadConfig(grunt, {
         configPath: __dirname + '/tasks/options',
         data: {
@@ -36,13 +36,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('lint',
 		'jshint:src'
 	);
-	grunt.registerTask('build', [
-		'clean:dist',
-		'check-config',
-		'requirejs',
-		'cleanup-build',
-		'uglify'
-	]);
+
 	grunt.registerTask('buildDocs', [
 		'yuidoc'
 	]);

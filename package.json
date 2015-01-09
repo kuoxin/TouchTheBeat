@@ -25,6 +25,8 @@
     "crypto-js": "~3.1.2-5",
     "shelljs": "~0.3.0",
 	  "load-grunt-config": "~0.16.0",
-	  "grunt-contrib-uglify": "~0.7.0"
+	  "grunt-contrib-uglify": "~0.7.0",
+	  "grunt-phonegap": "~0.15.2",
+	  "phonegap": "~4.1.2-0.22.11"
   }
 }

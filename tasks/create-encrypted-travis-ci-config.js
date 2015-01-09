@@ -1,5 +1,5 @@
 'use strict';
-
+var CryptoJS = require('crypto-js');
 module.exports = function (grunt) {
 
 	grunt.registerTask('create-encrypted-travis-ci-config', function (key) {

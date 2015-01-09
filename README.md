@@ -77,7 +77,7 @@ Now you can run the following grunt tasks:
 | command | description |
 |---------|-------------|
 |``grunt lint``|runs jshint code analysis and logs the results to the console|
-|``grunt build``|creates a minified build in the ``dist/`` directory|
+|``grunt build:web``|creates a minified browser-build in the ``dist/web`` directory ready for deployment|
 |``grunt buildDocs``|generates the docs from the code's comments to the ``docs/`` directory|
 |``grunt update``|updates the bower dependencies and also automatically adjusts the requirejs paths configurtaion in ``app/main.js``|
 
