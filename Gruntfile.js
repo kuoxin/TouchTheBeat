@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 		'check-travis-trusted-environment',
 		'decrypt-travis-ci-config',
 		'lint',
-		'build'
+		'build:web'
 	]);
 	grunt.registerTask('travis-ci-deploy', [
 		'check-travis-trusted-environment',
