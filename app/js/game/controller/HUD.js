@@ -19,10 +19,12 @@ define([
 
 		onPause: function () {
 			console.log('triggering pause, game was stopped: ' + this.game.stopped);
-			if (!this.game.stopped)
+			if (!this.game.stopped) {
 				this.game.pause();
-			else
-				this.game.start();
+			}
+			else {
+				this.game.resume();
+			}
 		}
 	});
 	return HUD;

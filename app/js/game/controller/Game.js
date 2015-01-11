@@ -23,12 +23,13 @@ define([
             this.gameObjects = [];
             this.audiocontroller = data.audiocontroller;
             this.surface = data.surface;
-            var level = data.level.toJSON();
+			this.level = data.level;
+			var gameObjects = this.level.get('gameObjects').toJSON();
 
             this.hud = new HUD(this);
 
-            for (var i = 0; i < level.gameObjects.length; i++) {
-                var gameObject = level.gameObjects[i];
+			for (var i = 0; i < gameObjects.length; i++) {
+				var gameObject = gameObjects[i];
                 switch (gameObject.type) {
                     case 'Tap':
                         this.gameObjects.push(new TapObject(this, gameObject.tapTime, gameObject.x, gameObject.y, gameObject.shape));
@@ -64,11 +65,16 @@ define([
         },
 
         start: function () {
-            this.stopped = false;
-            this.audiocontroller.play();
-            this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
-            this.updateView(this.getTime());
+			this.level.incrementPlayCounter();
+			this.resume();
         },
+
+		resume: function () {
+			this.stopped = false;
+			this.audiocontroller.play();
+			this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
+			this.updateView(this.getTime());
+		},
 
         pause: function () {
             this.audiocontroller.pause();

@@ -34,12 +34,6 @@ define([
 	Framework.Collection = Backbone.Collection;
 
 	/**
-	 * @property {Backbone.history} history
-	 */
-	Framework.history = Backbone.history;
-
-
-	/**
 	 * @property {Controller} Controller
 	 */
 	Framework.Controller = Controller;
@@ -60,6 +54,13 @@ define([
 	Framework.CollectionView = CollectionView;
 
 	/**
+	 * the third party object of backbone.select
+	 * @property {Object} Select
+	 * @type {Backbone.Select|*}
+	 */
+	Framework.Select = Backbone.Select;
+
+	/**
 	 * @property {PageableCollection} PageableCollection
 	 */
 	Framework.PageableCollection = PageableCollection;
@@ -68,6 +69,16 @@ define([
 	 * @property {API} API
 	 */
 	Framework.Backend = Backend;
+
+	/**
+	 * @property {Backbone.history} history
+	 */
+	Framework.history = Backbone.history;
+
+	/**
+	 * @method sync {Backbone.sync}
+	 */
+	Framework.sync = Backbone.sync;
 
 	return Framework;
 });

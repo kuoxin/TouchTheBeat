@@ -12,6 +12,7 @@ define([
      * @module models
      * @extends Model
      * @class Level
+	 * @constructor
      * @type {*|void}
      */
     var Level = Framework.Model.extend({
@@ -42,12 +43,31 @@ define([
             return this.get('audio').getDurationString();
         },
 
-        parse: function (data) {
+		incrementPlayCounter: function () {
+			"use strict";
+			/*
+			 for now, only logged in users can increment the play counter. This is supposed to change.
+			 https://github.com/TouchTheBeat/Backend/issues/29#issuecomment-69509728
+			 */
+			if (app.session.get('logged_in')) {
+				app.backend.put({
+					url: this.url() + '/played'
+				});
+			}
+		},
+
+		parse: function (data, options) {
             var obj = {};
             for (var k in data) {
                 switch (k) {
                     case 'gameObjects':
-                        obj.gameObjects = new GameObjectCollection(data[k], {parse: true});
+						/**
+						 * the level resource does not contain the gameObjects when fetched indirectly by fetching its collection.
+						 * Once a level has loaded its gameObjects, they should not get reset as soon as the collection gets fetched again.
+						 */
+						if (!options.fetchFromCollection) {
+							this.get('gameObjects').set(data[k], {parse: true});
+						}
                         break;
                     case 'owner':
                         obj.owner = new User(data[k], {parse: true});

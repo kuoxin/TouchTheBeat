@@ -41,7 +41,6 @@ define([
         onClose: function () {
             if (this.active) {
                 this.active = false;
-                console.log('closing audio');
                 if (this.request) {
                     this.request.abort();
                     this.request = null;
@@ -60,7 +59,6 @@ define([
         onended: function () {
             if (this.isPaused()) {
                 console.info('The audio was paused at ' + this.getCurrentTime());
-                console.log(this);
             }
             else {
                 console.info('The audio has stopped');
@@ -83,7 +81,10 @@ define([
             try {
                 if (typeof this.cache[stream_url] !== 'undefined') {
                     console.info('Reading audio-buffer from cache.');
+					this.renderer.hideLoadingIndicator();
+					this.renderer.showProcessingInformation();
                     this.initsound(this.cache[stream_url]);
+
                     return;
                 }
 
@@ -121,12 +122,13 @@ define([
         },
 
         initsound: function (buffer) {
-            console.log('init sound');
-            if (!this.active)
-                return;
+			if (!this.active) {
+				return;
+			}
 
-            if (typeof this.cache[this.stream_url] === 'undefined')
-                this.cache[this.stream_url] = buffer;
+			if (typeof this.cache[this.stream_url] === 'undefined') {
+				this.cache[this.stream_url] = buffer;
+			}
 
             this.buffer = buffer;
 
@@ -148,7 +150,7 @@ define([
             this.source = source;
 
             this.source.start(0, this.startOffset % this.buffer.duration);
-            console.info('The audio started at ' + this.getCurrentTime());
+			//console.info('The audio started at ' + this.getCurrentTime());
             this.callback_started();
         },
 
@@ -159,7 +161,12 @@ define([
         },
 
         getCurrentTime: function () {
-            return this.paused ? ( this.startOffset % this.buffer.duration) : (app.audiocontext.currentTime - this.inittime + this.startOffset);
+			if (this.paused) {
+				return this.startOffset % this.buffer.duration;
+			}
+			else {
+				return app.audiocontext.currentTime - this.inittime + this.startOffset;
+			}
         },
 
         isPaused: function () {

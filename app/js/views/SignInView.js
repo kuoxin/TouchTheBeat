@@ -90,7 +90,6 @@ define([
                         app.session.login(_.pick(data, 'email', 'password'));
                     },
                     error: function (user, e) {
-                        console.log('error catched');
                         switch (e) {
                             case 'USER_EMAIL_NOT_VALID':
                                 self.markValid(false, 'signup_email', 'This email address does not exist.');

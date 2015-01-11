@@ -53,12 +53,10 @@ define([
                 this.level.fetch({
                     success: function () {
                         "use strict";
+						that.levelloaded = true;
                         console.log('level loaded');
                         if (that.audioready) {
-                            that.start();
-                        }
-                        else {
-                            that.levelloaded = true;
+							that.requestStart();
                         }
                     }
                 });
@@ -96,12 +94,10 @@ define([
         },
 
         onAudioReady: function () {
+			this.audioready = true;
             console.log('audio is ready');
             if (this.levelloaded) {
                 this.requestStart();
-            }
-            else {
-                this.audioready = true;
             }
         },
 
