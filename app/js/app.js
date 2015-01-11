@@ -44,12 +44,12 @@ define([
 			/**
 			 * @property {ErrorCodeModel} errorCodes
 			 */
-			this.errorCodes = new ErrorCodeModel(),
+			this.errorCodes = new ErrorCodeModel();
 
 			/**
 			 * @property {Backend} backend
 			 */
-				this.backend = new Framework.Backend(app);
+			this.backend = new Framework.Backend(app);
 
 			try {
 				window.AudioContext = window.AudioContext || window.webkitAudioContext;
