@@ -17,9 +17,54 @@ define([
 	var App = Framework.Controller.extend({
 
 		/**
-		 * @property {Router} router
+		 * - stores the config and the router and session instance created in main.js
+		 * - appends audiocontext as property when available
+		 * - initializes an instance of the Backend class
+		 * @method init
+		 * @param {Object} config The content of the config module.
 		 */
-		router: null,
+		init: function (config) {
+			"use strict";
+
+			/**
+			 * @property config
+			 */
+			this.config = config;
+
+			/**
+			 * @property {Router} router
+			 */
+			this.router = this.config.router;
+
+			/**
+			 * @property {Session} session
+			 */
+			this.session = this.config.session;
+
+			/**
+			 * @property {ErrorCodeModel} errorCodes
+			 */
+			this.errorCodes = new ErrorCodeModel(),
+
+			/**
+			 * @property {Backend} backend
+			 */
+				this.backend = new Framework.Backend(app);
+
+			try {
+				window.AudioContext = window.AudioContext || window.webkitAudioContext;
+				/**
+				 * an instance of AudioContext that will be used by every instance of AudioController
+				 * @property audiocontext
+				 * @type {Window.AudioContext}
+				 */
+				this.audiocontext = new window.AudioContext();
+			}
+			catch (e) {
+			}
+
+			this.run();
+		},
 
 		/**
 		 * @method getMainView
@@ -41,7 +86,7 @@ define([
 		/**
 		 * shows the view with the name passed as first parameter. all other parameters will be passed to the views render function
 		 * @method showAppContent
-		 * @param {String} name of the view
+		 * @param {String} viewName the name of the view
 		 * @param [...]
 		 */
 		showAppContent: function () {
@@ -54,7 +99,7 @@ define([
 		/**
 		 * checks the support of featues used by TouchTheBeat
 		 * @method getCompabilityReport
-		 * @returns {AudioContext: boolean, SVG: boolean, Touch: boolean}
+		 * @returns compability {Object} schema: ``{AudioContext: boolean, SVG: boolean, Touch: boolean}``
 		 */
 		getCompabilityReport: function () {
 			"use strict";
@@ -68,96 +113,39 @@ define([
 			};
 		},
 
-		/**
-		 * creates an ErrorCodeModel, configures the backend communication according to the config file and sets up request logging for development
-		 * @method connectToBackend
-		 */
-		connectToBackend: function () {
-			"use strict";
-
-			// taken from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-			this.id = (function () {
-				function s4() {
-					return Math.floor((1 + Math.random()) * 0x10000)
-						.toString(16)
-						.substring(1);
-				}
-
-				return function () {
-					return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-						s4() + '-' + s4() + s4() + s4();
-				};
-			})()();
-
-			var errorCodeModel = new ErrorCodeModel();
-
-			Framework.API.setupBackend({
-				host: this.backend.host,
-
-				onAjaxPrepare: function prepareAjaxRequest(p) {
-					p.string = _.uniqueId('API-Request') + ' "' + p.type + ' ' + p.url;
-
-					if (typeof app.session !== 'undefined' && app.session !== null && app.session.has('hash')) {
-						p.string += ' with sessionID';
-						p.headers[app.backend.headerNames.session] = app.session.get('hash');
-					}
-
-					p.headers[app.backend.headerNames.timestamp] = Date.now() / 1000;
-					p.headers[app.backend.headerNames.token] = app.id;
-					p.headers[app.backend.headerNames.hash] = app.backend.createAccessHash(p);
-
-					return p;
-				},
-				errorCodeModel: errorCodeModel
-			});
-
-			// try to connect to the backend and fetch the error codes
-			errorCodeModel.fetch({
-				parse: true,
-				error: function (model, error) {
-					var displayError;
-					if (error.isServerError && error.errorCode === 18) {
-						// system access was unauthorized
-						displayError = {
-							type: 'error',
-							title: "Insecure Client",
-							text: "Your version of TouchTheBeat was blocked due to security concerns. If you think that was a mistake, please contact me."
-						};
-					}
-					else {
-						// default error, e.g. error 404 or any error indicating the user is offline or the backend is unreachable.
-						displayError = {
-							type: 'error',
-							title: "Connection to the TouchTheBeat-Backend failed",
-							text: "Please try again later or contact me, if the error still occures."
-						};
-					}
-					app.getMainView().alert(displayError);
-				}
-			});
+		showError: {
+			clientIsUnauthorized: function () {
+				"use strict";
+				this.getMainView().alert({
+					type: 'error',
+					title: "Insecure Client",
+					text: "Your version of TouchTheBeat was blocked due to security concerns. If you think that was a mistake, please contact me."
+				});
+			},
+			clientIsOffline: function () {
+				"use strict";
+				this.getMainView().alert({
+					type: 'error',
+					title: "Connection to the TouchTheBeat-Backend failed",
+					text: 'Please try again later or <a href="https://github.com/TouchTheBeat/TouchTheBeat/issues/new">open an issue</a>, if the error still occures.'
+				});
+			}
 		},
 
 		/**
-		 * - configures backend
-		 * - checks environment compability
-		 * - tries to restore a session
-		 * - calls router's init method
-		 * @method init
+		 * - setting up backend
+		 * - trigger compability check
+		 * - initializing session and router
+		 * - start listening to backend errors
+		 * @method run
 		 * @param {Object} config
 		 * The content of the config module.
 		 */
-		init: function (config) {
-			_.extend(this, config);
-			this.connectToBackend();
+		run: function () {
+			this.listenTo(this.backend, 'client-unauthorized', this.showError.clientIsUnauthorized);
+			this.listenTo(this.backend, 'offline', this.showError.clientIsOffline);
 
-			// adding an instance of AudioContext to the app object that will be used by every instance of AudioController
-			try {
-				window.AudioContext = window.AudioContext || window.webkitAudioContext;
-				this.audiocontext = new window.AudioContext();
-			}
-			catch (e) {
-			}
-
+			this.backend.connect();
 			console.log(this.getCompabilityReport());
 			this.session.restore();
 			this.router.init();

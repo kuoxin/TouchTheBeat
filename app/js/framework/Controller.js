@@ -1,6 +1,7 @@
 define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 	/**
 	 * The Controller is a base object of TouchTheBeat that controls a specific aspect of the app
+	 * @class Controller
 	 * @type {Function}
 	 */
 	var Controller = function () {

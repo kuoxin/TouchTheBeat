@@ -5,7 +5,8 @@ module.exports = {
 		version: '<%= package.version %>',
 		url: '<%= package.homepage %>',
 		options: {
-			paths: 'src',
+			paths: 'app',
+			exclude: 'vendor',
 			linkNatives: true,
 			outdir: 'docs/',
 			"themedir": "node_modules/yuidoc-theme-blue"

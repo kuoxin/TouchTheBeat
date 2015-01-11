@@ -11,13 +11,33 @@ define([
 	'framework/View',
 	'framework/GameObject',
 	'framework/Renderer',
-	'framework/API',
+	'framework/Backend',
 	'framework/CollectionView',
 	'lib/backbone.paginator',
 	'lib/backbone.select'
-], function (_, Backbone, Controller, Model, View, GameObject, Renderer, API, CollectionView, PageableCollection) {
+], function (_, Backbone, Controller, Model, View, GameObject, Renderer, Backend, CollectionView, PageableCollection) {
 
-	var Framework = Backbone;
+	var Framework = {};
+	/**
+	 * @property {Model} Model
+	 */
+	Framework.Model = Model;
+
+	/**
+	 * @property {View} View
+	 */
+	Framework.View = View;
+
+	/**
+	 * @property {Collection} Collection
+	 */
+	Framework.Collection = Backbone.Collection;
+
+	/**
+	 * @property {Backbone.history} history
+	 */
+	Framework.history = Backbone.history;
+
 
 	/**
 	 * @property {Controller} Controller
@@ -47,7 +67,7 @@ define([
 	/**
 	 * @property {API} API
 	 */
-	Framework.API = API;
+	Framework.Backend = Backend;
 
 	return Framework;
 });

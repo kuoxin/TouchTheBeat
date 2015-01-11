@@ -1,7 +1,8 @@
 define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($, _, Backbone, Controller) {
 	/**
 	 * A GameObject controls the logic of an element in the game.
-	 * @type {Function}
+	 * @class GameObject
+	 * @extends Controller
 	 */
 	var GameObject = Controller;
 
