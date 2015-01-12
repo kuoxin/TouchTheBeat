@@ -71,11 +71,11 @@ define([
                             self.model.set('audio', new Track(track.attributes));
                         }
                     },
-                    error: function (track, errormessage) {
+					error: function (track, error) {
                         "use strict";
-                        if (errormessage == 'AUDIOPROVIDER_ERROR')
-                            errormessage = Track.errorMessages.SOUNDCLOUDERROR;
-                        self.showError(errormessage);
+						if (error.errorCode == 'AUDIOPROVIDER_ERROR') {
+							self.showError(Track.errorMessages.SOUNDCLOUDERROR);
+						}
                     }
                 });
             }
