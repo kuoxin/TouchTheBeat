@@ -1,0 +1,24 @@
+#surfaceSVG {
+	display: block;
+	top: 1%;
+	height: 99%;
+	width: 100%;
+}
+
+#gameHudProgressBarSVG {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 1%;
+	width: 100%;
+}
+
+#gameHudPauseButtonSVG {
+	position: absolute;
+	top: 1%;
+	left: 0;
+	width: 4em;
+	height: 4em;
+}
+
+

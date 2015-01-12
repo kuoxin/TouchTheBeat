@@ -13,13 +13,17 @@ define([
 
         initialize: function (game, timestamp, x, y, shape) {
             this.game = game;
+			this.listenTo(this.game, 'pause', this.disableTap);
+			this.listenTo(this.game, 'resume', this.enableTap);
             this.timestamp = timestamp;
+			this.actions = {
+				TAP: this.handleTap.bind(this)
+			};
+
             this.setRenderer(new TapObjectRenderer({
                 snap: game.surface.getSnap(),
                 controller: this,
-                actions: {
-                    TAP: this.handleTap.bind(this)
-                },
+				actions: this.actions,
                 x: x,
                 y: y,
                 timestamp: timestamp,
@@ -33,6 +37,7 @@ define([
         time_render: NaN,
         time_logic: NaN,
         tapped: false,
+		tappingEnabled: true,
 
         //objects for calculating highscore
         tapdiff: NaN,
@@ -41,12 +46,17 @@ define([
         //debug
         debugtime: NaN,
 
+		enableTap: function () {
+			this.tappingEnabled = true;
+		},
 
+		disableTap: function () {
+			this.tappingEnabled = false;
+		},
 
         handleTap: function () {
-            if (this.timestamp == this.debugtime)
-                console.info('allowed tap: ' + this.logic_enabled);
-            if (!this.tapped) {
+
+			if (!this.tapped && this.tappingEnabled) {
                 this.tapped = true;
 
                 if (this.logic_enabled) {

@@ -27,8 +27,7 @@ define([
 
         playagain: function () {
             analytics.trackAction('highscoreview', 'click button', 'playagain');
-            console.log(this.game);
-            app.startlevel(this.game.level);
+			app.startLevel(this.game.level);
         }
 
 

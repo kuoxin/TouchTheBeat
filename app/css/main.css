@@ -1,18 +1,18 @@
 @import "../vendor/bootstrap/dist/css/bootstrap.min.css";
 @import "../vendor/bootstrap-sweetalert/lib/sweet-alert.css";
 
+@import "game.css";
 body, html {
     height: 100%;
 }
 
 div.svgcontainer {
-    background: #000000;
-    height: 100%;
+	background: #000000;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
-div.svgcontainer svg {
-    display: block;
-}
 
 .vcenter {
     display: inline-block;

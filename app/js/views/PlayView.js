@@ -30,7 +30,7 @@ define([
         stopGame: function () {
             this.game.stop();
 
-            $('#svg').fadeTo(1500, 0, this.exitview.bind(this));
+			$('#playdiv').fadeTo(1500, 0, this.exitview.bind(this));
 
             this.result = {};
             this.result.highscore = this.game.calculateHighScore();
@@ -108,9 +108,7 @@ define([
         },
 
         exitview: function () {
-
             analytics.trackAction('game', 'ending regularly', 'highscore:' + this.result.highscore);
-
             app.showAppContent('highscore', this.result);
         }
     });

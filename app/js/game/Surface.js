@@ -6,7 +6,7 @@ define([
 
     var Surface = function (options) {
         this.options = options;
-        this.snap = new Snap(options.el || '#svg');
+        this.snap = new Snap(options.el || '#surfaceSVG');
         this.r = this.snap.rect(0, 0, "100%", "100%", 0);
         this.r.attr({
             fill: this.options.bgcolor || '#000000'

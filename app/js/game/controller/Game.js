@@ -70,6 +70,8 @@ define([
         },
 
 		resume: function () {
+			this.trigger('resume');
+
 			this.stopped = false;
 			this.audiocontroller.play();
 			this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
@@ -77,6 +79,8 @@ define([
 		},
 
         pause: function () {
+			this.trigger('pause');
+
             this.audiocontroller.pause();
             this.stop();
         },
