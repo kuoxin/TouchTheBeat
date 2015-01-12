@@ -24,6 +24,7 @@ define([
             this.audiocontroller = data.audiocontroller;
             this.surface = data.surface;
 			this.level = data.level;
+			this.playCounterIncremented = false;
 			var gameObjects = this.level.get('gameObjects').toJSON();
 
             this.hud = new HUD(this);
@@ -44,6 +45,10 @@ define([
             return this.audiocontroller.getCurrentTime();
         },
 
+		getDuration: function(){
+			return this.audiocontroller.getDuration();
+		},
+
         update: function () {
             if (!this.stopped) {
                 //update gameobjects
@@ -52,6 +57,10 @@ define([
                     this.gameObjects[i].update(this.getTime());
                 }
             }
+			if (!this.playCounterIncremented && (this.getTime() > this.getDuration()/2)){
+				this.level.incrementPlayCounter();
+				this.playCounterIncremented = true;
+			}
         },
 
         updateView: function () {
@@ -65,7 +74,6 @@ define([
         },
 
         start: function () {
-			this.level.incrementPlayCounter();
 			this.resume();
         },
 

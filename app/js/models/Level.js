@@ -45,15 +45,9 @@ define([
 
 		incrementPlayCounter: function () {
 			"use strict";
-			/*
-			 for now, only logged in users can increment the play counter. This is supposed to change.
-			 https://github.com/TouchTheBeat/Backend/issues/29#issuecomment-69509728
-			 */
-			if (app.session.get('logged_in')) {
-				app.backend.put({
-					url: this.url() + '/played'
-				});
-			}
+			app.backend.put({
+				url: this.url() + '/played'
+			});
 		},
 
 		parse: function (data, options) {
