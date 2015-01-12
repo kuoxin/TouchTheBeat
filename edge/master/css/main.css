@@ -563,15 +563,34 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 .sweet-alert button::-moz-focus-inner {
   border: 0;
 }
+#surfaceSVG {
+	display: block;
+	top: 1%;
+	height: 99%;
+	width: 100%;
+}
+#gameHudProgressBarSVG {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 1%;
+	width: 100%;
+}
+#gameHudPauseButtonSVG {
+	position: absolute;
+	top: 1%;
+	left: 0;
+	width: 4em;
+	height: 4em;
+}
 body, html {
     height: 100%;
 }
 div.svgcontainer {
-    background: #000000;
-    height: 100%;
-}
-div.svgcontainer svg {
-    display: block;
+	background: #000000;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 .vcenter {
     display: inline-block;
