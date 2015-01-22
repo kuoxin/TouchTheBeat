@@ -8,14 +8,14 @@ require.config({
 		md5: '../vendor/md5/index',
 		underscore: '../vendor/underscore/underscore',
 		'backbone.paginator': '../vendor/backbone.paginator/lib/backbone.paginator',
-		ga: '../vendor/ga/index',
 		'requirejs-text': '../vendor/requirejs-text/text',
 		'snap.svg': '../vendor/snap.svg/dist/snap.svg-min',
 		requirejs: '../vendor/requirejs/require',
 		tv4: '../vendor/tv4/tv4',
 		analytics: '../vendor/analytics/index',
 		'backbone.select': '../vendor/backbone.select/dist/amd/backbone.select',
-		backbone: '../vendor/backbone/backbone'
+		backbone: '../vendor/backbone/backbone',
+		snackbarjs: '../vendor/snackbarjs/dist/snackbar.min'
     },
 	map: {
 		'*': {
@@ -54,6 +54,12 @@ require.config({
         },
 		md5: {
             exports: 'CryptoJS'
+		},
+		snackbarjs: {
+			deps: [
+				'jquery'
+			],
+			exports: '$.snackbar'
 		}
     },
 	enforceDefine: true,

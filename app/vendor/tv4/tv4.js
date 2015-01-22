@@ -45,16 +45,16 @@
 				for (var prop in obj) {
 					if (hasOwnProperty.call(obj, prop)) {
 						result.push(prop);
-					}
+				}
 				}
 
 				if (hasDontEnumBug) {
 					for (var i = 0; i < dontEnumsLength; i++) {
 						if (hasOwnProperty.call(obj, dontEnums[i])) {
 							result.push(dontEnums[i]);
-						}
 					}
 				}
+			}
 				return result;
 			};
 		})();
@@ -71,7 +71,7 @@
 				}
 				F.prototype = o;
 				return new F();
-			};
+		};
 		})();
 	}
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FArray%2FisArray
@@ -99,10 +99,10 @@
 					n = 0;
 				} else if (n !== 0 && n !== Infinity && n !== -Infinity) {
 					n = (n > 0 || -1) * Math.floor(Math.abs(n));
-				}
+			}
 			}
 			if (n >= len) {
-				return -1;
+			return -1;
 			}
 			var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
 			for (; k < len; k++) {
@@ -156,7 +156,7 @@
 		if (uriTemplateGlobalModifiers[spec.charAt(0)]) {
 			modifier = spec.charAt(0);
 			spec = spec.substring(1);
-		}
+	}
 		var separator = "";
 		var prefix = "";
 		var shouldEscape = true;
@@ -199,12 +199,12 @@
 				var parts = varName.split(":");
 				varName = parts[0];
 				truncate = parseInt(parts[1], 10);
-			}
+		}
 			var suffices = {};
 			while (uriTemplateSuffices[varName.charAt(varName.length - 1)]) {
 				suffices[varName.charAt(varName.length - 1)] = true;
 				varName = varName.substring(0, varName.length - 1);
-			}
+		}
 			var varSpec = {
 				truncate: truncate,
 				name: varName,
@@ -223,23 +223,23 @@
 				if (value === null || value === undefined || (Array.isArray(value) && value.length === 0) || (typeof value === 'object' && Object.keys(value).length === 0)) {
 					startIndex++;
 					continue;
-				}
+			}
 				if (i === startIndex) {
 					result += prefix;
 				} else {
 					result += (separator || ",");
-				}
+			}
 				if (Array.isArray(value)) {
 					if (showVariables) {
 						result += varSpec.name + "=";
-					}
+				}
 					for (var j = 0; j < value.length; j++) {
 						if (j > 0) {
 							result += varSpec.suffices['*'] ? (separator || ",") : ",";
 							if (varSpec.suffices['*'] && showVariables) {
 								result += varSpec.name + "=";
-							}
 						}
+					}
 						result += shouldEscape ? encodeURIComponent(value[j]).replace(/!/g, "%21") : notReallyPercentEncode(value[j]);
 					}
 				} else if (typeof value === "object") {
@@ -250,7 +250,7 @@
 					for (var key in value) {
 						if (!first) {
 							result += varSpec.suffices['*'] ? (separator || ",") : ",";
-						}
+					}
 						first = false;
 						result += shouldEscape ? encodeURIComponent(key).replace(/!/g, "%21") : notReallyPercentEncode(key);
 						result += varSpec.suffices['*'] ? '=' : ",";
@@ -261,21 +261,21 @@
 						result += varSpec.name;
 						if (!trimEmptyString || value !== "") {
 							result += "=";
-						}
 					}
+				}
 					if (varSpec.truncate != null) {
 						value = value.substring(0, varSpec.truncate);
 					}
 					result += shouldEscape ? encodeURIComponent(value).replace(/!/g, "%21") : notReallyPercentEncode(value);
-				}
 			}
+		}
 			return result;
-		};
+	};
 		subFunction.varNames = varNames;
 		return {
 			prefix: prefix,
 			substitution: subFunction
-		};
+	};
 	}
 
 	function UriTemplate(template) {
@@ -303,9 +303,9 @@
 				var substitution = substitutions[i];
 				result += substitution(valueFunction);
 				result += textParts[i + 1];
-			}
+		}
 			return result;
-		};
+	};
 		this.varNames = varNames;
 		this.template = template;
 	}
@@ -347,7 +347,7 @@
 		if (parent) {
 			for (var key in parent.definedKeywords) {
 				this.definedKeywords[key] = parent.definedKeywords[key].slice(0);
-			}
+		}
 		}
 	};
 	ValidatorContext.prototype.defineKeyword = function (keyword, keywordFunction) {
@@ -387,7 +387,7 @@
 			var result = this.handleError(error);
 			if (result) {
 				return result;
-			}
+		}
 		}
 		return null;
 	};
@@ -397,7 +397,7 @@
 			for (var key in format) {
 				this.addFormat(key, format[key]);
 			}
-			return this;
+		return this;
 		}
 		this.formatValidators[format] = validator;
 	};
@@ -406,7 +406,7 @@
 			urlHistory = urlHistory || {};
 			if (urlHistory[schema['$ref']]) {
 				return this.createError(ErrorCodes.CIRCULAR_REFERENCE, {urls: Object.keys(urlHistory).join(', ')}, '', '');
-			}
+		}
 			urlHistory[schema['$ref']] = true;
 			schema = this.getSchema(schema['$ref'], urlHistory);
 		}
@@ -431,19 +431,19 @@
 				return this.resolveRefs(schema, urlHistory);
 			} else if (pointerPath.charAt(0) !== "/") {
 				return undefined;
-			}
+		}
 			var parts = pointerPath.split("/").slice(1);
 			for (var i = 0; i < parts.length; i++) {
 				var component = parts[i].replace(/~1/g, "/").replace(/~0/g, "~");
 				if (schema[component] === undefined) {
 					schema = undefined;
 					break;
-				}
+			}
 				schema = schema[component];
-			}
+		}
 			if (schema !== undefined) {
-				return this.resolveRefs(schema, urlHistory);
-			}
+			return this.resolveRefs(schema, urlHistory);
+		}
 		}
 		if (this.missing[baseUrl] === undefined) {
 			this.missing.push(baseUrl);
@@ -452,14 +452,18 @@
 		}
 	};
 	ValidatorContext.prototype.searchSchemas = function (schema, url) {
-		if (schema && typeof schema === "object") {
+		if (Array.isArray(schema)) {
+			for (var i = 0; i < schema.length; i++) {
+				this.searchSchemas(schema[i], url);
+		}
+		} else if (schema && typeof schema === "object") {
 			if (typeof schema.id === "string") {
 				if (isTrustedUrl(url, schema.id)) {
 					if (this.schemas[schema.id] === undefined) {
 						this.schemas[schema.id] = schema;
-					}
 				}
 			}
+		}
 			for (var key in schema) {
 				if (key !== "enum") {
 					if (typeof schema[key] === "object") {
@@ -468,10 +472,10 @@
 						var uri = getDocumentUri(schema[key]);
 						if (uri && this.schemas[uri] === undefined && this.missingMap[uri] === undefined) {
 							this.missingMap[uri] = uri;
-						}
 					}
 				}
 			}
+		}
 		}
 	};
 	ValidatorContext.prototype.addSchema = function (url, schema) {
@@ -480,10 +484,10 @@
 			if (typeof url === 'object' && typeof url.id === 'string') {
 				schema = url;
 				url = schema.id;
-			}
+		}
 			else {
 				return;
-			}
+		}
 		}
 		if (url === getDocumentUri(url) + "#") {
 			// Remove empty fragment
@@ -508,7 +512,7 @@
 		for (var key in this.schemas) {
 			if (!filterRegExp || filterRegExp.test(key)) {
 				list.push(key);
-			}
+		}
 		}
 		return list;
 	};
@@ -518,7 +522,7 @@
 		for (var key in this.missingMap) {
 			if (!filterRegExp || filterRegExp.test(key)) {
 				list.push(key);
-			}
+		}
 		}
 		return list;
 	};
@@ -560,9 +564,9 @@
 					var frozenSchemaIndex = this.scannedFrozenSchemas[frozenIndex].indexOf(schema);
 					if (frozenSchemaIndex !== -1) {
 						this.errors = this.errors.concat(this.scannedFrozenValidationErrors[frozenIndex][frozenSchemaIndex]);
-						return null;
-					}
+					return null;
 				}
+			}
 			}
 			this.scanned.push(data);
 			if (Object.isFrozen(data)) {
@@ -570,7 +574,7 @@
 					frozenIndex = this.scannedFrozen.length;
 					this.scannedFrozen.push(data);
 					this.scannedFrozenSchemas.push([]);
-				}
+			}
 				scannedFrozenSchemaIndex = this.scannedFrozenSchemas[frozenIndex].length;
 				this.scannedFrozenSchemas[frozenIndex][scannedFrozenSchemaIndex] = schema;
 				this.scannedFrozenValidationErrors[frozenIndex][scannedFrozenSchemaIndex] = [];
@@ -589,12 +593,12 @@
 						//IE 7/8 workaround
 						data[this.validatedSchemasKey] = [];
 						data[this.validationErrorsKey] = [];
-					}
 				}
+			}
 				scannedSchemasIndex = data[this.validatedSchemasKey].length;
 				data[this.validatedSchemasKey][scannedSchemasIndex] = schema;
 				data[this.validationErrorsKey][scannedSchemasIndex] = [];
-			}
+		}
 		}
 
 		var errorCount = this.errors.length;
@@ -613,7 +617,7 @@
 			while (this.scanned.length) {
 				var item = this.scanned.pop();
 				delete item[this.validatedSchemasKey];
-			}
+		}
 			this.scannedFrozen = [];
 			this.scannedFrozenSchemas = [];
 		}
@@ -624,9 +628,9 @@
 				var schemaPart = (schemaPathParts && schemaPathParts.length) ? "" + schemaPathParts.pop() : null;
 				if (error) {
 					error = error.prefixWith(dataPart, schemaPart);
-				}
-				this.prefixErrors(errorCount, dataPart, schemaPart);
 			}
+				this.prefixErrors(errorCount, dataPart, schemaPart);
+		}
 		}
 
 		if (scannedFrozenSchemaIndex !== null) {
@@ -639,7 +643,7 @@
 	};
 	ValidatorContext.prototype.validateFormat = function (data, schema) {
 		if (typeof schema.format !== 'string' || !this.formatValidators[schema.format]) {
-			return null;
+		return null;
 		}
 		var errorMessage = this.formatValidators[schema.format].call(null, data, schema);
 		if (typeof errorMessage === 'string' || typeof errorMessage === 'number') {
@@ -649,7 +653,7 @@
 		}
 		return null;
 	};
-	ValidatorContext.prototype.validateDefinedKeywords = function (data, schema) {
+	ValidatorContext.prototype.validateDefinedKeywords = function (data, schema, dataPointerPath) {
 		for (var key in this.definedKeywords) {
 			if (typeof schema[key] === 'undefined') {
 				continue;
@@ -657,28 +661,30 @@
 			var validationFunctions = this.definedKeywords[key];
 			for (var i = 0; i < validationFunctions.length; i++) {
 				var func = validationFunctions[i];
-				var result = func(data, schema[key], schema);
+				var result = func(data, schema[key], schema, dataPointerPath);
 				if (typeof result === 'string' || typeof result === 'number') {
 					return this.createError(ErrorCodes.KEYWORD_CUSTOM, {
 						key: key,
 						message: result
 					}).prefixWith(null, "format");
 				} else if (result && typeof result === 'object') {
-					var code = result.code || ErrorCodes.KEYWORD_CUSTOM;
+					var code = result.code;
 					if (typeof code === 'string') {
 						if (!ErrorCodes[code]) {
 							throw new Error('Undefined error code (use defineError): ' + code);
-						}
-						code = ErrorCodes[code];
 					}
+						code = ErrorCodes[code];
+					} else if (typeof code !== 'number') {
+						code = ErrorCodes.KEYWORD_CUSTOM;
+				}
 					var messageParams = (typeof result.message === 'object') ? result.message : {
 						key: key,
 						message: result.message || "?"
 					};
 					var schemaPath = result.schemaPath || ( "/" + key.replace(/~/g, '~0').replace(/\//g, '~1'));
 					return this.createError(code, messageParams, result.dataPath || null, schemaPath);
-				}
 			}
+		}
 		}
 		return null;
 	};
@@ -692,33 +698,33 @@
 				return false;
 			} else if (Array.isArray(A)) {
 				if (A.length !== B.length) {
-					return false;
+				return false;
 				}
 				for (var i = 0; i < A.length; i++) {
 					if (!recursiveCompare(A[i], B[i])) {
-						return false;
-					}
+					return false;
+				}
 				}
 			} else {
 				var key;
 				for (key in A) {
 					if (B[key] === undefined && A[key] !== undefined) {
 						return false;
-					}
+				}
 				}
 				for (key in B) {
 					if (A[key] === undefined && B[key] !== undefined) {
 						return false;
-					}
+				}
 				}
 				for (key in A) {
 					if (!recursiveCompare(A[key], B[key])) {
 						return false;
-					}
 				}
 			}
-			return true;
 		}
+			return true;
+	}
 		return false;
 	}
 
@@ -735,7 +741,7 @@
 
 	ValidatorContext.prototype.validateType = function validateType(data, schema) {
 		if (schema.type === undefined) {
-			return null;
+		return null;
 		}
 		var dataType = typeof data;
 		if (data === null) {
@@ -751,8 +757,8 @@
 		for (var i = 0; i < allowedTypes.length; i++) {
 			var type = allowedTypes[i];
 			if (type === dataType || (type === "integer" && dataType === "number" && (data % 1 === 0))) {
-				return null;
-			}
+			return null;
+		}
 		}
 		return this.createError(ErrorCodes.INVALID_TYPE, {type: dataType, expected: allowedTypes.join("/")});
 	};
@@ -764,8 +770,8 @@
 		for (var i = 0; i < schema["enum"].length; i++) {
 			var enumVal = schema["enum"][i];
 			if (recursiveCompare(data, enumVal)) {
-				return null;
-			}
+			return null;
+		}
 		}
 		return this.createError(ErrorCodes.ENUM_MISMATCH, {value: (typeof JSON !== 'undefined') ? JSON.stringify(data) : data});
 	};
@@ -777,13 +783,16 @@
 			|| null;
 	};
 
+	var CLOSE_ENOUGH_LOW = Math.pow(2, -51);
+	var CLOSE_ENOUGH_HIGH = 1 - CLOSE_ENOUGH_LOW;
 	ValidatorContext.prototype.validateMultipleOf = function validateMultipleOf(data, schema) {
 		var multipleOf = schema.multipleOf || schema.divisibleBy;
 		if (multipleOf === undefined) {
-			return null;
+		return null;
 		}
 		if (typeof data === "number") {
-			if (data % multipleOf !== 0) {
+			var remainder = (data / multipleOf) % 1;
+			if (remainder >= CLOSE_ENOUGH_LOW && remainder < CLOSE_ENOUGH_HIGH) {
 				return this.createError(ErrorCodes.NUMBER_MULTIPLE_OF, {value: data, multipleOf: multipleOf});
 			}
 		}
@@ -800,13 +809,13 @@
 					value: data,
 					minimum: schema.minimum
 				}).prefixWith(null, "minimum");
-			}
+		}
 			if (schema.exclusiveMinimum && data === schema.minimum) {
 				return this.createError(ErrorCodes.NUMBER_MINIMUM_EXCLUSIVE, {
 					value: data,
 					minimum: schema.minimum
 				}).prefixWith(null, "exclusiveMinimum");
-			}
+		}
 		}
 		if (schema.maximum !== undefined) {
 			if (data > schema.maximum) {
@@ -814,20 +823,20 @@
 					value: data,
 					maximum: schema.maximum
 				}).prefixWith(null, "maximum");
-			}
+		}
 			if (schema.exclusiveMaximum && data === schema.maximum) {
 				return this.createError(ErrorCodes.NUMBER_MAXIMUM_EXCLUSIVE, {
 					value: data,
 					maximum: schema.maximum
 				}).prefixWith(null, "exclusiveMaximum");
-			}
+		}
 		}
 		return null;
 	};
 
 	ValidatorContext.prototype.validateNaN = function validateNaN(data) {
 		if (typeof data !== "number") {
-			return null;
+		return null;
 		}
 		if (isNaN(data) === true || data === Infinity || data === -Infinity) {
 			return this.createError(ErrorCodes.NUMBER_NOT_A_NUMBER, {value: data}).prefixWith(null, "type");
@@ -843,7 +852,7 @@
 
 	ValidatorContext.prototype.validateStringLength = function validateStringLength(data, schema) {
 		if (typeof data !== "string") {
-			return null;
+		return null;
 		}
 		if (schema.minLength !== undefined) {
 			if (data.length < schema.minLength) {
@@ -851,7 +860,7 @@
 					length: data.length,
 					minimum: schema.minLength
 				}).prefixWith(null, "minLength");
-			}
+		}
 		}
 		if (schema.maxLength !== undefined) {
 			if (data.length > schema.maxLength) {
@@ -859,14 +868,14 @@
 					length: data.length,
 					maximum: schema.maxLength
 				}).prefixWith(null, "maxLength");
-			}
+		}
 		}
 		return null;
 	};
 
 	ValidatorContext.prototype.validateStringPattern = function validateStringPattern(data, schema) {
 		if (typeof data !== "string" || schema.pattern === undefined) {
-			return null;
+		return null;
 		}
 		var regexp = new RegExp(schema.pattern);
 		if (!regexp.test(data)) {
@@ -894,8 +903,8 @@
 				})).prefixWith(null, "minItems");
 				if (this.handleError(error)) {
 					return error;
-				}
 			}
+		}
 		}
 		if (schema.maxItems !== undefined) {
 			if (data.length > schema.maxItems) {
@@ -905,8 +914,8 @@
 				})).prefixWith(null, "maxItems");
 				if (this.handleError(error)) {
 					return error;
-				}
 			}
+		}
 		}
 		return null;
 	};
@@ -922,10 +931,10 @@
 						})).prefixWith(null, "uniqueItems");
 						if (this.handleError(error)) {
 							return error;
-						}
 					}
 				}
 			}
+		}
 		}
 		return null;
 	};
@@ -947,13 +956,13 @@
 							error = (this.createError(ErrorCodes.ARRAY_ADDITIONAL_ITEMS, {})).prefixWith("" + i, "additionalItems");
 							if (this.handleError(error)) {
 								return error;
-							}
 						}
-					} else if (error = this.validateAll(data[i], schema.additionalItems, [i], ["additionalItems"], dataPointerPath + "/" + i)) {
-						return error;
 					}
+					} else if (error = this.validateAll(data[i], schema.additionalItems, [i], ["additionalItems"], dataPointerPath + "/" + i)) {
+					return error;
 				}
 			}
+		}
 		} else {
 			for (i = 0; i < data.length; i++) {
 				if (error = this.validateAll(data[i], schema.items, [i], ["items"], dataPointerPath + "/" + i)) {
@@ -966,7 +975,7 @@
 
 	ValidatorContext.prototype.validateObject = function validateObject(data, schema, dataPointerPath) {
 		if (typeof data !== "object" || data === null || Array.isArray(data)) {
-			return null;
+		return null;
 		}
 		return this.validateObjectMinMaxProperties(data, schema, dataPointerPath)
 			|| this.validateObjectRequiredProperties(data, schema, dataPointerPath)
@@ -987,7 +996,7 @@
 				if (this.handleError(error)) {
 					return error;
 				}
-			}
+		}
 		}
 		if (schema.maxProperties !== undefined) {
 			if (keys.length > schema.maxProperties) {
@@ -997,8 +1006,8 @@
 				}).prefixWith(null, "maxProperties");
 				if (this.handleError(error)) {
 					return error;
-				}
 			}
+		}
 		}
 		return null;
 	};
@@ -1009,11 +1018,11 @@
 				var key = schema.required[i];
 				if (data[key] === undefined) {
 					var error = this.createError(ErrorCodes.OBJECT_REQUIRED, {key: key}).prefixWith(null, "" + i).prefixWith(null, "required");
-					if (this.handleError(error)) {
-						return error;
-					}
+				if (this.handleError(error)) {
+					return error;
 				}
 			}
+		}
 		}
 		return null;
 	};
@@ -1035,36 +1044,36 @@
 					if (regexp.test(key)) {
 						foundMatch = true;
 						if (error = this.validateAll(data[key], schema.patternProperties[patternKey], [key], ["patternProperties", patternKey], keyPointerPath)) {
-							return error;
-						}
+						return error;
 					}
 				}
 			}
+		}
 			if (!foundMatch) {
 				if (schema.additionalProperties !== undefined) {
 					if (this.trackUnknownProperties) {
 						this.knownPropertyPaths[keyPointerPath] = true;
 						delete this.unknownPropertyPaths[keyPointerPath];
-					}
+				}
 					if (typeof schema.additionalProperties === "boolean") {
 						if (!schema.additionalProperties) {
 							error = this.createError(ErrorCodes.OBJECT_ADDITIONAL_PROPERTIES, {}).prefixWith(key, "additionalProperties");
 							if (this.handleError(error)) {
-								return error;
-							}
-						}
-					} else {
-						if (error = this.validateAll(data[key], schema.additionalProperties, [key], ["additionalProperties"], keyPointerPath)) {
 							return error;
 						}
 					}
+					} else {
+						if (error = this.validateAll(data[key], schema.additionalProperties, [key], ["additionalProperties"], keyPointerPath)) {
+							return error;
+					}
+				}
 				} else if (this.trackUnknownProperties && !this.knownPropertyPaths[keyPointerPath]) {
 					this.unknownPropertyPaths[keyPointerPath] = true;
-				}
+			}
 			} else if (this.trackUnknownProperties) {
 				this.knownPropertyPaths[keyPointerPath] = true;
 				delete this.unknownPropertyPaths[keyPointerPath];
-			}
+		}
 		}
 		return null;
 	};
@@ -1093,18 +1102,18 @@
 									key: depKey,
 									missing: requiredKey
 								}).prefixWith(null, "" + i).prefixWith(null, depKey).prefixWith(null, "dependencies");
-								if (this.handleError(error)) {
-									return error;
-								}
+							if (this.handleError(error)) {
+								return error;
 							}
 						}
+					}
 					} else {
 						if (error = this.validateAll(data, dep, [], ["dependencies", depKey], dataPointerPath)) {
 							return error;
 						}
-					}
 				}
 			}
+		}
 		}
 		return null;
 	};
@@ -1119,14 +1128,14 @@
 
 	ValidatorContext.prototype.validateAllOf = function validateAllOf(data, schema, dataPointerPath) {
 		if (schema.allOf === undefined) {
-			return null;
+		return null;
 		}
 		var error;
 		for (var i = 0; i < schema.allOf.length; i++) {
 			var subSchema = schema.allOf[i];
 			if (error = this.validateAll(data, subSchema, [], ["allOf", i], dataPointerPath)) {
 				return error;
-			}
+		}
 		}
 		return null;
 	};
@@ -1144,10 +1153,10 @@
 		}
 		var errorAtEnd = true;
 		for (var i = 0; i < schema.anyOf.length; i++) {
-			if (this.trackUnknownProperties) {
-				this.unknownPropertyPaths = {};
-				this.knownPropertyPaths = {};
-			}
+		if (this.trackUnknownProperties) {
+			this.unknownPropertyPaths = {};
+			this.knownPropertyPaths = {};
+		}
 			var subSchema = schema.anyOf[i];
 
 			var errorCount = this.errors.length;
@@ -1164,15 +1173,15 @@
 					for (var unknownKey in this.unknownPropertyPaths) {
 						if (!oldKnownPropertyPaths[unknownKey]) {
 							oldUnknownPropertyPaths[unknownKey] = true;
-						}
 					}
+				}
 					// We need to continue looping so we catch all the property definitions, but we don't want to return an error
 					errorAtEnd = false;
 					continue;
-				}
-
-				return null;
 			}
+
+			return null;
+		}
 			if (error) {
 				errors.push(error.prefixWith(null, "" + i).prefixWith(null, "anyOf"));
 			}
@@ -1201,10 +1210,10 @@
 			oldKnownPropertyPaths = this.knownPropertyPaths;
 		}
 		for (var i = 0; i < schema.oneOf.length; i++) {
-			if (this.trackUnknownProperties) {
-				this.unknownPropertyPaths = {};
-				this.knownPropertyPaths = {};
-			}
+		if (this.trackUnknownProperties) {
+			this.unknownPropertyPaths = {};
+			this.knownPropertyPaths = {};
+		}
 			var subSchema = schema.oneOf[i];
 
 			var errorCount = this.errors.length;
@@ -1221,16 +1230,16 @@
 					for (var knownKey in this.knownPropertyPaths) {
 						oldKnownPropertyPaths[knownKey] = true;
 						delete oldUnknownPropertyPaths[knownKey];
-					}
+				}
 					for (var unknownKey in this.unknownPropertyPaths) {
 						if (!oldKnownPropertyPaths[unknownKey]) {
 							oldUnknownPropertyPaths[unknownKey] = true;
-						}
 					}
 				}
+			}
 			} else if (error) {
 				errors.push(error);
-			}
+		}
 		}
 		if (this.trackUnknownProperties) {
 			this.unknownPropertyPaths = oldUnknownPropertyPaths;
@@ -1248,7 +1257,7 @@
 
 	ValidatorContext.prototype.validateNot = function validateNot(data, schema, dataPointerPath) {
 		if (schema.not === undefined) {
-			return null;
+		return null;
 		}
 		var oldErrorCount = this.errors.length;
 		var oldUnknownPropertyPaths, oldKnownPropertyPaths;
@@ -1285,16 +1294,16 @@
 					if (!(template.varNames[j] in data)) {
 						allPresent = false;
 						break;
-					}
+				}
 				}
 				if (allPresent) {
 					var schemaUrl = template.fillFromObject(data);
 					var subSchema = {"$ref": schemaUrl};
 					if (error = this.validateAll(data, subSchema, [], ["links", i], dataPointerPath)) {
 						return error;
-					}
 				}
 			}
+		}
 		}
 	};
 
@@ -1359,7 +1368,7 @@
 			if (Array.isArray(schema)) {
 				for (var i = 0; i < schema.length; i++) {
 					normSchema(schema[i], baseUri);
-				}
+			}
 			} else {
 				if (typeof schema['$ref'] === "string") {
 					schema['$ref'] = resolveUrl(baseUri, schema['$ref']);
@@ -1367,10 +1376,10 @@
 				for (var key in schema) {
 					if (key !== "enum") {
 						normSchema(schema[key], baseUri);
-					}
 				}
 			}
 		}
+	}
 	}
 
 	var ErrorCodes = {
@@ -1456,7 +1465,7 @@
 		Error.call(this);
 		if (code === undefined) {
 			throw new Error("No code supplied for error: " + message);
-		}
+	}
 		this.message = message;
 		this.params = params;
 		this.code = code;
@@ -1469,11 +1478,11 @@
 		if (!this.stack) {
 			try {
 				throw err;
-			}
+		}
 			catch (err) {
 				this.stack = err.stack || err.stacktrace;
-			}
 		}
+	}
 	}
 
 	ValidationError.prototype = Object.create(Error.prototype);
@@ -1492,7 +1501,7 @@
 		if (this.subErrors !== null) {
 			for (var i = 0; i < this.subErrors.length; i++) {
 				this.subErrors[i].prefixWith(dataPrefix, schemaPrefix);
-			}
+		}
 		}
 		return this;
 	};
@@ -1504,8 +1513,8 @@
 				|| remainder.charAt(0) === "#"
 				|| remainder.charAt(0) === "?") {
 				return true;
-			}
 		}
+	}
 		return false;
 	}
 
@@ -1536,7 +1545,7 @@
 				for (key in ErrorCodes) {
 					if (messageMap[key] && !messageMap[ErrorCodes[key]]) {
 						messageMap[ErrorCodes[key]] = messageMap[key];
-					}
+				}
 				}
 				var rootCode = code.split('-')[0];
 				if (!languages[rootCode]) { // use for base language if not yet defined
@@ -1547,9 +1556,9 @@
 					for (key in messageMap) {
 						if (typeof languages[rootCode][key] === 'undefined') {
 							languages[rootCode][key] = messageMap[key];
-						}
-						languages[code][key] = messageMap[key];
 					}
+						languages[code][key] = messageMap[key];
+				}
 				}
 				return this;
 			},
@@ -1637,7 +1646,7 @@
 					var language = languages[langCode];
 					if (language[codeName]) {
 						language[codeNumber] = language[codeNumber] || language[codeName];
-					}
+				}
 				}
 			},
 			reset: function () {

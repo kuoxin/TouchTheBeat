@@ -43,8 +43,9 @@ define([
             var levelbuilderview = app.getMainView().views.levelbuilderview;
             var leveleditor = levelbuilderview.getContent('leveleditor');
             var model = leveleditor.getModel();
-            if (!model)
-                model = leveleditor.createModel();
+			if (!model) {
+				model = leveleditor.createModel();
+			}
             levelbuilderview.setContent('leveleditor');
         },
 

@@ -21,14 +21,15 @@
     "url": "git@github.com:lipis/bootstrap-sweetalert.git"
   },
   "license": "MIT",
-  "version": "0.4.3",
-  "_release": "0.4.3",
+  "version": "0.4.4",
+  "_release": "0.4.4",
   "_resolution": {
     "type": "version",
-    "tag": "0.4.3",
-    "commit": "8ef52611ab63175e77424180a07a8fa0b6829594"
+    "tag": "0.4.4",
+    "commit": "49572e4fdc28c75404999350593b67520d5202b7"
   },
   "_source": "https://github.com/hstolte/bootstrap-sweetalert.git",
-  "_target": "~0.4.3",
-  "_originalSource": "https://github.com/hstolte/bootstrap-sweetalert.git"
+  "_target": "~0.4.4",
+  "_originalSource": "https://github.com/hstolte/bootstrap-sweetalert.git",
+  "_direct": true
 }

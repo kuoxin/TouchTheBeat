@@ -75,6 +75,7 @@ define([
                         "use strict";
 						if (error.errorCode == 'AUDIOPROVIDER_ERROR') {
 							self.showError(Track.errorMessages.SOUNDCLOUDERROR);
+							error.handled = true;
 						}
                     }
                 });
@@ -109,8 +110,6 @@ define([
             this.$('#trackcontainer').html(template);
             this.$('#trackinfo').fadeIn();
         }
-
-
 
     });
     return MetaDataPanelView;

@@ -99,7 +99,8 @@ define([
 		/**
 		 * checks the support of featues used by TouchTheBeat
 		 * @method getCompabilityReport
-		 * @returns compability {Object} schema: ``{AudioContext: boolean, SVG: boolean, Touch: boolean}``
+		 * @returns {Object} compability
+		 * schema: ``{AudioContext: boolean, SVG: boolean, Touch: boolean}``
 		 */
 		getCompabilityReport: function () {
 			"use strict";
@@ -113,7 +114,29 @@ define([
 			};
 		},
 
+		onBackendError: function (errorCode, request, response) {
+			// backend error handling for general cases, only triggered if the error
+			// was not handled by the model / view / collection / controller ...
+
+			if (typeof this.showError[errorCode] !== 'undefined') {
+				this.showError[errorCode].bind(this)(request, response);
+			}
+			else {
+				//default error
+				this.showError.unknownServerError.bind(this)(request, response);
+			}
+			//TODO check all error handling functions for completeness and then let them return something to prevent general error handling
+		},
+
 		showError: {
+			unknownServerError: function () {
+				"use strict";
+				this.getMainView().notify({
+					content: "An unknown backend error occured.",
+					type: "error"
+				});
+			},
+
 			clientIsUnauthorized: function () {
 				"use strict";
 				this.getMainView().alert({
@@ -142,9 +165,7 @@ define([
 		 * The content of the config module.
 		 */
 		run: function () {
-			this.listenTo(this.backend, 'client-unauthorized', this.showError.clientIsUnauthorized);
-			this.listenTo(this.backend, 'offline', this.showError.clientIsOffline);
-
+			this.listenTo(this.backend, 'all', this.onBackendError);
 			this.backend.connect();
 			console.log(this.getCompabilityReport());
 			this.session.restore();

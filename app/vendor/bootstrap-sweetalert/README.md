@@ -1,3 +1,12 @@
+# This fork of SweetAlert for Bootstrap
+This fork of SweetAlert for Bootstrap does not add the contents of lib/sweet-alert.html to the DOM automatically.
+Instead you will need to insert the required html code into your project by yourself.
+The advantage here is that you can decide where and when to add it to the DOM,
+which might be important if you develop a single-page-javascript application.
+Additionally, this fork allows html content to set as alert content.
+
+----------------------
+
 > If you are looking for the non-Bootstrap version refer to the original
 > [SweetAlert project](https://github.com/t4t5/sweetalert).
 

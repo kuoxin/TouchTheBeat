@@ -44,10 +44,13 @@ define([
 
             render: function (subroute) {
                 this.$el.html(this.template);
-                if (typeof subroute !== 'undefined')
-                    this.setContent(subroute);
-                else
-                    this.updateContent(app.session);
+
+				if (typeof subroute !== 'undefined') {
+					this.setContent(subroute);
+				}
+				else {
+					this.updateContent(app.session);
+				}
 
                 this.listenTo(app.session, 'change:logged_in', this.updateContent.bind(this));
             },
@@ -62,11 +65,12 @@ define([
                     this.setContent('start');
                 }
                 else {
-                    if (!_.isUndefined(this.getContent('leveleditor').getModel()))
-                        this.setContent('leveleditor');
-                    else
-                        this.setContent('start');
-
+					if (!_.isUndefined(this.getContent('leveleditor').getModel())) {
+						this.setContent('leveleditor');
+					}
+					else {
+						this.setContent('start');
+					}
                 }
             }
 

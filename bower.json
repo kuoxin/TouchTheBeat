@@ -32,12 +32,13 @@
 		"bootstrap": "3.0.0",
 		"snap.svg": "~0.3.0",
 		"backbone.paginator": "~2.0.2",
-		"bootstrap-sweetalert": "https://github.com/hstolte/bootstrap-sweetalert.git#~0.4.3",
+		"bootstrap-sweetalert": "https://github.com/hstolte/bootstrap-sweetalert.git#~0.4.4",
 		"requirejs-text": "~2.0.12",
 		"md5": "http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js",
 		"analytics": "https://www.google-analytics.com/analytics.js",
 		"backbone.select": "~1.2.8",
-		"tv4": "~1.1.4"
+		"tv4": "~1.1.4",
+		"snackbarjs": "https://github.com/FezVrasta/snackbarjs.git"
 	},
 	"resolutions": {
 		"underscore": "^1.5.0 <1.7.0"

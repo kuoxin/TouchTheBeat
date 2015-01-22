@@ -17,7 +17,8 @@ define([
 	'views/LegalView',
 	'views/PlayView',
 	'views/HighScoreView',
-	'views/levelbuilder/BaseView'
+	'views/levelbuilder/BaseView',
+	'snackbarjs'
 ], function ($, _, Framework, SweetAlert, MenuView, HomeView, ChooseLevelView, AppView, PageNotFoundView, LegalView, PlayView, HighScoreView, LevelBuilderBaseView) {
 	var MainView = Framework.View.extend({
 		el: 'html',
@@ -88,6 +89,17 @@ define([
 				//save the alert call and run it when the alerting-functionality has loaded.
 				this.alertQueue.push(arguments[0]);
 			}
+		},
+
+		/**
+		 * shows a snackbarjs notification by passing all arguments to $.snackbar
+		 * @method notify
+		 * @param {Object} options refer to https://github.com/FezVrasta/snackbarjs for examples
+		 */
+		notify: function () {
+			$.snackbar(_.defaults({
+				timeout: 7000
+			}, arguments[0]));
 		},
 
 		/**

@@ -17,6 +17,7 @@
         confirmButtonText: 'OK',
         confirmButtonClass: 'btn-primary',
         cancelButtonText: 'Cancel',
+        cancelButtonClass: 'btn-default',
         imageUrl: null,
         imageSize: null,
         timer: null
@@ -172,27 +173,11 @@
       lastFocusedButton;
 
   /*
-   * Add modal + overlay to DOM
+   * former adding the sweet-alert-html into the dom
    */
-
   window.sweetAlertInitialize = function() {
-    var sweetHTML = '<div class="sweet-overlay" tabIndex="-1"></div><div class="sweet-alert" tabIndex="-1"><div class="icon error"><span class="x-mark"><span class="line left"></span><span class="line right"></span></span></div><div class="icon warning"> <span class="body"></span> <span class="dot"></span> </div> <div class="icon info"></div> <div class="icon success"> <span class="line tip"></span> <span class="line long"></span> <div class="placeholder"></div> <div class="fix"></div> </div> <div class="icon custom"></div> <h2>Title</h2><p class="lead text-muted">Text</p><p><button class="cancel btn btn-default btn-lg" tabIndex="2">Cancel</button> <button class="confirm btn btn-lg" tabIndex="1">OK</button></p></div>',
-        sweetWrap = document.createElement('div');
-
-    sweetWrap.innerHTML = sweetHTML;
-
-    // For readability: check sweet-alert.html
-    document.body.appendChild(sweetWrap);
-
-    // For development use only!
-    /*jQuery.ajax({
-      url: '../lib/sweet-alert.html', // Change path depending on file location
-      dataType: 'html'
-    })
-    .done(function(html) {
-      jQuery('body').append(html);
-    });*/
-  }
+    // Nothing will be done here because the html was already manually inserted by the dom by the library user.
+  };
 
   /*
    * Global sweetAlert function
@@ -235,6 +220,7 @@
         params.confirmButtonText  = arguments[0].confirmButtonText || defaultParams.confirmButtonText;
         params.confirmButtonClass = arguments[0].confirmButtonClass || defaultParams.confirmButtonClass;
         params.cancelButtonText   = arguments[0].cancelButtonText || defaultParams.cancelButtonText;
+        params.cancelButtonClass = arguments[0].cancelButtonClass || defaultParams.cancelButtonClass;
         params.imageUrl           = arguments[0].imageUrl || defaultParams.imageUrl;
         params.imageSize          = arguments[0].imageSize || defaultParams.imageSize;
         params.doneFunction       = arguments[1] || null;
@@ -456,7 +442,7 @@
     $title.innerHTML = escapeHtml(params.title).split("\n").join("<br>");
 
     // Text
-    $text.innerHTML = escapeHtml(params.text || '').split("\n").join("<br>");
+    $text.innerHTML = (params.text || '').split("\n").join("<br>");
     if (params.text) {
       show($text);
     }
@@ -548,6 +534,9 @@
 
     // Set confirm button to selected class
     addClass($confirmBtn, params.confirmButtonClass);
+
+    // Set cancel button to selected class
+    addClass($cancelBtn, params.cancelButtonClass);
 
     // Allow outside click?
     modal.setAttribute('data-allow-ouside-click', params.allowOutsideClick);

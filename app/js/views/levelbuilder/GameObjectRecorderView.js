@@ -26,8 +26,9 @@ define([
         render: function (model) {
             this.model = model;
 
-            if (this.audiocontroller)
-                this.audiocontroller.close();
+			if (this.audiocontroller) {
+				this.audiocontroller.close();
+			}
 
             var template = _.template(recordertemplate, {});
             this.$el.html(template);

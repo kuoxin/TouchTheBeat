@@ -129,15 +129,14 @@ define([
 			data.password = md5.MD5(data.password).toString();
 
 			app.session.login(data, {
-				error: function (session, e) {
-					switch (e.errorCode) {
+				error: function (session, error) {
+					switch (error.errorCode) {
 						case 'SIGNIN_USER_NOT_FOUND':
 						case 'SIGNIN_CREDENTIALS_INCORRECT':
 							self.markValid(false, 'signin_email');
-							self.markValid(false, 'signin_password');
+							self.markValid(false, 'signin_password', 'There exists no account with the credentials you entered.');
+							error.handled = true;
 							break;
-						default:
-							console.error('unhandled error from backend: ' + e);
 					}
 				}
 			});

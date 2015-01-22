@@ -107,15 +107,40 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 		 * @param errorCallback {Function}
 		 */
 		function passServerError(request, response, errorCallback) {
-			var errorCode = self.errorCodeModel.get(response.error) || response.error;
-			var errorMessage = response.error_message;
-			console.warn(request.string + ' returned an error: ' + errorCode + ' ( ' + errorMessage + ' )');
-			errorCallback({
-				errorCode: errorCode,
-				errorMessage: errorMessage,
+			passError(request, {
+				errorCode: self.errorCodeModel.get(response.error) || response.error,
+				errorMessage: response.error_message,
 				errorData: response.error_data,
+				request: request,
 				isServerError: true
-			});
+			}, errorCallback);
+		}
+
+		/**
+		 * This method passes the error information to the error callback and
+		 * triggeres an error event if the callback does not indicate that it handled the error
+		 * (by setting the 'handled' property on the errorObject to true)
+		 * @param request {Object}
+		 * @param errorObject {Object} the error object
+		 * @param errorCallback {Function} the specific error handler function
+		 */
+		function passError(request, errorObject, errorCallback) {
+
+			var logDescription = errorObject.errorCode + ' ( ' + errorObject.errorMessage + ' )';
+			if (errorObject.isServerError) {
+				console.warn(request.string + ' returned an error: ' + logDescription);
+			}
+			else {
+				console.error(request.string + ' failed: ' + logDescription);
+			}
+
+			_.extend(errorObject, {handled: false});
+
+			errorCallback(errorObject);
+
+			if (!errorObject.handled) {
+				self.trigger(errorObject.errorCode, errorObject, request);
+			}
 		}
 
 		Backend = Controller.extend({
@@ -166,13 +191,13 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 					error: function (model, error) {
 						if (error.isServerError && error.errorCode === 18) {
 							// system access was unauthorized
-							self.trigger('client-unauthorized');
+							self.trigger('clientIsUnauthorized');
 						}
 						else {
 							// default error, e.g. error 404 or any error indicating the user is offline or the backend is unreachable.
-							self.trigger('offline');
+							self.trigger('clientIsOffline');
 						}
-						//app.getMainView().alert(displayError);
+						error.handled = true;
 					}
 				});
 			},
@@ -198,6 +223,7 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 				var request = prepareAjaxRequest(_.clone(settings));
 
 				request.success = function (response, p2, p3) {
+					// the ajax request was successfull, now checking if the backend actually returned an error
 					if (typeof response.data !== 'undefined' && response.data !== null && !response.error) {
 						console.info(request.string + ' was successfull.');
 						settings.success(response.data, p2, p3);
@@ -208,17 +234,19 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 
 				request.error = function (jqXHR) {
 					if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+						// the error was sent from the backend
 						passServerError(request, jqXHR.responseJSON, settings.error);
 					}
 					else {
-						var errorCode = jqXHR.status;
-						var errorMessage = jqXHR.statusText;
-						console.error(request.string + ' failed: ' + errorCode + ' (' + errorMessage + ')');
-						settings.error({
-							errorCode: errorCode,
-							errorMessage: errorMessage,
-							isServerError: false
-						});
+						// the error was not sent from the backend
+						var errorObject = {
+							errorCode: jqXHR.status,
+							errorMessage: jqXHR.statusText,
+							isServerError: false,
+							request: request
+						};
+
+						passError(request, errorObject, settings.error);
 					}
 				};
 

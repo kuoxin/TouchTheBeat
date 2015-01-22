@@ -100,9 +100,6 @@ define([
                     model.clear({silent: true});
                     model.id = null;
                     self.set({logged_in: false});
-                },
-                error: function (error) {
-                    console.error(error);
                 }
             });
         },
@@ -117,16 +114,12 @@ define([
             if (this.store.check('session')) {
                 var session = this;
 
-                var errorCallback = function () {
-                    // restoring of local session failed, removing local session
-                    session.store.clear("session");
-                };
-
                 try {
                     this.set(JSON.parse(this.store.get('session')));
                 }
                 catch (e) {
-                    errorCallback();
+					// restoring of local session failed, removing local session
+					session.store.clear("session");
                 }
 
                 this.fetch({
@@ -137,7 +130,11 @@ define([
                         });
                         session.cache();
                     },
-                    error: errorCallback
+					error: function (session, error) {
+						// restoring of local session failed, removing local session
+						session.store.clear("session");
+						error.handled = true;
+					}
                 });
             }
         },

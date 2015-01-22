@@ -1,5 +1,7 @@
 @import "../vendor/bootstrap/dist/css/bootstrap.min.css";
 @import "../vendor/bootstrap-sweetalert/lib/sweet-alert.css";
+@import "../vendor/snackbarjs/dist/snackbar.min.css";
+@import "../vendor/snackbarjs/themes-css/material.css";
 
 @import "game.css";
 body, html {

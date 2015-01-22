@@ -63,6 +63,7 @@ TouchTheBeat uses and/or contains the following **software components** and **re
 - **backbone.paginator** 2.0.0 http://github.com/backbone-paginator/backbone.paginator Copyright (c) 2013 Jimmy Yuen Ho Wong and contributors Licensed under the MIT @license.
 - **bootstrap-sweetalert** https://github.com/hstolte/bootstrap-sweetalert Copyright (c) 2014 Tristan Edwards Licensed under MIT License
 - **Material Design Icons** https://github.com/google/material-design-icons/ released under an [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license.
+- **snackbarjs** https://github.com/FezVrasta/snackbarjs Copyright (c) 2014 Federico Zivolo. Licensed under MIT (https://github.com/FezVrasta/snackbarjs/blob/master/LICENSE.md)
 
 ###Build
 
