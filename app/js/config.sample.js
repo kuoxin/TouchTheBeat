@@ -24,10 +24,10 @@ define([], function () {
              * @property {Object} headerNames
              */
             headerNames: {
-                timestamp: 'ttb-timestamp',
-                hash: 'ttb-hash',
-                session: 'ttb-session',
-                token: 'ttb-token'
+				timestamp: 'ttbTimestamp',
+				hash: 'ttbHash',
+				session: 'ttbSession',
+				token: 'ttbToken'
             },
 
             /**
@@ -43,10 +43,23 @@ define([], function () {
              * @param {Object} options
              * the object that will be passed to the jquery ajax() function as settings parameter. It contains many attributes.
              * See http://api.jquery.com/jquery.ajax/#jQuery-ajax-settings for details
+
              */
             createAccessHash: function () {
                 "use strict";
                 throw 'createAccessHash method not implemented. Open config.js to do so.';
+
+				/*
+				 # Example implementation:
+
+				 return md5.MD5(options.headers.ttbTimestamp+"Your very special salt"+options.headers.ttbToken);
+
+				 # To use md5.MD5() you would need to add 'md5' first argument of the define call and the md5 object
+				 # will be the first argument of the top level function.
+				 # Of cause you can also use any other hashing module.
+				 # See http://requirejs.org/ for details.
+
+				 */
             }
         }
     };
