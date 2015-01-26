@@ -3,8 +3,9 @@ define([
     'underscore',
     'Framework',
     'game/controller/TapObject',
+	'game/renderer/GameRenderer',
     'game/controller/HUD'
-], function ($, _, Framework, TapObject, HUD) {
+], function ($, _, Framework, TapObject, GameRenderer, HUD) {
     "use strict";
 
     /**
@@ -15,7 +16,7 @@ define([
      *
      * @type {*|void}
      */
-    var Game = Framework.Controller.extend({
+	var Game = Framework.GameObject.extend({
         updateintervall: null,
         stopped: true,
 
@@ -23,12 +24,11 @@ define([
             this.gameObjects = [];
             this.audiocontroller = data.audiocontroller;
             this.surface = data.surface;
+			this.gameObjectGroup = this.surface.getSnap().group();
 			this.level = data.level;
 			this.playCounterIncremented = false;
+
 			var gameObjects = this.level.get('gameObjects').toJSON();
-
-            this.hud = new HUD(this);
-
 			for (var i = 0; i < gameObjects.length; i++) {
 				var gameObject = gameObjects[i];
                 switch (gameObject.type) {
@@ -39,6 +39,12 @@ define([
                         console.error("undefined gameObject detected");
                 }
             }
+
+			this.hud = new HUD(this);
+			this.setRenderer(new GameRenderer({
+				snap: this.surface.getSnap(),
+				controller: this
+			}));
         },
 
         getTime: function () {
@@ -63,27 +69,26 @@ define([
 			}
         },
 
-        updateView: function () {
+		triggerRendering: function () {
             if (!this.stopped) {
-                this.hud.render(this.getTime());
-                for (var i = 0; i < this.gameObjects.length; i++) {
-                    this.gameObjects[i].render(this.getTime());
-                }
-                requestAnimationFrame(this.updateView.bind(this));
+				this.render(this.getTime());
+				requestAnimationFrame(this.triggerRendering.bind(this));
             }
         },
 
         start: function () {
-			this.resume();
+			this.resume(true);
         },
 
-		resume: function () {
-			this.trigger('resume');
+		resume: function (isStart) {
+			if (!isStart) {
+				this.trigger('resume');
+			}
 
 			this.stopped = false;
 			this.audiocontroller.play();
 			this.updateinterval = setInterval(this.update.bind(this), 1000 / 60);
-			this.updateView(this.getTime());
+			this.triggerRendering();
 		},
 
         pause: function () {

@@ -13,8 +13,8 @@ define([
 
         initialize: function (game, timestamp, x, y, shape) {
             this.game = game;
-			this.listenTo(this.game, 'pause', this.disableTap);
-			this.listenTo(this.game, 'resume', this.enableTap);
+			this.listenTo(this.game, 'pause', this.gamePaused);
+			this.listenTo(this.game, 'resume', this.gameResumed);
             this.timestamp = timestamp;
 			this.actions = {
 				TAP: this.handleTap.bind(this)
@@ -22,6 +22,7 @@ define([
 
             this.setRenderer(new TapObjectRenderer({
                 snap: game.surface.getSnap(),
+				gameObjectGroup: game.gameObjectGroup,
                 controller: this,
 				actions: this.actions,
                 x: x,
@@ -46,11 +47,11 @@ define([
         //debug
         debugtime: NaN,
 
-		enableTap: function () {
+		gameResumed: function () {
 			this.tappingEnabled = true;
 		},
 
-		disableTap: function () {
+		gamePaused: function () {
 			this.tappingEnabled = false;
 		},
 

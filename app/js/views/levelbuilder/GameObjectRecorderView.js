@@ -34,14 +34,16 @@ define([
             this.$el.html(template);
 
             this.surface = new Surface({
-                bgcolor: '#222222',
-                el: this.$('#svg').el
+				el: this.$('#surfaceSVG').el
             });
+			this.surface.getRootRect().attr({
+				bgcolor: '#0d0d0d'
+			});
             this.audioloadingrenderer = new AudioLoadingRenderer({
                 snap: this.surface.getSnap()
             });
 
-            this.audioloadingrenderer.render({bgcolor: '#222222'});
+			this.audioloadingrenderer.render();
 
             this.audiocontroller = new AudioController({
                 renderer: this.audioloadingrenderer,
@@ -60,7 +62,7 @@ define([
         },
 
         onAudioReady: function () {
-            this.svgelem = document.getElementById('svg');
+			this.svgelem = document.getElementById('surfaceSVG');
 
             this.surface.requestStartFromUser(this.start.bind(this));
         },

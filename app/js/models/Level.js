@@ -20,7 +20,8 @@ define([
             gameObjects: new GameObjectCollection(),
             tags: [],
             audio: new Track(),
-            name: ''
+			name: '',
+			playCounter: 0
         },
 
         urlRoot: 'level',
@@ -57,10 +58,15 @@ define([
                     case 'gameObjects':
 						/**
 						 * the level resource does not contain the gameObjects when fetched indirectly by fetching its collection.
-						 * Once a level has loaded its gameObjects, they should not get reset as soon as the collection gets fetched again.
+						 * The gameObjects should not get reset as soon as the collection gets fetched again.
 						 */
 						if (!options.fetchFromCollection) {
-							this.get('gameObjects').set(data[k], {parse: true});
+							if (this.has('gameObjects')) {
+								this.get('gameObjects').set(data[k], {parse: true});
+							}
+							else {
+								obj.gameObjects = new GameObjectCollection(data[k], {parse: true});
+							}
 						}
                         break;
                     case 'owner':

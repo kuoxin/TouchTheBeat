@@ -15,10 +15,11 @@ define([
         routes: {
             '': 'home',
             'chooselevel': 'chooselevel',
-            'levelbuilder': 'buildlevel',
+			'levelbuilder(/start)': 'buildlevel',
             'levelbuilder/create(/:soundcloudurl)': 'createlevel',
             'levelbuilder/import': 'importlevel',
             'levelbuilder/signin': 'levelbuildersignin',
+			'levelbuilder/record': 'buildlevel',
             'legal': 'legal',
             'playlevel': 'chooselevel',
             'highscore': 'chooselevel',

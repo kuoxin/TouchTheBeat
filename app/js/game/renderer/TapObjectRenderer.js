@@ -60,6 +60,8 @@ define([
 				size: this.options.shape.size
 			});
 
+			this.options.gameObjectGroup.add(this.snapobject);
+
 			this.snapobject.attr({
 				fill: this.color_plain_fill,
 				stroke: this.color_plain_border,
@@ -110,8 +112,9 @@ define([
 
 			//fading in between startshow and endshow
 			if (time >= this.startshow && time < this.endshow) {
-				if (this.snapobject === 'undefined')
+				if (this.snapobject === 'undefined') {
 					this.createVisualElement();
+				}
 
 				this.setOpacity(1 - this.getPercentage(this.startshow, this.endshow));
 			}
@@ -123,8 +126,10 @@ define([
 
 			//remove object after removeuntil
 			if (time >= this.removeuntil) {
-				if (typeof this.snapobject !== 'undefined')
+				if (typeof this.snapobject !== 'undefined') {
 					this.snapobject.remove();
+				}
+
 				return false;
 			}
 			return true;

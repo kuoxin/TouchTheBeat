@@ -12,6 +12,9 @@ define([
 		initialize: function (options) {
 			this.options = options;
 			this.rendered = false;
+
+			this.listenTo(this.controller.game, 'pause', this.onPause);
+			this.listenTo(this.controller.game, 'resume', this.onResume);
 		},
 
 		firstRender: function () {
@@ -64,6 +67,20 @@ define([
 			this.pause.click(handleInput);
 		},
 
+		onPause: function () {
+			this.pause.attr({
+					visibility: "hidden"
+				}
+			);
+		},
+
+		onResume: function () {
+			this.pause.attr({
+					visibility: null
+				}
+			);
+		},
+
 		render: function () {
 			if (!this.rendered) {
 				this.firstRender();
@@ -75,6 +92,7 @@ define([
 			}
 			return true;
 		},
+
 
 		getStartTime: function () {
 			// the game's HUD will be rendered from the beginning until the end.

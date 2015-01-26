@@ -22,7 +22,7 @@ define([
 
         gotoChooseLevelView: function () {
             analytics.trackAction('highscoreview', 'click button', 'gotoChooseLevelview');
-            Framework.history.navigate('chooselevel', true);
+			app.showAppContent('chooselevel');
         },
 
         playagain: function () {

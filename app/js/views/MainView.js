@@ -121,9 +121,9 @@ define([
 		setContent: function (newview, args) {
 			var views = this.views;
 
-			if (this.currentView == newview) {
-				return;
-			}
+			//if (this.currentView == newview) {
+			//	return;
+			//}
 
 			if (this.currentView !== null) {
 				this.currentView.close();

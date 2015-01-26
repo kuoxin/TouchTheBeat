@@ -10,9 +10,10 @@ define([
     'game/controller/AudioController',
     'game/renderer/AudioLoadingRenderer',
     'game/Surface',
+	'views/GameMenuView',
     'util/scripts'
 
-], function ($, _, Framework, playTemplate, app, Track, Game, analytics, AudioController, AudioLoadingRenderer, Surface) {
+], function ($, _, Framework, playTemplate, app, Track, Game, analytics, AudioController, AudioLoadingRenderer, Surface, GameMenuView) {
     var PlayView = Framework.View.extend({
 
         fullscreen: true,
@@ -26,6 +27,15 @@ define([
             this.audiocontroller.close();
             this.game = null;
         },
+
+		onPause: function () {
+			this.gameMenu.open();
+		},
+
+		onResume: function () {
+			this.gameMenu.close();
+		},
+
 
         stopGame: function () {
             this.game.stop();
@@ -90,6 +100,13 @@ define([
                 audiocontroller: this.audiocontroller,
                 surface: this.surface
             });
+
+			this.gameMenu = new GameMenuView(this.game);
+			this.$('#playdiv').append(this.gameMenu.render().$el);
+
+			this.listenTo(this.game, 'pause', this.onPause);
+			this.listenTo(this.game, 'resume', this.onResume);
+
             this.surface.requestStartFromUser(this.game.start.bind(this.game));
         },
 

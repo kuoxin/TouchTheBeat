@@ -36,6 +36,9 @@ define([
         },
 
         getModel: function () {
+			if (typeof this.model === 'undefined') {
+				return this.createModel();
+			}
             return this.model;
         },
 

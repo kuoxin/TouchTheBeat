@@ -16,7 +16,7 @@ define([
 					gamePauseButton: new Snap('#gameHudPauseButtonSVG')
 				},
 				actions: {
-					PAUSE: this.onPause.bind(this)
+					PAUSE: this.onPauseButtonClick.bind(this)
 				}
 			}));
 		},
@@ -25,13 +25,9 @@ define([
 			return this.game.audiocontroller.getPercentage() * 100;
 		},
 
-		onPause: function () {
-			console.log('triggering pause, game was stopped: ' + this.game.stopped);
+		onPauseButtonClick: function () {
 			if (!this.game.stopped) {
 				this.game.pause();
-			}
-			else {
-				this.game.resume();
 			}
 		}
 	});
