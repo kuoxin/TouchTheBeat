@@ -1,3 +1,6 @@
+/* global requirejs,document */
+
+var running = false;
 require.config({
     paths: {
         Framework: 'framework/Framework',
@@ -66,6 +69,25 @@ require.config({
 	packages: []
 });
 
+/**
+ * requirejs error handling, will be triggered if the config file is missing
+ * @param error
+ */
+requirejs.onError = function (error) {
+	console.log(running);
+	if (!running) {
+		var output = '';
+		if (error.requireModules[0] == 'config') {
+			output += '<h1>The config.js file is missing.</h1><p>You need to create a config.js file in order to run TouchTheBeat.<a href="https://github.com/TouchTheBeat/TouchTheBeat#build">Click here for more information.</a></p>';
+		}
+		output += '<p>' + error.message + '</p>';
+
+		var element = document.createElement("div");
+		element.innerHTML = output;
+		document.getElementsByTagName('body')[0].appendChild(element);
+	}
+
+};
 
 define([
     'jquery',
@@ -77,7 +99,7 @@ define([
     'router',
     'views/MainView'
 ], function ($, _, Framework, config, app, Session, Router, MainView) {
-
+	running = true;
     if (config.debug) {
         // make app a global object if debug == true
         window.app = app;
