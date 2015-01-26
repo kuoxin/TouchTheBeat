@@ -74,7 +74,6 @@ require.config({
  * @param error
  */
 requirejs.onError = function (error) {
-	console.log(running);
 	if (!running) {
 		var output = '';
 		if (error.requireModules[0] == 'config') {
