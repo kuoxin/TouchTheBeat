@@ -68,6 +68,15 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 			setHeader(request, self.headerNames[name], value);
 		}
 
+		function backendErrorHandling(errorObject) {
+			switch (errorObject.errorCode) {
+				case 'SIGNIN_NOT_SIGNEDIN':
+					self.session.trigger('SIGNIN_NOT_SIGNEDIN');
+					break;
+			}
+
+		}
+
 		/**
 		 * This method sets headers and other parameters needed for every backend request.
 		 * @private
@@ -136,6 +145,7 @@ define(['jquery', 'underscore', 'backbone', 'framework/Controller'], function ($
 
 			_.extend(errorObject, {handled: false});
 
+			backendErrorHandling(errorObject);
 			errorCallback(errorObject);
 
 			if (!errorObject.handled) {

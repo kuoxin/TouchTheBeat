@@ -152,6 +152,13 @@ define([
 					title: "Connection to the TouchTheBeat-Backend failed",
 					text: 'Please try again later or <a href="https://github.com/TouchTheBeat/TouchTheBeat/issues/new">open an issue</a>, if the error still occures.'
 				});
+			},
+			'SIGNIN_NOT_SIGNEDIN': function () {
+				this.getMainView().alert({
+					type: 'error',
+					title: "Sorry. Your session timed out.",
+					text: 'Please take a second to log back in again.'
+				});
 			}
 		},
 

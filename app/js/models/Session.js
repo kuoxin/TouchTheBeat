@@ -58,6 +58,8 @@ define([
             } else {
                 this.store = Storage.cookie;
             }
+
+			this.on('SIGNIN_NOT_SIGNEDIN', this.deleteLocalSession);
         },
 
         /**
@@ -91,18 +93,25 @@ define([
         logout: function () {
             // Do a DELETE to /session and clear the clientside data
             var self = this;
-            // delete local version
-            this.store.clear("session");
-            // notify remote
             this.destroy({
                 wait: true,
-                success: function (model) {
-                    model.clear({silent: true});
-                    model.id = null;
-                    self.set({logged_in: false});
+				success: function () {
+					self.deleteLocalSession();
                 }
             });
         },
+
+		/**
+		 * clears the model and the storage representation and triggeres logged_in: false
+		 * @method deleteLocalSession
+		 */
+		deleteLocalSession: function () {
+			this.store.clear("session");
+
+			this.clear({silent: true});
+			this.id = null;
+			this.set({logged_in: false});
+		},
 
         /**
          * This method tries to restore a locally cached session by fetching it from the server.
