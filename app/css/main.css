@@ -77,7 +77,8 @@ body, html {
 .shape {
     height: 1.7em;
     background-size: contain;
-	background: no-repeat center;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .shape_selected {
