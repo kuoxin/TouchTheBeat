@@ -14,16 +14,18 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             '': 'home',
-            'chooselevel': 'chooselevel',
+			'chooselevel(/)': 'chooselevel',
+			'levelbuilder(/)': 'buildlevel',
 			'levelbuilder(/start)': 'buildlevel',
+			'levelbuilder/create(/)': 'createlevel',
             'levelbuilder/create(/:soundcloudurl)': 'createlevel',
-            'levelbuilder/import': 'importlevel',
-            'levelbuilder/signin': 'levelbuildersignin',
-			'levelbuilder/record': 'buildlevel',
-            'legal': 'legal',
-            'playlevel': 'chooselevel',
-            'highscore': 'chooselevel',
-            'signin': 'signin',
+			'levelbuilder/import(/)': 'importlevel',
+			'levelbuilder/signin(/)': 'levelbuildersignin',
+			'levelbuilder/record(/)': 'buildlevel',
+			'legal(/)': 'legal',
+			'playlevel(/)': 'chooselevel',
+			'highscore(/)': 'chooselevel',
+			'signin(/)': 'signin',
 
             // Default
             '*notfound': 'notfound'
@@ -57,7 +59,7 @@ define([
 
             this.on('route:notfound', function (actions) {
                 console.log('No route:', actions);
-                app.showAppContent('404');
+				app.showAppContent('pagenotfound');
             });
 
             this.on('route:legal', function () {
