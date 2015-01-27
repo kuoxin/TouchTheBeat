@@ -661,7 +661,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 	font-size: 3em;
 	width: 33%;
 	margin: auto;
-	text-shadow: 0px 0px 0.05em rgba(0, 0, 0, 0.5);
+	text-shadow: 0 0 0.05em rgba(0, 0, 0, 0.5);
 }
 .gameMenuOpen {
 	display: flex;
@@ -676,7 +676,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 body, html {
     height: 100%;
 }
-div.svgcontainer {
+.svgcontainer {
 	background: #000000;
 	display: block;
 	width: 100%;
@@ -732,12 +732,9 @@ div.svgcontainer {
 .shape {
     height: 1.7em;
     background-size: contain;
-    moz-background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+	background: no-repeat center;
 }
 .shape_selected {
-    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     background-color: #C7C7C7 !important;
     border-color: #979797 !important;
