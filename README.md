@@ -1,6 +1,7 @@
 TouchTheBeat
 ============
 [![License](https://img.shields.io/badge/License-GPLv3-lightgrey.svg?style=flat)]() [![Build Status](https://travis-ci.org/TouchTheBeat/TouchTheBeat.svg?branch=master)](https://travis-ci.org/TouchTheBeat/TouchTheBeat) [![Code Climate](https://codeclimate.com/github/TouchTheBeat/TouchTheBeat/badges/gpa.svg)](https://codeclimate.com/github/TouchTheBeat/TouchTheBeat)
+[![Codacy Badge](https://www.codacy.com/project/badge/5facb38de5624f3b8ed642f0ae67df0c)](https://www.codacy.com/public/hermannstolte/TouchTheBeat)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/) 
 
 
