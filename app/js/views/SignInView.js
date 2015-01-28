@@ -72,7 +72,7 @@ define([
 			if (this.validateForm(form)) {
 				var data = this.getFormData(form);
 
-				if (data.password != data.password_repeat) {
+				if (data.password !== data.password_repeat) {
 					self.markValid(false, 'signup_password');
 					self.markValid(false, 'signup_password_repeat');
 					valid = false;

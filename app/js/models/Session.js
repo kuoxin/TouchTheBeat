@@ -51,9 +51,9 @@ define([
              * a automatically chosen implementation of a Storage Provider Interface (sessionStorage, localStorage or cookie)
              * @property store
              */
-            if (!this.options.persist && typeof sessionStorage != "undefined" && sessionStorage !== null) {
+			if (!this.options.persist && typeof sessionStorage !== "undefined" && sessionStorage !== null) {
                 this.store = Storage.sessionStorage;
-            } else if (this.options.persist && typeof localStorage != "undefined" && localStorage !== null) {
+			} else if (this.options.persist && typeof localStorage !== "undefined" && localStorage !== null) {
                 this.store = Storage.localStorage;
             } else {
                 this.store = Storage.cookie;

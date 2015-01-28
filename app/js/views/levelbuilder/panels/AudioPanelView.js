@@ -73,7 +73,7 @@ define([
                     },
 					error: function (track, error) {
                         "use strict";
-						if (error.errorCode == 'AUDIOPROVIDER_ERROR') {
+						if (error.errorCode === 'AUDIOPROVIDER_ERROR') {
 							self.showError(Track.errorMessages.SOUNDCLOUDERROR);
 							error.handled = true;
 						}

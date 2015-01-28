@@ -14,7 +14,7 @@ define([
         render: function () {
             this.$el.html(this.template);
             var originalRoute = Framework.history.fragment;
-            if (originalRoute != this.route) {
+			if (originalRoute !== this.route) {
                 app.router.navigate('levelbuilder/signin', {replace: true});
                 this.listenTo(app.session, 'change:logged_in', function (session) {
                     if (session.get('logged_in')) {

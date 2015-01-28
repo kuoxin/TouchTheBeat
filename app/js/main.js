@@ -76,7 +76,7 @@ require.config({
 requirejs.onError = function (error) {
 	if (!running) {
 		var output = '';
-		if (error.requireModules[0] == 'config') {
+		if (error.requireModules[0] === 'config') {
 			output += '<h1>The config.js file is missing.</h1><p>You need to create a config.js file in order to run TouchTheBeat.<a href="https://github.com/TouchTheBeat/TouchTheBeat#build">Click here for more information.</a></p>';
 		}
 		output += '<p>' + error.message + '</p>';

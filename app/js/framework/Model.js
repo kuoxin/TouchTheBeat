@@ -15,9 +15,9 @@ define([
 			var obj = (copyof instanceof Array) ? [] : {};
 
 			for (var k in copyof) {
-				if (typeof copyof[k] == "object" && copyof[k] !== null) {
+				if (typeof copyof[k] === "object" && copyof[k] !== null) {
 					//console.log('found ' + typeof copyof[k] + ' ' + k);
-					if (typeof copyof[k].toJSON == "function") {
+					if (typeof copyof[k].toJSON === "function") {
 						// console.info('.toJSON() method used for nested model/collection ' + k);
 						obj[k] = copyof[k].toJSON();
 					}

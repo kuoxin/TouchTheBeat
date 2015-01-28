@@ -19,7 +19,7 @@ define(['underscore'], function (_) {
 				callback_after = opts.callback_after;
 				callback_before = opts.callback_before;
 				className = opts.className;
-				if (typeof opts.contentsareinstances != 'undefined') {
+				if (typeof opts.contentsareinstances !== 'undefined') {
 					contentsareinstances = opts.contentsareinstances;
 				}
 			},
@@ -66,7 +66,7 @@ define(['underscore'], function (_) {
 
 			deleteContent: function deleteContent(key) {
 				var content = this.getContent(key);
-				if (typeof content != 'undefined') {
+				if (typeof content !== 'undefined') {
 					content.close();
 					contents[key] = undefined;
 				}

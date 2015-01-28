@@ -45,7 +45,7 @@ define([], function () {
                     key = cookies[i].substr(0, cookies[i].indexOf("="));
                     value = cookies[i].substr(cookies[i].indexOf("=") + 1);
                     key = key.replace(/^\s+|\s+$/g, "");
-                    if (key == name) {
+					if (key === name) {
                         return decodeURI(value);
                     }
                 }
