@@ -4,3 +4,5 @@ config.js
 node_modules
 config.travis-ci.js
 ttb-client.iml
+dist/
+docs/
