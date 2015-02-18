@@ -41,11 +41,7 @@ define([
 
         create: function () {
             var levelbuilderview = app.getMainView().views.levelbuilderview;
-            var leveleditor = levelbuilderview.getContent('leveleditor');
-            var model = leveleditor.getModel();
-			if (!model) {
-				model = leveleditor.createModel();
-			}
+			levelbuilderview.getContent('leveleditor').createModel();
             levelbuilderview.setContent('leveleditor');
         },
 

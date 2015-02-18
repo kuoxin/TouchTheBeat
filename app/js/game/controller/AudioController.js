@@ -21,7 +21,6 @@ define([
         cache: [],
 
         initialize: function(options){
-            console.log(options);
             _.extend(this, _.pick(options, [
                 'callback_started',
                 'callback_ended',

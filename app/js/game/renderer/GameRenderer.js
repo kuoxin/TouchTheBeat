@@ -10,7 +10,6 @@ define([
 
 		initialize: function (options) {
 			this.options = options;
-			console.log(this);
 			this.controller.assets = {};
 			this.controller.assets.filters = {};
 			this.rendered = false;

@@ -17,7 +17,6 @@ define([
             this.table = this.$('#tbody_gameobjects');
             this.table.html('');
             this.gameobjects = this.model.get('gameObjects');
-
             this.collectionview = new Framework.CollectionView({
                 el: this.table,
                 childView: TapObjectRowView,
@@ -38,7 +37,11 @@ define([
 
         recordGameObjects: function recordgameobjects() {
             app.getMainView().setFullScreenContent(app.getMainView().views.levelbuilderview.getContent('gameobjectrecorder'), this.model);
-        }
+		},
+
+		onClose: function () {
+			this.collectionview.close();
+		}
     });
 
     return GameObjectEditorPanelView;

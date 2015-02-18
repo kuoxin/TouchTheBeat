@@ -56,21 +56,19 @@ define([
             var that = this;
 
             this.level = level;
-            console.log(this.level);
-            this.levelloaded = this.level.get('gameObjects').length > 0;
             this.audioready = false;
-            if (!this.levelloaded) {
-                this.level.fetch({
-                    success: function () {
-                        "use strict";
-						that.levelloaded = true;
-                        console.log('level loaded');
-                        if (that.audioready) {
-							that.requestStart();
-                        }
-                    }
-                });
-            }
+			this.levelloaded = false;
+
+			this.level.fetch({
+				success: function () {
+					"use strict";
+					that.levelloaded = true;
+					console.log('level loaded');
+					if (that.audioready) {
+						that.requestStart();
+					}
+				}
+			});
             var template = _.template(playTemplate, {});
             this.$el.html(template);
 

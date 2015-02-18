@@ -29,16 +29,12 @@ define([
 
     var LevelEditorView = Framework.View.extend({
         events: {
-            'click #delete': 'delete',
             'click #export': 'export',
             'click #play': 'play',
-            'click #publish': 'saveAndPublish'
+			'click #save': 'save'
         },
 
         getModel: function () {
-			if (typeof this.model === 'undefined') {
-				return this.createModel();
-			}
             return this.model;
         },
 
@@ -52,11 +48,6 @@ define([
             return this.getModel();
         },
 
-        delete: function () {
-            this.setModel(null);
-            var levelbuilderview = app.getMainView().views.levelbuilderview;
-            levelbuilderview.setContent('start');
-        },
 
         export: function () {
             console.log(this.getModel().toJSON());
@@ -64,38 +55,50 @@ define([
         },
 
 
-        saveAndPublish: function () {
+		save: function () {
+			this.onClose();
+			var isNew = !this.getModel().isPublished();
+
             this.getModel().save({}, {
-                success: function (level) {
-                    console.log(level);
-                },
-                error: function (level, error) {
-                    console.log('error callback');
-                    console.error(error);
+				success: function () {
+					if (isNew) {
+						app.getMainView().notify({
+							content: "Your level was published successfully."
+						});
+					}
+					else {
+						app.getMainView().notify({
+							content: "Your level has been updated successfully."
+						});
+					}
                 }
             });
+			this.render();
         },
 
         playLevel: function () {
             app.startLevel(this.getModel());
         },
 
+		initialize: function () {
+			this.panels = {
+				metadatapanel: new MetaDataPanelView(),
+				audiopanel: new AudioPanelView(),
+				gameobjecteditorpanel: new GameObjectEditorPanelView()
+			};
+
+			this.exportmodalview = new ExportModalView();
+		},
+
         render: function () {
             var template = _.template(Template, {
                 levelname: this.getModel().get('name') || 'New Level',
-                username: this.getModel().get('owner').get('username')
+				username: this.getModel().get('owner').get('username'),
+				isPublished: this.getModel().isPublished()
             });
             this.$el.html(template);
-            this.exportmodalview = new ExportModalView();
-            this.$el.append(this.exportmodalview.el);
 
-            this.panels = {
-                metadatapanel: new MetaDataPanelView(),
-                audiopanel: new AudioPanelView(),
-                gameobjecteditorpanel: new GameObjectEditorPanelView()
-            };
-
-            this.$('#panellist').html('');
+			this.$el.append(this.exportmodalview.el);
 
             for (var k in this.panels) {
                 this.panels[k].render(this.getModel());

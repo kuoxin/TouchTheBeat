@@ -38,12 +38,7 @@ define([
             this.collectionview.render();
             this.$('#levelcollection_container').html(this.collectionview.el);
 
-            this.levelcollection.fetch({
-                success: function (collection) {
-                    console.log('fetched successfully');
-                    console.log(collection.toJSON());
-                }
-            });
+			this.levelcollection.fetch();
 
         },
         onClose: function () {

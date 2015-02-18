@@ -174,7 +174,7 @@ define([
 		run: function () {
 			this.listenTo(this.backend, 'all', this.onBackendError);
 			this.backend.connect();
-			console.log(this.getCompabilityReport());
+			console.log(JSON.stringify(this.getCompabilityReport()));
 			this.session.restore();
 			this.router.init();
 		}

@@ -51,10 +51,13 @@ define([
 			var viewToRemove = _(this._childViews).select(function (cv) {
 				return cv.model === model;
 			})[0];
-			this._childViews = _(this._childViews).without(viewToRemove);
 
-			if (this.rendered) {
-				viewToRemove.close();
+			if (typeof viewToRemove !== 'undefined') {
+				this._childViews = _(this._childViews).without(viewToRemove);
+
+				if (this.rendered) {
+					viewToRemove.close();
+				}
 			}
 		},
 

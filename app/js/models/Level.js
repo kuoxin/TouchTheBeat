@@ -51,6 +51,10 @@ define([
 			});
 		},
 
+		isPublished: function () {
+			return !!this.id;
+		},
+
 		parse: function (data, options) {
             var obj = {};
             for (var k in data) {
