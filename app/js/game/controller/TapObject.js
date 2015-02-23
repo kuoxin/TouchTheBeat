@@ -122,16 +122,20 @@ define([
          * @returns number a floating point number between 0 and 1 describing the accuracy of the users interaction (0 = no interaction, best == 1)
          */
         getHighScore: function () {
-            if (isNaN(this.tapdiff))
-                return 0;
+			if (isNaN(this.tapdiff)) {
+				return 0;
+			}
 
             // add a bonus for actually hitting the TapObject in time
             var diff = Math.abs(this.tapdiff) - 0.05;
 
-            if (diff <= 0)
-                return 1;
-            else
-                return 1 - (diff / this.max_tapdiff);
+			if (diff <= 0) {
+				return 1;
+			}
+			else {
+				return 1 - (diff / this.max_tapdiff);
+			}
+
         }
 
     });

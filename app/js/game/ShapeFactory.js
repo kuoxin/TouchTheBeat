@@ -4,6 +4,28 @@ define([
     'snap'
 ], function ($, _, Snap) {
 
+	function getTriangleCoordinates(centerx, centery, cx, cy) {
+		"use strict";
+
+		function rotatePoint(pointX, pointY, originX, originY, angle) {
+			angle = angle * Math.PI / 180.0;
+			return {
+				x: Math.cos(angle) * (pointX - originX) - Math.sin(angle) * (pointY - originY) + originX,
+				y: Math.sin(angle) * (pointX - originX) + Math.cos(angle) * (pointY - originY) + originY
+			};
+		}
+
+		return {
+			a: rotatePoint(cx, cy, centerx, centery, 240),
+			b: rotatePoint(cx, cy, centerx, centery, 120),
+			c: {
+				x: cx,
+				y: cy
+			}
+		};
+	}
+
+
     /**
      * @type {{sizes: {small: number, medium: number, large: number}}}
      */
@@ -16,27 +38,33 @@ define([
 
         /**
          * factory methods for each predefined shape using snap.svg
+		 * TODO: Refactor to remove code duplication
          */
         shapes: {
             "circle": function (snap, options) {
-                return snap.circle(options.x, options.y, ShapeFactory.sizes[options.size]);
+				var d = options.size;
+				var obj = snap.circle(options.x, options.y, d);
+				return obj;
             },
             "square_sidedown": function (snap, options) {
-                var scale = 0.85;
-                var d = scale * ShapeFactory.sizes[options.size];
-                return snap.rect(options.x - d, options.y - d, 2 * d, 2 * d);
+				var d = options.size;
+				var obj = snap.rect(options.x - d, options.y - d, 2 * d, 2 * d);
+				return obj;
             },
             "square_edgedown": function (snap, options) {
                 var mx = options.x;
                 var my = options.y;
-                var d = ShapeFactory.sizes[options.size];
-                return snap.polygon(mx, my + d, mx - d, my, mx, my - d, mx + d, my);
+				var d = options.size;
+				var obj = snap.polygon(mx, my + d, mx - d, my, mx, my - d, mx + d, my);
+				return obj;
             },
             "triangle_sidedown": function (snap, options) {
                 var mx = options.x;
                 var my = options.y;
-                var d = ShapeFactory.sizes[options.size];
-                return snap.polygon(mx - d, my + d, mx, my - d, mx + d, my + d);
+				var d = options.size;
+				var triangle = getTriangleCoordinates(mx, my, mx, my - d);
+				var obj = snap.polygon(triangle.a.x, triangle.a.y, triangle.b.x, triangle.b.y, triangle.c.x, triangle.c.y);
+				return obj;
             },
             "triangle_edgedown": function (snap, options) {
                 // var obj = ShapeFactory.shapes["triangle_sidedown"](snap, options);
@@ -44,8 +72,10 @@ define([
                 // return obj;
                 var mx = options.x;
                 var my = options.y;
-                var d = ShapeFactory.sizes[options.size];
-                return snap.polygon(mx, my + d, mx - d, my - d, mx + d, my - d);
+				var d = options.size;
+				var triangle = getTriangleCoordinates(mx, my, mx, my + d);
+				var obj = snap.polygon(triangle.a.x, triangle.a.y, triangle.b.x, triangle.b.y, triangle.c.x, triangle.c.y);
+				return obj;
             }
         }
     };
@@ -60,9 +90,14 @@ define([
     ShapeFactory.createShape = function (snap, name, options) {
         if (!ShapeFactory.shapes[name]) {
             console.error('unknown shape type: ' + name);
-            return ShapeFactory.shapes.circle(snap, options);
+			name = "circle";
         }
-        return ShapeFactory.shapes[name](snap, options);
+		return _.defaults(ShapeFactory.shapes[name](snap, options), {
+			markerPoint: {
+				x: options.x,
+				y: options.y
+			}
+		});
     };
 
     /**
